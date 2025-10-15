@@ -10,38 +10,80 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function addStuffToHospital(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|unique:users',
-        'password' => 'required|string|min:6',
-    ]);
+    public function registerHospitalMember(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
 
-    // Create staff
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+        // Create staff
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    // Attempt login
-    if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => 'Login failed after registration'
+            ], 401);
+        }
+
+        $user = Auth::user();
+        $user->tokens()->delete();
+
+        $token = $request->user()->createToken('hospital-system-access_token')->plainTextToken;
+
         return response()->json([
-            'message' => 'Login failed after registration'
-        ], 401);
+            'message' => 'Staff added and logged in successfully',
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
-    // $user = Auth::user(); // Logged-in user
+    public function loginHospitalMember(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    // Create Sanctum token using the logged-in user
-    // $token = $user->createToken('hospital_token')->plainTextToken;
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'Login failed'
+            ], 401);
+        }
 
-    return response()->json([
-        'message' => 'Staff added and logged in successfully',
-        // 'user' => $user,
-        // 'token' => $token
-    ], 201);
-}
+        $user = Auth::user();
+        $user->tokens()->delete();
+        $token = $request->user()->createToken('hospital-system-access_token')->plainTextToken;
+        return response()->json([
+            'message' => 'Staff logged in successfully',
+            'user' => $user,
+            'token' => $token
+        ], 201);
+    }
 
+    public function logOutHospitalMember()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No authenticated user found.',
+            ], 401);
+        }
+
+        $user->tokens()->delete();
+        
+        Auth::logout();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Staff logged out successfully.',
+        ], 200);
+    }
 }
