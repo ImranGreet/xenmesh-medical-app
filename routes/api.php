@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolePermissionController;
+use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\ReceptionistController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,9 +44,19 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
 
 Route::controller(ReceptionistController::class)->group(function () {
 
-    Route::get('/view-doctor-list','viewDoctorList');
+    Route::get('/view-doctor-list', 'viewDoctorList');
 
     Route::post('/register-new-patient', 'registerNewPatient');
-    Route::post('/admit-new-patient','admitNewPatient');
+    Route::post('/admit-new-patient', 'admitNewPatient');
+});
 
+
+
+
+Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/get-hospital-info','getHospitalInfo');
+    Route::post('/insert-hospital-info', 'insertHospitalInfo');
+
+    Route::put('/edit-hospital-info/{id}','editHospitalInfo')->where('id', '[0-9]+');
+    Route::put('/update-hospital-info','updateHospitalInfo')->where('id', '[0-9]+');
 });

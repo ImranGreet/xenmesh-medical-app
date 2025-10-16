@@ -23,7 +23,7 @@ return new class extends Migration
 
             // Admission Details
             $table->string('admission_id')->unique();
-            $table->string('bed_number', 20)->nullable(); // Specific bed in the room
+            $table->string('bed_number', 20)->nullable();
 
             // Medical Information
             $table->text('symptoms')->nullable();
