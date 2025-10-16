@@ -30,7 +30,7 @@ class ReceptionistController extends Controller
             'emergency_contact_phone' => 'nullable|string|max:15',
             'allergies'              => 'nullable|string|max:255',
             'chronic_diseases'       => 'nullable|string|max:255',
-            'hospital_id'            => 'required|integer|exists:hospitals,id',
+            'hospital_id'            => 'required|integer|exists:hospital_infos,id',
             'added_by'               => 'required|integer|exists:users,id',
         ]);
 
@@ -55,6 +55,15 @@ class ReceptionistController extends Controller
         ]);
 
         $patient = Patient::findOrFail($validated['patient_id']);
+
+        if (!$patient) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Patient is not found',
+                'data' => null,
+            ], 404);
+        }
+
         $patient->update([
             'is_admitted' => true,
             'room_number' => $validated['room_number'],

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolePermissionController;
+use App\Http\Controllers\HMS\ReceptionistController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +38,14 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
 
     Route::post('/edit-permisson/{id}', 'addNewPermission')->where('id', '[0-9]+');
     Route::delete('/remove-permisson/{id}', 'removePermission')->where('id', '[0-9]+');
+});
+
+
+Route::controller(ReceptionistController::class)->group(function () {
+
+    Route::get('/view-doctor-list','viewDoctorList');
+
+    Route::post('/register-new-patient', 'registerNewPatient');
+    Route::post('/admit-new-patient','admitNewPatient');
+
 });
