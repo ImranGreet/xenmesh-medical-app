@@ -18,10 +18,20 @@ class ReceptionistController extends Controller
     public function registerNewPatient(Request $request)
     {
         $validated = $request->validate([
-            'patient_name' => 'required|string|max:50',
-            'age'          => 'required|integer|min:0|max:120',
-            'sex'          => 'required|string|in:male,female,other',
-            'address'      => 'nullable|string|max:255',
+            'patient_name'           => 'required|string|max:100',
+            'age'                    => 'required|integer|min:0|max:120',
+            'sex'                    => 'required|string|in:male,female,other',
+            'date_of_birth'          => 'nullable|date',
+            'blood_group'            => 'nullable|string|max:3',
+            'phone_number'           => 'required|string|max:15',
+            'email'                  => 'nullable|email|max:100',
+            'address'                => 'nullable|string|max:255',
+            'emergency_contact_name' => 'nullable|string|max:100',
+            'emergency_contact_phone' => 'nullable|string|max:15',
+            'allergies'              => 'nullable|string|max:255',
+            'chronic_diseases'       => 'nullable|string|max:255',
+            'hospital_id'            => 'required|integer|exists:hospitals,id',
+            'added_by'               => 'required|integer|exists:users,id',
         ]);
 
         $patient = Patient::create($validated);
