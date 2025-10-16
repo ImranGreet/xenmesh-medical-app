@@ -58,7 +58,9 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $user->tokens()->delete();
+        
         $token = $request->user()->createToken('hospital-system-access_token')->plainTextToken;
+
         return response()->json([
             'message' => 'Staff logged in successfully',
             'user' => $user,
