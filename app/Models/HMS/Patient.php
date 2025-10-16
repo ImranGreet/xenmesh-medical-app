@@ -9,4 +9,21 @@ class Patient extends Model
 {
     /** @use HasFactory<\Database\Factories\HMS\PatientFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'patient_name',
+        'age',
+        'sex',
+        'date_of_birth',
+        'blood_group',
+        'phone_number',
+        'email',
+        'address',
+        'emergency_contact_name',
+        'emergency_contact_phone',
+        'allergies',
+        'chronic_diseases',
+        'hospital_id',
+        'added_by'
+    ];
 }
