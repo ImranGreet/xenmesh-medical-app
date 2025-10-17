@@ -16,6 +16,8 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6',
+            'role' =>      'required|string',
+            'username' => 'required|string',
         ]);
 
         // Create staff
@@ -23,6 +25,8 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role'=> $request->role,
+            'username'=> $request->username,
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
@@ -32,14 +36,14 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        $user->tokens()->delete();
+        // $user->tokens()->delete();
 
-        $token = $request->user()->createToken('hospital-system-access_token')->plainTextToken;
+        // $token = $request->user()->createToken('hospital-system-access_token')->plainTextToken;
 
         return response()->json([
             'message' => 'Staff added and logged in successfully',
             'user' => $user,
-            'token' => $token
+            // 'token' => $token
         ], 201);
     }
 
@@ -58,7 +62,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $user->tokens()->delete();
-        
+
         $token = $request->user()->createToken('hospital-system-access_token')->plainTextToken;
 
         return response()->json([
@@ -80,7 +84,7 @@ class AuthController extends Controller
         }
 
         $user->tokens()->delete();
-        
+
         Auth::logout();
 
         return response()->json([

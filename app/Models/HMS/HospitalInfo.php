@@ -11,7 +11,7 @@ class HospitalInfo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'hospital_name',
         'code',
         'address',
         'city',

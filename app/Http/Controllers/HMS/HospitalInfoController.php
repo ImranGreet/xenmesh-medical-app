@@ -5,6 +5,7 @@ namespace App\Http\Controllers\HMS;
 use App\Http\Controllers\Controller;
 use App\Models\HMS\HospitalInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class HospitalInfoController extends Controller
@@ -21,7 +22,8 @@ class HospitalInfoController extends Controller
         }
         return response()->json([
             "status" => "success",
-            "message" => "Information found properly!"
+            "message" => "Information found properly!",
+            "data"=> $hospital
         ]);
     }
 
@@ -32,20 +34,22 @@ class HospitalInfoController extends Controller
         // Using Validator::make to handle validation errors and return a custom API response
         $validator = Validator::make($request->all(), [
             'hospital_name' => 'required|string|max:100',
-            'code' => 'nullable|string|max:25', // Changed to nullable
+            'code' => 'nullable|string|max:25',
             'address' => 'nullable|string|max:250',
             'city' => 'nullable|string|max:25',
             'state' => 'nullable|string|max:250',
             'country' => 'nullable|string|max:25',
             'postal_code' => 'nullable|string|max:25', 
             'phone_number' => 'required|string',
-            'email' => 'nullable|string|max:25|email', // Added email rule
+            'email' => 'nullable|string|max:25|email',
             'website' => 'nullable|string',
             'established_year' => 'nullable|string',
             'number_of_beds' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'added_by' => 'nullable|string',
+            'added_by' => 'required|integer|exists:users,id',
         ]);
+
+        
 
         if ($validator->fails()) {
             return response()->json([
@@ -56,6 +60,7 @@ class HospitalInfoController extends Controller
         }
         
         $validatedData = $validator->validated();
+    
 
        
         try {

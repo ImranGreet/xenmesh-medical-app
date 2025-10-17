@@ -21,6 +21,7 @@ Route::get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register-hospital-member', 'registerHospitalMember');
+    Route::post('/login-hospital-member', 'loginHospitalMember');
 });
 
 
@@ -48,15 +49,13 @@ Route::controller(ReceptionistController::class)->group(function () {
 
     Route::post('/register-new-patient', 'registerNewPatient');
     Route::post('/admit-new-patient', 'admitNewPatient');
-});
-
-
+})->middleware('auth:sanctum');
 
 
 Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('/get-hospital-info','getHospitalInfo');
+    Route::get('/get-hospital-info', 'getHospitalInfo');
     Route::post('/insert-hospital-info', 'insertHospitalInfo');
 
-    Route::put('/edit-hospital-info/{id}','editHospitalInfo')->where('id', '[0-9]+');
-    Route::put('/update-hospital-info','updateHospitalInfo')->where('id', '[0-9]+');
+    Route::put('/edit-hospital-info/{id}', 'editHospitalInfo')->where('id', '[0-9]+');
+    Route::put('/update-hospital-info', 'updateHospitalInfo')->where('id', '[0-9]+');
 });
