@@ -17,7 +17,7 @@ class ReceptionistController extends Controller
      */
      public function registerNewPatient(Request $request)
     {
-        // ✅ Step 1: Validate input data
+    
         $request->validate([
             'patient_name'            => 'required|string|max:100',
             'age'                     => 'required|integer|min:0|max:120',
@@ -35,7 +35,7 @@ class ReceptionistController extends Controller
             'added_by'                => 'required|integer|exists:users,id',
         ]);
 
-        // ✅ Step 2: Create the patient record
+        
         $patient = Patient::create([
             'patient_name'            => $request->patient_name,
             'age'                     => $request->age,

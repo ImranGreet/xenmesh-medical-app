@@ -49,6 +49,8 @@ Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->gr
 
     Route::post('/register-new-patient', 'registerNewPatient');
     Route::post('/admit-new-patient', 'admitNewPatient');
+    Route::get('/view-patient-info/{id}','viewPatientInfo')->where('id', '[0-9]+');
+    Route::get('/view-doctorlist','viewDoctorList');
 });
 
 
