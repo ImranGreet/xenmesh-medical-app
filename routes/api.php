@@ -43,13 +43,13 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
 });
 
 
-Route::controller(ReceptionistController::class)->group(function () {
+Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->group(function () {
 
     Route::get('/view-doctor-list', 'viewDoctorList');
 
     Route::post('/register-new-patient', 'registerNewPatient');
     Route::post('/admit-new-patient', 'admitNewPatient');
-})->middleware('auth:sanctum');
+});
 
 
 Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->group(function () {

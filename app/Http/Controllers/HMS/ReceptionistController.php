@@ -15,31 +15,48 @@ class ReceptionistController extends Controller
     /**
      * Register a new patient
      */
-    public function registerNewPatient(Request $request)
+     public function registerNewPatient(Request $request)
     {
-        $validated = $request->validate([
-            'patient_name'           => 'required|string|max:100',
-            'age'                    => 'required|integer|min:0|max:120',
-            'sex'                    => 'required|string|in:male,female,other',
-            'date_of_birth'          => 'nullable|date',
-            'blood_group'            => 'nullable|string|max:3',
-            'phone_number'           => 'required|string|max:15',
-            'email'                  => 'nullable|email|max:100',
-            'address'                => 'nullable|string|max:255',
-            'emergency_contact_name' => 'nullable|string|max:100',
+        // ✅ Step 1: Validate input data
+        $request->validate([
+            'patient_name'            => 'required|string|max:100',
+            'age'                     => 'required|integer|min:0|max:120',
+            'sex'                     => 'required|string|in:male,female,other',
+            'date_of_birth'           => 'nullable|date',
+            'blood_group'             => 'nullable|string|max:4',
+            'phone_number'            => 'required|string|max:15',
+            'email'                   => 'nullable|email|max:100',
+            'address'                 => 'nullable|string|max:255',
+            'emergency_contact_name'  => 'nullable|string|max:100',
             'emergency_contact_phone' => 'nullable|string|max:15',
-            'allergies'              => 'nullable|string|max:255',
-            'chronic_diseases'       => 'nullable|string|max:255',
-            'hospital_id'            => 'required|integer|exists:hospital_infos,id',
-            'added_by'               => 'required|integer|exists:users,id',
+            'allergies'               => 'nullable|string|max:255',
+            'chronic_diseases'        => 'nullable|string|max:255',
+            'hospital_id'             => 'required|integer|exists:hospital_infos,id',
+            'added_by'                => 'required|integer|exists:users,id',
         ]);
 
-        $patient = Patient::create($validated);
+        // ✅ Step 2: Create the patient record
+        $patient = Patient::create([
+            'patient_name'            => $request->patient_name,
+            'age'                     => $request->age,
+            'sex'                     => $request->sex,
+            'date_of_birth'           => $request->date_of_birth,
+            'blood_group'             => $request->blood_group,
+            'phone_number'            => $request->phone_number,
+            'email'                   => $request->email,
+            'address'                 => $request->address,
+            'emergency_contact_name'  => $request->emergency_contact_name,
+            'emergency_contact_phone' => $request->emergency_contact_phone,
+            'allergies'               => $request->allergies,
+            'chronic_diseases'        => $request->chronic_diseases,
+            'hospital_id'             => $request->hospital_id,
+            'added_by'                => $request->added_by,
+        ]);
 
+        // ✅ Step 3: Return response
         return response()->json([
-            'success' => true,
             'message' => 'Patient registered successfully.',
-            'data'    => $patient,
+            'patient' => $patient
         ], 201);
     }
 
