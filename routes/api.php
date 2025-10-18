@@ -1,37 +1,16 @@
 <?php
 
+require __DIR__ . '/auth.php';
+
+
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\RolePermissionController;
 use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\DoctorController;
 use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\ReceptionistController;
 
-
-
-
-Route::controller(AuthController::class)->group(function () {
-    Route::post('/register-hospital-member', 'registerHospitalMember');
-    Route::post('/login-hospital-member', 'loginHospitalMember');
-});
-
-Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->group(function () {
-
-    Route::get('/get-all-roles', 'getAllRoles');
-    Route::post('/create-a-role', 'addNewRole');
-
-    route::post('/edit-permission/{id}', 'editPermission')->where('id', '[0-9]+');
-    route::delete('/remove-permission/{id}', 'removePermission')->where('id', '[0-9]+');
-
-    Route::get('/get-all-permissions', 'getAllPermissions');
-    Route::post('/add-new-permisson', 'addNewPermission');
-
-    Route::post('/edit-permisson/{id}', 'addNewPermission')->where('id', '[0-9]+');
-    Route::delete('/remove-permisson/{id}', 'removePermission')->where('id', '[0-9]+');
-});
 
 
 Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->group(function () {
@@ -78,7 +57,6 @@ Route::controller(AppointmentController::class)->middleware('auth:sanctum')->gro
     Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
     Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
-
 });
 
 
@@ -91,5 +69,4 @@ Route::controller(DoctorController::class)->middleware('auth:sanctum')->group(fu
 
     Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
     Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
-    
 });
