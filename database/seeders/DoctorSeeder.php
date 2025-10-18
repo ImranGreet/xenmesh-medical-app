@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DoctorSeeder extends Seeder
 {
@@ -11,7 +12,58 @@ class DoctorSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        //
+    { 
+        
+          DB::table('doctors')->insert([
+            [
+                'doctor_name' => 'Dr. John Smith',
+                'email' => 'john.smith@example.com',
+                'phone_number' => '0123456789',
+                'department' => 'Cardiology',
+                'specialization' => 'Heart Surgery',
+                'qualification' => 'MD, Cardiology',
+                'experience_years' => 10,
+                'gender' => 'Male',
+                'address' => '123 Main Street',
+                'hospital_id' => 1, // make sure hospital with ID 1 exists
+                'added_by' => 1,     // make sure user with ID 1 exists
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'doctor_name' => 'Dr. Emily Watson',
+                'email' => 'emily.watson@example.com',
+                'phone_number' => '0987654321',
+                'department' => 'Neurology',
+                'specialization' => 'Brain Surgery',
+                'qualification' => 'MD, Neurology',
+                'experience_years' => 8,
+                'gender' => 'Female',
+                'address' => '456 Elm Street',
+                'hospital_id' => 1,
+                'added_by' => 2,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'doctor_name' => 'Dr. Michael Lee',
+                'email' => 'michael.lee@example.com',
+                'phone_number' => '0112233445',
+                'department' => 'Pediatrics',
+                'specialization' => 'Child Care',
+                'qualification' => 'MD, Pediatrics',
+                'experience_years' => 5,
+                'gender' => 'Male',
+                'address' => '789 Oak Avenue',
+                'hospital_id' => 2,
+                'added_by' => 1,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
+    
 }

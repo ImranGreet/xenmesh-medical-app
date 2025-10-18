@@ -17,16 +17,16 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6',
             'role' =>      'required|string',
-            'username' => 'required|string',
         ]);
 
+          
         // Create staff
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role'=> $request->role,
-            'username'=> $request->username,
+            'username'=> $request->name.$request->role,
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {

@@ -49,6 +49,7 @@ Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->gr
     Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
     Route::get('/view-doctorlist', 'viewDoctorList');
     Route::get('/patient-list', 'viewPatientList');
+    
 });
 
 
@@ -71,3 +72,5 @@ Route::controller(DepartmentController::class)->middleware('auth:sanctum')->grou
     Route::put('/update-department/{id}', 'updateDepartment')->where('id', '[0-9]+');
     Route::delete('/delete-department/{id}', 'deleteDepartment')->where('id', '[0-9]+');
 });
+
+
