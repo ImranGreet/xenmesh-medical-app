@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolePermissionController;
+use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\ReceptionistController;
@@ -49,7 +50,6 @@ Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->gr
     Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
     Route::get('/view-doctorlist', 'viewDoctorList');
     Route::get('/patient-list', 'viewPatientList');
-    
 });
 
 
@@ -74,3 +74,13 @@ Route::controller(DepartmentController::class)->middleware('auth:sanctum')->grou
 });
 
 
+
+Route::controller(AppointmentController::class)->middleware('auth:sanctum')->group(function () {
+
+    Route::post('/create-appointment', 'createPatientAppointment');
+    Route::get('/retrieve-appointments', 'getAllAppointments');
+    Route::get('/get-appointment/{id}', 'getAppointment')->where('id', '[0-9]+');
+    Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
+    Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
+    Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
+});
