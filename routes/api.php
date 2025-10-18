@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolePermissionController;
 use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\DepartmentController;
+use App\Http\Controllers\HMS\DoctorController;
 use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\ReceptionistController;
 use App\Models\User;
@@ -83,4 +84,16 @@ Route::controller(AppointmentController::class)->middleware('auth:sanctum')->gro
     Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
     Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
+});
+
+
+
+
+Route::controller(DoctorController::class)->middleware('auth:sanctum')->group(function () {
+
+    Route::get('/retrieve-doctors', 'getDoctorList');
+    Route::post('/add-new-doctor', 'addNewDoctor');
+    Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
+    Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
+    
 });
