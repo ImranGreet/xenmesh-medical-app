@@ -24,9 +24,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login-hospital-member', 'loginHospitalMember');
 });
 
-
-
-
 Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->group(function () {
 
     Route::get('/get-all-roles', 'getAllRoles');
@@ -44,13 +41,14 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
 
 
 Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->group(function () {
-
     Route::get('/view-doctor-list', 'viewDoctorList');
 
     Route::post('/register-new-patient', 'registerNewPatient');
     Route::post('/admit-new-patient', 'admitNewPatient');
     Route::get('/view-patient-info/{id}','viewPatientInfo')->where('id', '[0-9]+');
     Route::get('/view-doctorlist','viewDoctorList');
+    Route::get('/patient-list','viewPatientList');
+
 });
 
 
@@ -60,4 +58,7 @@ Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->gr
 
     Route::put('/edit-hospital-info/{id}', 'editHospitalInfo')->where('id', '[0-9]+');
     Route::put('/update-hospital-info', 'updateHospitalInfo')->where('id', '[0-9]+');
+    
 });
+
+
