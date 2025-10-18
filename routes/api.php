@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolePermissionController;
+use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\ReceptionistController;
 use App\Models\User;
@@ -45,10 +46,9 @@ Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->gr
 
     Route::post('/register-new-patient', 'registerNewPatient');
     Route::post('/admit-new-patient', 'admitNewPatient');
-    Route::get('/view-patient-info/{id}','viewPatientInfo')->where('id', '[0-9]+');
-    Route::get('/view-doctorlist','viewDoctorList');
-    Route::get('/patient-list','viewPatientList');
-
+    Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
+    Route::get('/view-doctorlist', 'viewDoctorList');
+    Route::get('/patient-list', 'viewPatientList');
 });
 
 
@@ -58,7 +58,16 @@ Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->gr
 
     Route::put('/edit-hospital-info/{id}', 'editHospitalInfo')->where('id', '[0-9]+');
     Route::put('/update-hospital-info', 'updateHospitalInfo')->where('id', '[0-9]+');
-    
 });
 
 
+
+
+
+Route::controller(DepartmentController::class)->middleware('auth:sanctum')->group(function () {
+
+    Route::get('/retrieve-departments', 'retrieveDepartments');
+    Route::post('/add-new-department', 'addNewDepartment');
+    Route::put('/update-department/{id}', 'updateDepartment')->where('id', '[0-9]+');
+    Route::delete('/delete-department/{id}', 'deleteDepartment')->where('id', '[0-9]+');
+});
