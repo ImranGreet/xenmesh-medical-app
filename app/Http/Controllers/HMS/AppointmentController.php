@@ -91,6 +91,10 @@ class AppointmentController extends Controller
     }
 
     /**
+     *update assign doctor 
+      */ 
+    //   updateAssignDoctor()
+    /**
      * Delete an appointment
      */
     public function deleteAppointment($id)

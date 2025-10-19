@@ -20,7 +20,7 @@ return new class extends Migration
 
             // Room Information
             $table->string('room_number', 20);
-            $table->string('room_type', 50);
+            $table->string('room_type', 50)->nullable();
             $table->string('floor', 10)->nullable();
             $table->string('wing', 10)->nullable();
 
