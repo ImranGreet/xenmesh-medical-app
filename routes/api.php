@@ -9,6 +9,7 @@ use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\DoctorController;
 use App\Http\Controllers\HMS\HospitalInfoController;
+use App\Http\Controllers\HMS\PatientController;
 use App\Http\Controllers\HMS\ReceptionistController;
 
 
@@ -69,4 +70,9 @@ Route::controller(DoctorController::class)->middleware('auth:sanctum')->group(fu
 
     Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
     Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
+});
+
+
+Route::controller(PatientController::class)->middleware('auth:sanctum')->group(function(){
+    Route::get('/patient-list', 'getPatientList');
 });
