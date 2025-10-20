@@ -187,7 +187,6 @@ class ReceptionistController extends Controller
     public function viewPatientInfo($id)
     {
         $patient = Patient::with(['appointments', 'bills'])->findOrFail($id);
-
         return response()->json([
             'success' => true,
             'data' => $patient,

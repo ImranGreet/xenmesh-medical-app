@@ -20,4 +20,9 @@ class Appointment extends Model
         'reason',
         'notes',
     ];
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'doctor_id');
+    }
 }

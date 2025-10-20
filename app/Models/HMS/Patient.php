@@ -24,6 +24,7 @@ class Patient extends Model
         'allergies',
         'chronic_diseases',
         'hospital_id',
-        'added_by'
+        'appointed_doctor_id',
+        'added_by_id'
     ];
 }

@@ -19,4 +19,9 @@ class Doctor extends Model
         'added_by',
         'is_active',
     ];
+
+    public function appointments()
+{
+    return $this->hasMany(Appointment::class, 'doctor_id');
+}
 }

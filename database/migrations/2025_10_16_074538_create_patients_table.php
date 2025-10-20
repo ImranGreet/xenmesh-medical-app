@@ -27,8 +27,7 @@ return new class extends Migration
             $table->text('chronic_diseases')->nullable();
 
             $table->foreignId('hospital_id')->constrained('hospital_infos')->onDelete('cascade');
-            $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
-
+            $table->foreignId('added_by_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_active')->default(true);
             $table->string('patient_id')->unique()->nullable();
 
