@@ -30,7 +30,7 @@ class HospitalInfoSeeder extends Seeder
                 'number_of_beds' => 250,
                 'description' => 'A leading multi-specialty hospital providing quality healthcare services.',
                 'is_active' => true,
-                'added_by' => 1, // Make sure user with ID 1 exists
+                'added_by_id' => 1, // Make sure user with ID 1 exists
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -49,7 +49,7 @@ class HospitalInfoSeeder extends Seeder
                 'number_of_beds' => 180,
                 'description' => 'Trusted healthcare facility known for patient care and advanced treatment.',
                 'is_active' => true,
-                'added_by' => 1,
+                'added_by_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

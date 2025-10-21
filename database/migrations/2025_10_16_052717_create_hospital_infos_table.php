@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('number_of_beds')->default(0);
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->foreignId('added_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('added_by_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

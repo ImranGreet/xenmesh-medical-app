@@ -25,6 +25,6 @@ class HospitalInfo extends Model
         'number_of_beds',
         'description',
         'is_active',
-        'added_by'
+        'added_by_id',
     ];
 }
