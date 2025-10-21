@@ -108,4 +108,16 @@ class AppointmentController extends Controller
 
         return response()->json(['message' => 'Appointment deleted successfully']);
     }
+
+    public function getDoctorAppointments($doctorId)
+    {
+        $appointments = Appointment::where('appointed_doctor_id', $doctorId)->get();
+        return response()->json($appointments);
+    }
+
+    public function getAppointmentByCreator($creatorId)
+    {
+        $appointments = Appointment::where('added_by_id', $creatorId)->with('doctor')->get();
+        return response()->json($appointments);
+    }
 }
