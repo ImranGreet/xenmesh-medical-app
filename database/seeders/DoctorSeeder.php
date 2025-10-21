@@ -26,7 +26,7 @@ class DoctorSeeder extends Seeder
                 'gender' => 'Male',
                 'address' => '123 Main Street',
                 'hospital_id' => 1, // make sure hospital with ID 1 exists
-                'added_by' => 1,     // make sure user with ID 1 exists
+                'added_by_id' => 1,     // make sure user with ID 1 exists
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -42,7 +42,7 @@ class DoctorSeeder extends Seeder
                 'gender' => 'Female',
                 'address' => '456 Elm Street',
                 'hospital_id' => 1,
-                'added_by' => 2,
+                'added_by_id' => 2,
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -58,7 +58,7 @@ class DoctorSeeder extends Seeder
                 'gender' => 'Male',
                 'address' => '789 Oak Avenue',
                 'hospital_id' => 2,
-                'added_by' => 1,
+                'added_by_id' => 1,
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -27,7 +27,7 @@ return new class extends Migration
                 ->constrained('hospital_infos')
                 ->onDelete('cascade');
 
-            $table->foreignId('added_by')
+            $table->foreignId('added_by_id')
                 ->constrained('users')
                 ->onDelete('cascade');
 

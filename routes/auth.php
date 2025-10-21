@@ -23,4 +23,3 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
     Route::post('/edit-permisson/{id}', 'addNewPermission')->where('id', '[0-9]+');
     Route::delete('/remove-permisson/{id}', 'removePermission')->where('id', '[0-9]+');
 });
-
