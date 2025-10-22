@@ -25,8 +25,8 @@ class DoctorSeeder extends Seeder
                 'experience_years' => 10,
                 'gender' => 'Male',
                 'address' => '123 Main Street',
-                'hospital_id' => 1, // make sure hospital with ID 1 exists
-                'added_by_id' => 1,     // make sure user with ID 1 exists
+                'hospital_id' => 1, 
+                'added_by_id' => 1,    
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
