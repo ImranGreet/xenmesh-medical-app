@@ -114,9 +114,8 @@ class AppointmentController extends Controller
     {
         $appointments = DB::table('appointments')
             ->join('doctors', 'appointments.appointed_doctor_id', '=', 'doctors.id')
-            ->join('patient_admissions', 'patient_admissions.admitted_by_doctor_id', '=', 'doctors.id')
             ->where('appointments.appointed_doctor_id', $doctorId)
-            ->select('appointments.*', 'doctors.*', 'patient_admissions.*')
+            ->select('appointments.*', 'doctors.*')
             ->get();
 
         return response()->json($appointments);
