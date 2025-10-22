@@ -21,7 +21,7 @@ class PatientAdmissionSeeder extends Seeder
                 'hospital_id' => 1,
                 'admitted_by_doctor_id' => 2, // example doctor (user_id = 2)
                 'room_id' => 1,
-                'added_by' => 3, // example admin (user_id = 3)
+                'added_by_id' => 1, // example admin (user_id = 1)
                 'admission_id' => Str::uuid(),
                 'bed_number' => 'B-101',
                 'symptoms' => 'High fever, cough, fatigue',
@@ -40,7 +40,7 @@ class PatientAdmissionSeeder extends Seeder
                 'hospital_id' => 1,
                 'admitted_by_doctor_id' => 2,
                 'room_id' => 2,
-                'added_by' => 3,
+                'added_by_id' => 2,
                 'admission_id' => Str::uuid(),
                 'bed_number' => 'C-204',
                 'symptoms' => 'Chest pain and shortness of breath',
@@ -59,7 +59,7 @@ class PatientAdmissionSeeder extends Seeder
                 'hospital_id' => 1,
                 'admitted_by_doctor_id' => 4,
                 'room_id' => 3,
-                'added_by' => 3,
+                'added_by_id' => 2,
                 'admission_id' => Str::uuid(),
                 'bed_number' => 'A-301', 
                 'symptoms' => 'Headache and nausea',
