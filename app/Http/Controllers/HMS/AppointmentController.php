@@ -5,11 +5,12 @@ namespace App\Http\Controllers\HMS;
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
-        public function createPatientAppointment(Request $request)
+    public function createPatientAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'patient_id' => 'required|exists:patients,id',
@@ -21,7 +22,7 @@ class AppointmentController extends Controller
             'reason' => 'nullable|string',
             'notes' => 'nullable|string',
             'added_by' => 'nullable|exists:users,id'
-        ]); 
+        ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -92,7 +93,7 @@ class AppointmentController extends Controller
 
     /**
      *update assign doctor 
-      */ 
+     */
     //   updateAssignDoctor()
     /**
      * Delete an appointment
@@ -111,13 +112,42 @@ class AppointmentController extends Controller
 
     public function getDoctorAppointments($doctorId)
     {
-        $appointments = Appointment::where('appointed_doctor_id', $doctorId)->get();
+        $appointments = DB::table('appointments')
+            ->join('doctors', 'appointments.appointed_doctor_id', '=', 'doctors.id')
+            ->join('hospital_infos', 'doctors.hospital_id', '=', 'hospital_infos.id')
+            ->where('appointments.appointed_doctor_id', $doctorId)
+            ->select('appointments.*', 'doctors.*', 'hospital_infos.*')
+            ->get();
+
         return response()->json($appointments);
     }
 
     public function getAppointmentByCreator($creatorId)
     {
-        $appointments = Appointment::where('added_by_id', $creatorId)->with('doctor')->get();
+        $appointments = DB::table('appointments')
+            ->join('doctors', 'appointments.appointed_doctor_id', '=', 'doctors.id')
+            ->where('appointments.added_by_id', $creatorId)
+            ->select(
+                'appointments.id',
+                'appointments.appointment_date',
+                'appointments.appointment_time',
+                'appointments.status',
+                'appointments.notes',
+                'appointments.reason',
+                'appointments.room_number',
+                'appointments.patient_id',
+                'appointments.appointed_doctor_id',
+                'appointments.added_by_id',
+                'appointments.created_at',
+                'appointments.updated_at',
+                'doctors.doctor_name',
+                'doctors.email as doctor_email',
+                'doctors.phone_number as doctor_phone',
+                'doctors.specialization',
+                'doctors.department'
+            )
+            ->get();
+
         return response()->json($appointments);
     }
 }
