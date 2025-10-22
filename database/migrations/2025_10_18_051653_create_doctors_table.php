@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->string('doctor_name');
-            $table->string('email')->unique();
-            $table->string('phone_number')->unique();
+            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
             $table->string('department')->nullable(); 
             $table->string('specialization')->nullable();
             $table->string('qualification')->nullable();

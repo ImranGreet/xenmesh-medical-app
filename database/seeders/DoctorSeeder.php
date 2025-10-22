@@ -16,9 +16,7 @@ class DoctorSeeder extends Seeder
         
           DB::table('doctors')->insert([
             [
-                'doctor_name' => 'Dr. John Smith',
-                'email' => 'john.smith@example.com',
-                'phone_number' => '0123456789',
+                'doctor_id' => 1,
                 'department' => 'Cardiology',
                 'specialization' => 'Heart Surgery',
                 'qualification' => 'MD, Cardiology',
@@ -32,9 +30,7 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'doctor_name' => 'Dr. Emily Watson',
-                'email' => 'emily.watson@example.com',
-                'phone_number' => '0987654321',
+                 'doctor_id' => 1,
                 'department' => 'Neurology',
                 'specialization' => 'Brain Surgery',
                 'qualification' => 'MD, Neurology',
@@ -48,9 +44,7 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'doctor_name' => 'Dr. Michael Lee',
-                'email' => 'michael.lee@example.com',
-                'phone_number' => '0112233445',
+                'doctor_id' => 1,
                 'department' => 'Pediatrics',
                 'specialization' => 'Child Care',
                 'qualification' => 'MD, Pediatrics',
