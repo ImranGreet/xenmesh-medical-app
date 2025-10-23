@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('department_name')->unique();
             $table->string('description')->nullable();
-            $table->foreignId('hospital_id')
-                ->constrained('hospital_infos')
-                ->onDelete('cascade');
+            $table->foreignId('hospital_id')->constrained('hospital_infos')->onDelete('cascade');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

@@ -16,9 +16,9 @@ class AppointmentSeeder extends Seeder
     {
            DB::table('appointments')->insert([
             [
-                'patient_id' => 1, // Make sure this patient exists
-                'appointed_doctor_id' => 2,  // Make sure this doctor exists
-                'added_by_id' => 3,   // User who created the appointment
+                'patient_id' => 1, 
+                'appointed_doctor_id' => 2,
+                'added_by_id' => 3,
                 'appointment_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'appointment_time' => '09:00:00',
                 'status' => 'Scheduled',
