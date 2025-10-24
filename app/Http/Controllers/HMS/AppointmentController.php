@@ -49,7 +49,7 @@ class AppointmentController extends Controller
     /**
      * Get a single appointment by ID
      */
-    public function getAppointment($id)
+    public function getAppointmentById($id)
     {
         $appointment = Appointment::with(['patient', 'doctor', 'addedBy'])->find($id);
 
@@ -91,13 +91,7 @@ class AppointmentController extends Controller
         ]);
     }
 
-    /**
-     *update assign doctor 
-     */
-    //   updateAssignDoctor()
-    /**
-     * Delete an appointment
-     */
+
     public function deleteAppointment($id)
     {
         $appointment = Appointment::find($id);

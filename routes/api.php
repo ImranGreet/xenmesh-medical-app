@@ -53,7 +53,7 @@ Route::controller(AppointmentController::class)->middleware('auth:sanctum')->gro
 
     Route::post('/create-appointment', 'createPatientAppointment');
     Route::get('/retrieve-appointments', 'getAllAppointments');
-    Route::get('/get-appointment/{id}', 'getAppointment')->where('id', '[0-9]+');
+    Route::get('/get-appointment-id/{id}', 'getAppointmentById')->where('id', '[0-9]+');
 
     Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
@@ -74,6 +74,6 @@ Route::controller(DoctorController::class)->middleware('auth:sanctum')->group(fu
 });
 
 
-Route::controller(PatientController::class)->middleware('auth:sanctum')->group(function(){
+Route::controller(PatientController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/patient-list', 'getPatientList');
 });
