@@ -9,6 +9,7 @@ use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\DoctorController;
 use App\Http\Controllers\HMS\HospitalInfoController;
+use App\Http\Controllers\HMS\LabTestController;
 use App\Http\Controllers\HMS\PatientController;
 use App\Http\Controllers\HMS\ReceptionistController;
 
@@ -76,4 +77,10 @@ Route::controller(DoctorController::class)->group(function () {
 
 Route::controller(PatientController::class)->group(function () {
     Route::get('/patient-list', 'getPatientList');
+});
+
+
+
+Route::controller(LabTestController::class)->group(function () {
+    Route::get('/lab-tests', 'getLabTests');
 });

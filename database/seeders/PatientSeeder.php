@@ -14,7 +14,7 @@ class PatientSeeder extends Seeder
      */
     public function run(): void
     {
-           // Make sure hospital and user records exist before running this seeder
+        // Make sure hospital and user records exist before running this seeder
         $hospital = DB::table('hospital_infos')->first();
         $user = DB::table('users')->first();
 
@@ -30,6 +30,7 @@ class PatientSeeder extends Seeder
                 'sex' => 'male',
                 'date_of_birth' => '1997-03-12',
                 'blood_group' => 'A+',
+                'is_admitted' => true,
                 'phone_number' => '01710000001',
                 'email' => 'john.doe@example.com',
                 'address' => 'Dhaka, Bangladesh',
@@ -50,6 +51,7 @@ class PatientSeeder extends Seeder
                 'sex' => 'female',
                 'date_of_birth' => '1990-05-20',
                 'blood_group' => 'O+',
+                'is_admitted' => false,
                 'phone_number' => '01710000003',
                 'email' => 'maria.rahman@example.com',
                 'address' => 'Chittagong, Bangladesh',
@@ -70,6 +72,7 @@ class PatientSeeder extends Seeder
                 'sex' => 'male',
                 'date_of_birth' => '1985-01-15',
                 'blood_group' => 'B+',
+                'is_admitted' => false,
                 'phone_number' => '01710000005',
                 'email' => 'abdul.karim@example.com',
                 'address' => 'Sylhet, Bangladesh',
@@ -78,7 +81,7 @@ class PatientSeeder extends Seeder
                 'allergies' => 'Penicillin',
                 'chronic_diseases' => 'Diabetes',
                 'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id, 
+                'added_by_id' => $user->id,
                 'is_active' => true,
                 'patient_id' => 'PAT-' . strtoupper(Str::random(6)),
                 'created_at' => now(),

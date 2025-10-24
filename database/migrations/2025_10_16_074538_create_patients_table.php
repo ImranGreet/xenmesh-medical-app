@@ -15,7 +15,7 @@ return new class extends Migration
             $table->enum('sex', ['male', 'female', 'other']);
             $table->date('date_of_birth')->nullable();
             $table->string('blood_group', 3)->nullable();
-
+            $table->boolean('is_admitted')->default(false);
             $table->string('phone_number', 15);
             $table->string('email', 100)->nullable();
             $table->string('address', 255)->nullable();

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('lab_tests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->string('test_name', 100); 
             $table->text('description')->nullable(); 
             $table->decimal('fee', 10, 2)->default(0); 
