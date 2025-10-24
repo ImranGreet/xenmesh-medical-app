@@ -14,7 +14,7 @@ use App\Http\Controllers\HMS\ReceptionistController;
 
 
 
-Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-doctor-list', 'viewDoctorList');
 
     Route::post('/register-new-patient', 'registerNewPatient');
@@ -26,7 +26,7 @@ Route::controller(ReceptionistController::class)->middleware('auth:sanctum')->gr
 });
 
 
-Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(HospitalInfoController::class)->group(function () {
     Route::get('/get-hospital-info', 'getHospitalInfo');
     Route::post('/insert-hospital-info', 'insertHospitalInfo');
 
@@ -38,7 +38,7 @@ Route::controller(HospitalInfoController::class)->middleware('auth:sanctum')->gr
 
 
 
-Route::controller(DepartmentController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(DepartmentController::class)->group(function () {
 
     Route::get('/retrieve-departments', 'retrieveDepartments');
     Route::post('/add-new-department', 'addNewDepartment');
@@ -49,7 +49,7 @@ Route::controller(DepartmentController::class)->middleware('auth:sanctum')->grou
 
 
 
-Route::controller(AppointmentController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(AppointmentController::class)->group(function () {
 
     Route::post('/create-appointment', 'createPatientAppointment');
     Route::get('/retrieve-appointments', 'getAllAppointments');
@@ -64,7 +64,7 @@ Route::controller(AppointmentController::class)->middleware('auth:sanctum')->gro
 
 
 
-Route::controller(DoctorController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(DoctorController::class)->group(function () {
 
     Route::get('/retrieve-doctors', 'getDoctorList');
     Route::post('/add-new-doctor', 'addNewDoctor');
@@ -74,6 +74,6 @@ Route::controller(DoctorController::class)->middleware('auth:sanctum')->group(fu
 });
 
 
-Route::controller(PatientController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(PatientController::class)->group(function () {
     Route::get('/patient-list', 'getPatientList');
 });

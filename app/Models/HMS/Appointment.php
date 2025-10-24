@@ -18,6 +18,7 @@ class Appointment extends Model
         'appointment_time',
         'status',
         'room_number',
+        'appointment_fee',
         'reason',
         'notes',
     ];

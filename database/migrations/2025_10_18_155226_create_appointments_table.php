@@ -16,9 +16,10 @@ return new class extends Migration
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->string('status')->default('Pending');
+            $table->decimal('appointment_fee', 10, 2)->default(0);
             $table->text('notes')->nullable();
-            $table->string('reason')->nullable();             
-            $table->string('room_number')->nullable();             
+            $table->string('reason')->nullable();
+            $table->string('room_number')->nullable();
             $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
             $table->foreignId('appointed_doctor_id')->constrained('doctors')->onDelete('cascade');
             $table->foreignId('added_by_id')->nullable()->constrained('users')->nullOnDelete();
