@@ -112,28 +112,8 @@ class AppointmentController extends Controller
 
     public function getDoctorAppointments($doctorId)
     {
-        $appointments = DB::table('appointments')
-            ->join('doctors', 'appointments.appointed_doctor_id', '=', 'doctors.id')
-            ->join('users as doctor_users', 'doctors.doctor_id', '=', 'doctor_users.id') 
-            ->join('users as added_users', 'appointments.added_by_id', '=', 'added_users.id') 
-            ->where('appointments.appointed_doctor_id', $doctorId)
-            ->select(
-                'appointments.id as appointment_id',
-                'appointments.appointment_date',
-                'appointments.appointment_time',
-                'appointments.status',
-                'appointments.reason',
-                'appointments.room_number',
-                'doctor_users.id as doctor_user_id',
-                'doctor_users.name as doctor_name',
-                'doctor_users.email as doctor_email',
-                'doctors.specialization',
-                'doctors.department',
-                'doctors.experience_years',
-                'added_users.id as added_by_user_id',
-                'added_users.name as added_by_name',
-                'added_users.email as added_by_email'
-            )
+        $appointments = Appointment::with(['doctor', 'patient', 'addedBy'])
+            ->where('appointed_doctor_id', $doctorId)
             ->get();
 
         return response()->json($appointments);

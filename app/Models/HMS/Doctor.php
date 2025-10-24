@@ -20,8 +20,15 @@ class Doctor extends Model
         'is_active',
     ];
 
+
+
+
+    public function patients()
+    {
+        return $this->hasManyThrough(Patient::class, Appointment::class, 'appointed_doctor_id', 'id', 'id', 'patient_id');
+    }
     public function appointments()
-{
-    return $this->hasMany(Appointment::class, 'doctor_id');
-}
+    {
+        return $this->hasMany(Appointment::class, 'appointed_doctor_id');
+    }
 }

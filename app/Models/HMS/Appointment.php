@@ -2,6 +2,7 @@
 
 namespace App\Models\HMS;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +22,19 @@ class Appointment extends Model
         'notes',
     ];
 
+
     public function doctor()
     {
         return $this->belongsTo(Doctor::class, 'appointed_doctor_id');
     }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
+
+    public function addedBy()
+{
+    return $this->belongsTo(User::class, 'added_by_id');
+}
 }

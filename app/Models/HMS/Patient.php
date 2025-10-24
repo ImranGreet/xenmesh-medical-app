@@ -27,4 +27,18 @@ class Patient extends Model
         'appointed_doctor_id',
         'added_by_id'
     ];
+
+
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+
+
+    public function doctors()
+    {
+        return $this->hasManyThrough(Doctor::class, Appointment::class, 'patient_id', 'id', 'id', 'appointed_doctor_id');
+    }
 }
