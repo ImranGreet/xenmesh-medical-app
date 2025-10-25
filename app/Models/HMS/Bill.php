@@ -29,4 +29,9 @@ class Bill extends Model
     {
         return $this->belongsToMany(LabTest::class, 'bill_tests', 'bill_id', 'lab_test_id')->withTimestamps();
     }
+
+    public function otherFees()
+    {
+        // Define relationship for other fees if applicable
+    }
 }
