@@ -20,9 +20,20 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->string('reason')->nullable();
             $table->string('room_number')->nullable();
-            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
-            $table->foreignId('appointed_doctor_id')->constrained('doctors')->onDelete('cascade');
-            $table->foreignId('added_by_id')->nullable()->constrained('users')->nullOnDelete();
+            
+            $table->foreignId('patient_id')
+            ->constrained('patients')
+            ->onDelete('cascade');
+            
+            $table->foreignId('appointed_doctor_id')
+            ->constrained('doctors')
+            ->onDelete('cascade');
+
+            $table->foreignId('added_by_id')
+            ->nullable()
+            ->constrained('users')
+            ->nullOnDelete();
+
             $table->timestamps();
         });
     }
