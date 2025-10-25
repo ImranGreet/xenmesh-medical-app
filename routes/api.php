@@ -89,4 +89,5 @@ Route::controller(LabTestController::class)->group(function () {
 
 Route::controller(BillController::class)->group(function () {
     Route::get('/bills', 'showAllBills');
+    Route::get('/bills/patient/{patientId}', 'showBillByPatientId')->where('patientId', '[0-9]+');
 });

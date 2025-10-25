@@ -20,9 +20,13 @@ class Bill extends Model
     {
         return $this->belongsTo(Patient::class);
     }
-
-    public function labTests()
+    public function patientDetails()
     {
-        return $this->hasMany(LabTest::class);
+        return $this->hasOne(Patient::class, 'id', 'patient_id');
+    }
+
+    public function labtestFees()
+    {
+        return $this->belongsToMany(LabTest::class, 'bill_tests', 'bill_id', 'lab_test_id')->withTimestamps();
     }
 }
