@@ -15,15 +15,20 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
             $table->string('department')->nullable(); 
+            $table->enum('gender', ['Male', 'Female', 'Other']);
+            $table->string('address')->nullable();
+
+             $table->string('department_name');
+            $table->string('description')->nullable();
             $table->string('specialization')->nullable();
             $table->string('qualification')->nullable();
             $table->integer('experience_years')->nullable();
-            $table->enum('gender', ['Male', 'Female', 'Other']);
-            $table->string('address')->nullable();
 
             $table->foreignId('hospital_id')
                 ->constrained('hospital_infos')
                 ->onDelete('cascade');
+
+
 
             $table->foreignId('added_by_id')
                 ->constrained('users')

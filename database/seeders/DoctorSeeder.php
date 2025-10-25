@@ -14,10 +14,13 @@ class DoctorSeeder extends Seeder
     public function run(): void
     { 
         
-          DB::table('doctors')->insert([
+         
+         DB::table('doctors')->insert([
             [
-                'doctor_id' => 1,
+                'doctor_id' => 1, 
                 'department' => 'Cardiology',
+                'department_name' => 'Cardiology',
+                'description' => 'Heart specialist focusing on surgery',
                 'specialization' => 'Heart Surgery',
                 'qualification' => 'MD, Cardiology',
                 'experience_years' => 10,
@@ -30,8 +33,10 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                 'doctor_id' => 1,
+                'doctor_id' => 2, 
                 'department' => 'Neurology',
+                'department_name' => 'Neurology',
+                'description' => 'Brain specialist',
                 'specialization' => 'Brain Surgery',
                 'qualification' => 'MD, Neurology',
                 'experience_years' => 8,
@@ -44,8 +49,10 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'doctor_id' => 1,
+                'doctor_id' => 3, 
                 'department' => 'Pediatrics',
+                'department_name' => 'Pediatrics',
+                'description' => 'Child care specialist',
                 'specialization' => 'Child Care',
                 'qualification' => 'MD, Pediatrics',
                 'experience_years' => 5,
