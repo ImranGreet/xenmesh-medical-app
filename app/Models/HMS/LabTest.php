@@ -16,4 +16,9 @@ class LabTest extends Model
         'fee',
         'category',
     ];
+
+    public function bills()
+    {
+        return $this->belongsToMany(Bill::class);
+    }
 }

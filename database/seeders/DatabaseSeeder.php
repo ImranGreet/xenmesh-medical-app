@@ -24,5 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AppointmentSeeder::class);
         $this->call(PatientAdmissionSeeder::class);
         $this->call(LabTestSeeder::class);
+        $this->call(BillSeeder::class);
+        $this->call(BillTestSeeder::class);
+        $this->call(PrescribedMedicineSeeder::class);
+        $this->call(BillMedicineSeeder::class);
     }
 }
