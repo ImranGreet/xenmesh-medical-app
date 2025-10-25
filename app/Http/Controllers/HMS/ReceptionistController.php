@@ -32,7 +32,7 @@ class ReceptionistController extends Controller
             'allergies'               => 'nullable|string|max:255',
             'chronic_diseases'        => 'nullable|string|max:255',
             'hospital_id'             => 'required|integer|exists:hospital_infos,id',
-            'added_by'                => 'required|integer|exists:users,id',
+            'added_by_id'                => 'required|integer|exists:users,id',
         ]);
 
         
@@ -50,7 +50,7 @@ class ReceptionistController extends Controller
             'allergies'               => $request->allergies,
             'chronic_diseases'        => $request->chronic_diseases,
             'hospital_id'             => $request->hospital_id,
-            'added_by'                => $request->added_by,
+            'added_by_id'             => $request->added_by_id,
         ]);
 
         // ✅ Step 3: Return response
