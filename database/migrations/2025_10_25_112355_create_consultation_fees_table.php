@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bills', function (Blueprint $table) {
+        Schema::create('consultation_fees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained();
-            $table->decimal('room_charges', 10, 2)->default(0);
-            $table->decimal('total', 10, 2)->default(0);
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->date('effective_date');
+            $table->decimal('fee_amount', 10, 2);
+            $table->date('effective_to')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bills');
+        Schema::dropIfExists('consultation_fees');
     }
 };
