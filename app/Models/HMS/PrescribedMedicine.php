@@ -9,4 +9,9 @@ class PrescribedMedicine extends Model
 {
     /** @use HasFactory<\Database\Factories\HMS\PrescribedMedicineFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'medicine_name',
+        'price',
+    ];
 }

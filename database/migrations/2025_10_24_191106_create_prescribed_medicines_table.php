@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prescribed_medicines', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('medicine_name');
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });

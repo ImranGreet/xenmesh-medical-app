@@ -6,6 +6,7 @@ require __DIR__ . '/auth.php';
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HMS\AppointmentController;
+use App\Http\Controllers\HMS\BillController;
 use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\DoctorController;
 use App\Http\Controllers\HMS\HospitalInfoController;
@@ -83,4 +84,9 @@ Route::controller(PatientController::class)->group(function () {
 
 Route::controller(LabTestController::class)->group(function () {
     Route::get('/lab-tests', 'getLabTests');
+});
+
+
+Route::controller(BillController::class)->group(function () {
+    Route::get('/bills', 'showAllBills');
 });

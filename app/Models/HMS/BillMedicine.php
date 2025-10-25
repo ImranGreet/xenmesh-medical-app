@@ -15,4 +15,13 @@ class BillMedicine extends Model
         'prescribed_medicine_id',
         'quantity',
     ];
+
+    public function prescribedMedicine()
+    {
+        return $this->belongsTo(PrescribedMedicine::class, 'prescribed_medicine_id');
+    }
+    public function bill()
+    {
+        return $this->belongsTo(Bill::class, 'bill_id');
+    }
 }
