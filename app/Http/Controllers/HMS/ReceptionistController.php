@@ -7,17 +7,26 @@ use App\Models\HMS\Appointment;
 use App\Models\HMS\Bill;
 use App\Models\HMS\Doctor;
 use App\Models\HMS\Patient;
+use App\Services\HMS\DoctorService;
 use Illuminate\Http\Request;
+
 
 
 class ReceptionistController extends Controller
 {
+
+    protected $doctorService;
+    public function __construct(DoctorService $doctorService)
+    {
+        $this->doctorService = $doctorService;
+    }
+
     /**
      * Register a new patient
      */
-     public function registerNewPatient(Request $request)
+    public function registerNewPatient(Request $request)
     {
-    
+
         $request->validate([
             'patient_name'            => 'required|string|max:100',
             'age'                     => 'required|integer|min:0|max:120',
@@ -35,7 +44,7 @@ class ReceptionistController extends Controller
             'added_by_id'                => 'required|integer|exists:users,id',
         ]);
 
-        
+
         $patient = Patient::create([
             'patient_name'            => $request->patient_name,
             'age'                     => $request->age,
@@ -177,12 +186,13 @@ class ReceptionistController extends Controller
      * View patient info
      */
 
-    public function viewPatientList(){
+    public function viewPatientList()
+    {
         $patients = Patient::all();
         return response()->json([
-            'success'=> true,
-            'patients'=> $patients,
-            ]);
+            'success' => true,
+            'patients' => $patients,
+        ]);
     }
     public function viewPatientInfo($id)
     {
@@ -196,9 +206,10 @@ class ReceptionistController extends Controller
     /**
      * View all available doctors
      */
+
     public function viewDoctorList()
     {
-        $doctors = Doctor::all();
+        $doctors = $this->doctorService->getAllDoctors();
 
         return response()->json([
             'success' => true,
