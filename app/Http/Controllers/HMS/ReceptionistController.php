@@ -200,6 +200,7 @@ class ReceptionistController extends Controller
     public function viewPatientInfo($id)
     {
         $patient = Patient::with(['appointments', 'bills'])->findOrFail($id);
+        // $patient = $this->patientService->viewPatientInfo($id);
         return response()->json([
             'success' => true,
             'data' => $patient,
@@ -214,6 +215,42 @@ class ReceptionistController extends Controller
     {
         $doctors = $this->doctorService->getAllDoctors();
 
+        if (!$doctors) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No doctors found.',
+                'data' => null,
+            ], 404);
+        }
+
+        if ($doctors->count() == 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No doctors found! Register doctors first.',
+                'data' => null,
+            ], 404);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Doctors retrieved successfully.',
+            'data' => $doctors,
+        ]);
+    }
+
+
+    public function viewPatientAppointments($id)
+    {
+        $appointments = $this->patientService->viewPatientAppointmentsInfo($id);
+        return response()->json([
+            'success' => true,
+            'data' => $appointments,
+        ]);
+    }
+
+    public function viewAppointedDoctors($id)
+    {
+        $doctors = $this->patientService->getPatientAppointedDoctors($id);
         return response()->json([
             'success' => true,
             'data' => $doctors,

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Prescription Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f9fc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 32px;
+    }
+    h2 {
+      margin-top: 0;
+      color: #28527a;
+      border-bottom: 2px solid #e0e4ea;
+      padding-bottom: 8px;
+    }
+    .current-prescription {
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #d2d5dd;
+    }
+    .prescription-details {
+      padding: 18px 0 0 0;
+    }
+    .prescription-details label {
+      font-weight: bold;
+      color: #174b51;
+    }
+    .prescription-details p {
+      margin: 6px 0 12px 0;
+      color: #334e68;
+    }
+    .prescription-list {
+      margin-top: 12px;
+    }
+    .prescriptions-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #fbfcfd;
+    }
+    .prescriptions-table th, .prescriptions-table td {
+      border: 1px solid #e0e4ea;
+      padding: 12px;
+      text-align: left;
+    }
+    .prescriptions-table th {
+      background-color: #e7eff6;
+      color: #28527a;
+    }
+    .prescriptions-table tr:nth-child(even) {
+      background-color: #f6f9fc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Current/Selected Prescription Section -->
+    <section class="current-prescription">
+      <h2>Current Prescription</h2>
+      <div class="prescription-details">
+        <label>Medication:</label>
+        <p>Paracetamol 500mg</p>
+        <label>Dosage:</label>
+        <p>1 tablet twice daily</p>
+        <label>Doctor:</label>
+        <p>Dr. Ayesha Rahman</p>
+        <label>Date Prescribed:</label>
+        <p>October 25, 2025</p>
+        <label>Notes:</label>
+        <p>Take after meals. Drink plenty of water.</p>
+      </div>
+    </section>
+
+    <!-- Prescription List Section -->
+    <section class="prescription-list">
+      <h2>Prescription History</h2>
+      <table class="prescriptions-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Medication</th>
+            <th>Doctor</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>October 25, 2025</td>
+            <td>Paracetamol 500mg</td>
+            <td>Dr. Ayesha Rahman</td>
+            <td>Take after meals</td>
+          </tr>
+          <tr>
+            <td>September 10, 2025</td>
+            <td>Azithromycin 250mg</td>
+            <td>Dr. Kamal Uddin</td>
+            <td>Finish entire course</td>
+          </tr>
+          <tr>
+            <td>August 02, 2025</td>
+            <td>Loratadine 10mg</td>
+            <td>Dr. Sultana Chowdhury</td>
+            <td>Once daily for allergies</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+</body>
+</html>

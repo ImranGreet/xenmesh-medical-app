@@ -14,6 +14,17 @@ class PatientService
 
     public function viewPatientInfo($id)
     {
-        return Patient::find($id);
+        return Patient::findOrFail($id);
+    }
+
+    public function viewPatientAppointmentsInfo($id)
+    {
+        $patient = Patient::with('appointments')->findOrFail($id);
+        return $patient->appointments;
+    }
+
+    public function getPatientAppointedDoctors($id){
+        $patient = Patient::with('doctors')->findOrFail($id);
+        return $patient->doctors;
     }
 }

@@ -36,7 +36,7 @@ class PatientController extends Controller
             ],404);
         }
         return response()->json([
-            "message"=>"Patient prescriptions retrived",
+            "message"=>"Patient prescriptions retrieved",
             "prescriptionsList"=>$patient->prescriptions,
         ]);
     }

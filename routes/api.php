@@ -19,12 +19,14 @@ use App\Http\Controllers\HMS\ReceptionistController;
 
 Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-doctor-list', 'viewDoctorList');
-
+    Route::get('/patient-list', 'viewPatientList');
+    
     Route::post('/register-new-patient', 'registerNewPatient');
     Route::post('/admit-new-patient', 'admitNewPatient');
 
     Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
-    Route::get('/patient-list', 'viewPatientList');
+    Route::get('/view-patient-appointments/{id}', 'viewPatientAppointments')->where('id', '[0-9]+');
+    Route::get('/view-patient-appointed-doctors/{id}', 'viewAppointedDoctors')->where('id', '[0-9]+');
 });
 
 
