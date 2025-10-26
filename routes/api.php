@@ -5,6 +5,7 @@ require __DIR__ . '/auth.php';
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HMS\AdmissionController;
 use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\BillController;
 use App\Http\Controllers\HMS\DepartmentController;
@@ -20,13 +21,18 @@ use App\Http\Controllers\HMS\ReceptionistController;
 Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-doctor-list', 'viewDoctorList');
     Route::get('/patient-list', 'viewPatientList');
-    
-    Route::post('/register-new-patient', 'registerNewPatient');
-    Route::post('/admit-new-patient', 'admitNewPatient');
-
+   
     Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
     Route::get('/view-patient-appointments/{id}', 'viewPatientAppointments')->where('id', '[0-9]+');
     Route::get('/view-patient-appointed-doctors/{id}', 'viewAppointedDoctors')->where('id', '[0-9]+');
+    Route::get('/view-patient-prescriptions/{id}', 'viewPatientPrescriptions')->where('id', '[0-9]+');
+    Route::get('/view-patient-bills/{id}', 'viewPatientBills')->where('id', '[0-9]+');
+});
+
+
+Route::controller(AdmissionController::class)->group(function () {
+     Route::post('/admit-new-patient', 'admitNewPatient');
+      Route::post('/register-new-patient', 'registerNewPatient');
 });
 
 

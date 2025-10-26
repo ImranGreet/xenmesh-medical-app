@@ -27,4 +27,10 @@ class PatientService
         $patient = Patient::with('doctors')->findOrFail($id);
         return $patient->doctors;
     }
+
+    public function viewPatientPrescriptionsInfo($id)
+    {
+        $patient = Patient::with('prescriptions.prescribedMedicines')->findOrFail($id);
+        return $patient->prescriptions;
+    }
 }
