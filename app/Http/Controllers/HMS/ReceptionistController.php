@@ -8,6 +8,7 @@ use App\Models\HMS\Bill;
 use App\Models\HMS\Doctor;
 use App\Models\HMS\Patient;
 use App\Services\HMS\DoctorService;
+use App\Services\HMS\PatientService;
 use Illuminate\Http\Request;
 
 
@@ -16,9 +17,11 @@ class ReceptionistController extends Controller
 {
 
     protected $doctorService;
-    public function __construct(DoctorService $doctorService)
+    protected $patientService;
+    public function __construct(DoctorService $doctorService, PatientService $patientService)
     {
         $this->doctorService = $doctorService;
+        $this->patientService = $patientService;
     }
 
     /**
@@ -188,7 +191,7 @@ class ReceptionistController extends Controller
 
     public function viewPatientList()
     {
-        $patients = Patient::all();
+        $patients = $this->patientService->getAllPatients();
         return response()->json([
             'success' => true,
             'patients' => $patients,

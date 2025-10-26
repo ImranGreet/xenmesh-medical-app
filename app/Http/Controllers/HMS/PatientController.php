@@ -4,15 +4,25 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Patient;
+use App\Services\HMS\PatientService;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    public function getPatientList(){
-        $patients = Patient::all();
+
+    protected $patientService;
+
+    public function __construct(PatientService $patientService)
+    {
+        $this->patientService = $patientService;
+    }
+
+    public function getPatientList()
+    {
+        $patients = $this->patientService->getAllPatients();
         return response()->json([
-            "message"=>"Patient list retrived",
-            "patientsList"=>$patients,
+            "message" => "Patient list retrieved",
+            "patientsList" => $patients,
         ]);
     }
 

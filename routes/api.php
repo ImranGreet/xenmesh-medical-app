@@ -24,7 +24,6 @@ Route::controller(ReceptionistController::class)->group(function () {
     Route::post('/admit-new-patient', 'admitNewPatient');
 
     Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
-    Route::get('/view-doctorlist', 'viewDoctorList');
     Route::get('/patient-list', 'viewPatientList');
 });
 
@@ -78,7 +77,7 @@ Route::controller(DoctorController::class)->group(function () {
 
 
 Route::controller(PatientController::class)->group(function () {
-    Route::get('/patient-list', 'getPatientList');
+    Route::get('/get-patient-list', 'getPatientList');
     // prescription related routes
     Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
 });
