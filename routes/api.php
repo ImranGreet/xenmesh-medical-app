@@ -12,6 +12,7 @@ use App\Http\Controllers\HMS\DoctorController;
 use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\LabTestController;
 use App\Http\Controllers\HMS\PatientController;
+use App\Http\Controllers\HMS\PrescriptionController;
 use App\Http\Controllers\HMS\ReceptionistController;
 
 
@@ -90,4 +91,12 @@ Route::controller(LabTestController::class)->group(function () {
 Route::controller(BillController::class)->group(function () {
     Route::get('/bills', 'showAllBills');
     Route::get('/bills/patient/{patientId}', 'showBillByPatientId')->where('patientId', '[0-9]+');
+});
+
+
+Route::controller(PrescriptionController::class)->group(function () {
+    Route::get('/prescriptions', 'getAllPrescriptions');
+    Route::get('/prescriptions/{id}', 'getPrescriptionById')->where('id', '[0-9]+');
+    Route::get('/prescriptions/patient/{patientId}', 'getPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+    Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
 });
