@@ -79,6 +79,8 @@ Route::controller(DoctorController::class)->group(function () {
 
 Route::controller(PatientController::class)->group(function () {
     Route::get('/patient-list', 'getPatientList');
+    // prescription related routes
+    Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
 });
 
 

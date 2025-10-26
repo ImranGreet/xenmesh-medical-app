@@ -11,7 +11,13 @@ class PrescribedMedicine extends Model
     use HasFactory;
 
     protected $fillable = [
+        'prescription_id',
         'medicine_name',
-        'price',
+        'form',
+        'strength',
+        'dosage',
+        'frequency',
+        'duration',
+        'instructions',
     ];
 }
