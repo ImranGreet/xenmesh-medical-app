@@ -59,6 +59,21 @@ class AppointmentSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'patient_id' => 3,
+                'appointed_doctor_id' => 2,
+                'added_by_id' => 1,
+                'appointment_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
+                'appointment_time' => '14:00:00',
+                'status' => 'Pending',
+                'room_number' => '103',
+                'appointment_fee' => 750.00,
+
+                'reason' => 'Consultation',
+                'notes' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

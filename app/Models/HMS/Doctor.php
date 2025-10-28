@@ -2,6 +2,7 @@
 
 namespace App\Models\HMS;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
@@ -31,4 +32,10 @@ class Doctor extends Model
     {
         return $this->hasMany(Appointment::class, 'appointed_doctor_id');
     }
+
+
+    public function doctorDetails()
+    { 
+        return $this->hasOne(User::class, 'id', 'doctor_id');
+    } 
 }

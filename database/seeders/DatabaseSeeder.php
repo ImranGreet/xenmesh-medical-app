@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BillMedicineSeeder::class);
         $this->call(BillTestSeeder::class);
         $this->call(PrescribedMedicinesSeeder::class);
+        $this->call(RolePermissionSeeder::class);
     }
 }

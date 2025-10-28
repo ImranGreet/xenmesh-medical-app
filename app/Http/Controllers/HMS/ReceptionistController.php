@@ -95,7 +95,7 @@ class ReceptionistController extends Controller
         $patients = $this->patientService->getAllPatients();
         return response()->json([
             'success' => true,
-            'patients' => $patients,
+            'patientsList' => $patients,
         ]);
     }
     public function viewPatientInfo($id)
