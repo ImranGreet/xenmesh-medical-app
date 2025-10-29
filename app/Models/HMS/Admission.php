@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\HMS;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatientAdmission extends Model
+class Admission extends Model
 {
-    /** @use HasFactory<\Database\Factories\PatientAdmissionFactory> */
+    /** @use HasFactory<\Database\Factories\HMS\AdmissionFactory> */
     use HasFactory;
 
-      protected $fillable = [
+    protected $fillable = [
         'patient_id',
         'hospital_id',
         'admitted_by_doctor_id',

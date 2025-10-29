@@ -8,16 +8,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class PatientAdmissionSeeder extends Seeder
+class AdmissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-
-    // ps4-naming conventions are not following
     public function run(): void
     {
-        DB::table('patient_admissions')->insert([
+         DB::table('patient_admissions')->insert([
             [
                 'patient_id' => 1,
                 'hospital_id' => 1,
@@ -75,6 +73,6 @@ class PatientAdmissionSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);
+        ]);  
     }
 }

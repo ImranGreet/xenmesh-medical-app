@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patient_admissions', function (Blueprint $table) {
+        Schema::create('admissions', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
             $table->foreignId('hospital_id')->constrained('hospital_infos')->onDelete('cascade');
             $table->foreignId('admitted_by_doctor_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade'); 
+            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
             $table->foreignId('added_by_id')->constrained('users')->onDelete('cascade');
 
-           
+
             $table->string('admission_id')->unique();
             $table->string('bed_number', 20)->nullable();
             $table->text('symptoms')->nullable();
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patient_admissions');
+        Schema::dropIfExists('admissions');
     }
 };
