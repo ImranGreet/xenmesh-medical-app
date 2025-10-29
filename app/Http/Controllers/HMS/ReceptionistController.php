@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
-use App\Models\HMS\Appointment;
 use App\Models\HMS\Bill;
-use App\Models\HMS\Doctor;
 use App\Models\HMS\Patient;
 use App\Services\HMS\BillService;
 use App\Services\HMS\DoctorService;
@@ -100,7 +98,7 @@ class ReceptionistController extends Controller
     }
     public function viewPatientInfo($id)
     {
-        // $patient = Patient::with(['appointments', 'bills'])->findOrFail($id);
+        
         $patient = $this->patientService->viewPatientInfo($id);
         return response()->json([
             'success' => true,
@@ -158,14 +156,7 @@ class ReceptionistController extends Controller
         ]);
     }
 
-    public function viewPatientBills($id)
-    {
-        $bills = $this->billService->viewPatientBillsDetails($id);
-        return response()->json([
-            'success' => true,
-            'data' => $bills,
-        ]);
-    }
+    
 
     public function viewPatientPrescriptions($id)
     {

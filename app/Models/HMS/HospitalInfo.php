@@ -27,4 +27,6 @@ class HospitalInfo extends Model
         'is_active',
         'added_by_id',
     ];
+
+    
 }

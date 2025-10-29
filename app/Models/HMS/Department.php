@@ -11,9 +11,14 @@ class Department extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'department_name',
         'description',
-        'hospital_id',
+        'added_by_id',
         'is_active',
     ];
+
+    public function hospital()
+    {
+        return $this->belongsTo(HospitalInfo::class, 'hospital_id');
+    }
 }

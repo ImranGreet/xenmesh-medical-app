@@ -13,7 +13,7 @@ class DepartmentController extends Controller
      */
     public function retrieveDepartments()
     {
-        $departments = Department::with('hospital')->get();
+        $departments = Department::all();
 
         return response()->json([
             'status' => true,

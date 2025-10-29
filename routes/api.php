@@ -2,9 +2,9 @@
 
 require __DIR__ . '/auth.php';
 
-
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HMS\AccountantController;
 use App\Http\Controllers\HMS\AdmissionController;
 use App\Http\Controllers\HMS\AppointmentController;
 use App\Http\Controllers\HMS\BillController;
@@ -26,9 +26,12 @@ Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-patient-appointments/{id}', 'viewPatientAppointments')->where('id', '[0-9]+');
     Route::get('/view-patient-appointed-doctors/{id}', 'viewAppointedDoctors')->where('id', '[0-9]+');
     Route::get('/view-patient-prescriptions/{id}', 'viewPatientPrescriptions')->where('id', '[0-9]+');
-    Route::get('/view-patient-bills/{id}', 'viewPatientBills')->where('id', '[0-9]+');
 });
 
+Route::controller(AccountantController::class)->group(function () {
+    Route::get('/view-patient-bills/{id}', 'viewPatientBills')->where('id', '[0-9]+');
+
+});
 
 Route::controller(AdmissionController::class)->group(function () {
      Route::post('/admit-new-patient', 'admitNewPatient');
