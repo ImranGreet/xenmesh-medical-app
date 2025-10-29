@@ -21,7 +21,7 @@ class AppointmentSeeder extends Seeder
                 'added_by_id' => 3,
                 'appointment_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'appointment_time' => '09:00:00',
-                'status' => 'Scheduled',
+                'status' => 'scheduled',
                 'room_number' => '101',
                 'appointment_fee' => 150.00,
                 'reason' => 'Regular Checkup',
@@ -35,7 +35,7 @@ class AppointmentSeeder extends Seeder
                 'added_by_id' => 3,
                 'appointment_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
                 'appointment_time' => '10:30:00',
-                'status' => 'Scheduled',
+                'status' => 'scheduled',
                 'room_number' => '102',
                 'appointment_fee' => 450.00,
 
@@ -50,7 +50,7 @@ class AppointmentSeeder extends Seeder
                 'added_by_id' => 1,
                 'appointment_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
                 'appointment_time' => '14:00:00',
-                'status' => 'Pending',
+                'status' => 'pending',
                 'room_number' => '103',
                 'appointment_fee' => 750.00,
 
@@ -65,7 +65,7 @@ class AppointmentSeeder extends Seeder
                 'added_by_id' => 1,
                 'appointment_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
                 'appointment_time' => '14:00:00',
-                'status' => 'Pending',
+                'status' => 'pending',
                 'room_number' => '103',
                 'appointment_fee' => 750.00,
 

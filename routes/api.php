@@ -38,17 +38,32 @@ Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-patient-prescriptions/{id}', 'viewPatientPrescriptions')->where('id', '[0-9]+');
 });
 
+
+
+Route::controller(AppointmentController::class)->group(function () {
+
+    Route::post('/create-appointment', 'createPatientAppointment');
+    Route::get('/retrieve-appointments', 'getAllAppointments');
+    Route::get('retrieve-appointments/status/{status}', 'getAllAppointmentsByStatus')->where('status', '[A-Za-z]+');
+    Route::get('retrieve-appointments/doctor/{doctorId}', 'getAllAppointmentsByDoctorId')->where('doctorId', '[0-9]+');
+
+    Route::get('/get-appointment-id/{id}', 'getAppointmentById')->where('id', '[0-9]+');
+
+    Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
+    Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
+    Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
+    Route::get('/appointment-created-by/{creatorId}', 'getAppointmentByCreator')->where('creatorId', '[0-9]+');
+});
+
+
 Route::controller(AccountantController::class)->group(function () {
     Route::get('/view-patient-bills/{id}', 'viewPatientBills')->where('id', '[0-9]+');
 });
 
 
-
-
 Route::controller(HospitalInfoController::class)->group(function () {
     Route::get('/get-hospital-info', 'getHospitalInfo');
     Route::post('/insert-hospital-info', 'insertHospitalInfo');
-
     Route::put('/edit-hospital-info/{id}', 'editHospitalInfo')->where('id', '[0-9]+');
     Route::put('/update-hospital-info', 'updateHospitalInfo')->where('id', '[0-9]+');
 });
@@ -64,18 +79,6 @@ Route::controller(DepartmentController::class)->group(function () {
 });
 
 
-Route::controller(AppointmentController::class)->group(function () {
-
-    Route::post('/create-appointment', 'createPatientAppointment');
-    Route::get('/retrieve-appointments', 'getAllAppointments');
-    Route::get('/get-appointment-id/{id}', 'getAppointmentById')->where('id', '[0-9]+');
-
-    Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
-    Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
-    Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
-    Route::get('/appointment-created-by/{creatorId}', 'getAppointmentByCreator')->where('creatorId', '[0-9]+');
-});
-
 
 
 
@@ -87,10 +90,6 @@ Route::controller(DoctorController::class)->group(function () {
     Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
     Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
 });
-
-
-
-
 
 
 Route::controller(LabTestController::class)->group(function () {

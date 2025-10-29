@@ -7,6 +7,7 @@ use App\Models\HMS\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AppointmentController extends Controller
 {
@@ -23,10 +24,10 @@ class AppointmentController extends Controller
             'notes' => 'nullable|string',
             'added_by' => 'nullable|exists:users,id'
         ]);
-
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
 
         $appointment = Appointment::create($validator->validated());
 
@@ -45,6 +46,36 @@ class AppointmentController extends Controller
 
         return response()->json($appointments);
     }
+
+
+    public function getAllAppointmentsByStatus($status)
+    {
+        $appointments = Appointment::with(['patient', 'doctor', 'addedBy'])
+            ->where('status', $status)
+            ->get();
+
+        if ($appointments->isEmpty()) {
+            return response()->json(['message' => 'No appointments found with the specified status'], 404);
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'status' => $status,
+            'message' => 'Appoinment By Status is retrieved',
+            'appointments' => $appointments
+        ]);
+    }
+
+
+    public function getAllAppointmentsByDoctorId($doctorId)
+    {
+        $appointments = Appointment::with('doctor')->where('appointed_doctor_id', $doctorId)->get();
+
+        return response()->json($appointments);
+    }
+
+    
 
     /**
      * Get a single appointment by ID
