@@ -144,6 +144,31 @@ class AppointmentController extends Controller
         return response()->json($appointments);
     }
 
+
+    public function getAppointmentsByDate($date)
+    {
+        $appointments = Appointment::where('appointment_date', $date)
+                                   ->with(['doctor', 'patient', 'addedBy'])
+                                   ->get();
+
+        return response()->json($appointments);
+    }
+
+
+    public function getAppointmentsByDateRange(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date'   => 'required|date|after_or_equal:start_date'
+        ]);
+
+        $appointments = Appointment::whereBetween('appointment_date', [$request->start_date, $request->end_date])
+                                   ->with(['doctor', 'patient', 'addedBy'])
+                                   ->get();
+
+        return response()->json($appointments);
+    }
+
     public function getAppointmentByCreator($creatorId)
     {
         $appointments = DB::table('appointments')
@@ -172,4 +197,45 @@ class AppointmentController extends Controller
 
         return response()->json($appointments);
     }
+
+
+    // filter multiple criteria
+    public function filterAppointments(Request $request)
+{
+    // Start query
+    $query = Appointment::query()->with(['patient', 'doctor', 'addedBy']);
+
+    // Apply filters only if they exist in query params
+    if ($request->has('doctor_id')) {
+        $query->where('appointed_doctor_id', $request->doctor_id);
+    }
+
+    if ($request->has('status')) {
+        // Allow multiple statuses as comma-separated: ?status=Pending,Confirmed
+        $statuses = explode(',', $request->status);
+        $query->whereIn('status', $statuses);
+    }
+
+    if ($request->has('patient_id')) {
+        $query->where('patient_id', $request->patient_id);
+    }
+
+    if ($request->has('room_number')) {
+        $query->where('room_number', $request->room_number);
+    }
+
+    if ($request->has('start_date') && $request->has('end_date')) {
+        $query->whereBetween('appointment_date', [$request->start_date, $request->end_date]);
+    } elseif ($request->has('date')) {
+        $query->where('appointment_date', $request->date);
+    }
+
+    // Optional: order by date/time
+    $appointments = $query->orderBy('appointment_date', 'asc')
+                          ->orderBy('appointment_time', 'asc')
+                          ->get();
+
+    return response()->json($appointments);
+}
+
 }

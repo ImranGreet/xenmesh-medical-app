@@ -53,7 +53,63 @@ Route::controller(AppointmentController::class)->group(function () {
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
     Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
     Route::get('/appointment-created-by/{creatorId}', 'getAppointmentByCreator')->where('creatorId', '[0-9]+');
+
+    Route::get('/appointments/date/{date}', [AppointmentController::class, 'getAppointmentsByDate'])
+        ->where('date', '\d{4}-\d{2}-\d{2}');
+
+    Route::get('/appointments/date-range', [AppointmentController::class, 'getAppointmentsByDateRange']);
+    // filter criteria
+    Route::get('/appointments/filter', [AppointmentController::class, 'filterAppointments']);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Route::controller(AccountantController::class)->group(function () {
