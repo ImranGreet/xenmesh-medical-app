@@ -13,6 +13,8 @@ class PatientAdmissionSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+
+    // ps4-naming conventions are not following
     public function run(): void
     {
         DB::table('patient_admissions')->insert([
