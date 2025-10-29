@@ -15,7 +15,7 @@ class AdmissionSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('patient_admissions')->insert([
+         DB::table('admissions')->insert([
             [
                 'patient_id' => 1,
                 'hospital_id' => 1,

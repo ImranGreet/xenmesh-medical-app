@@ -21,13 +21,17 @@ use App\Http\Controllers\HMS\ReceptionistController;
 Route::controller(PatientController::class)->group(function () {
     Route::get('/get-patient-list', 'getPatientList');
     Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
-    
+});
+
+
+Route::controller(AdmissionController::class)->group(function () {
+    Route::post('/admit-new-patient', 'admitNewPatient');
+    Route::post('/register-new-patient', 'registerNewPatient');
 });
 
 Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-doctor-list', 'viewDoctorList');
     Route::get('/patient-list', 'viewPatientList');
-   
     Route::get('/view-patient-info/{id}', 'viewPatientInfo')->where('id', '[0-9]+');
     Route::get('/view-patient-appointments/{id}', 'viewPatientAppointments')->where('id', '[0-9]+');
     Route::get('/view-patient-appointed-doctors/{id}', 'viewAppointedDoctors')->where('id', '[0-9]+');
@@ -36,13 +40,9 @@ Route::controller(ReceptionistController::class)->group(function () {
 
 Route::controller(AccountantController::class)->group(function () {
     Route::get('/view-patient-bills/{id}', 'viewPatientBills')->where('id', '[0-9]+');
-
 });
 
-Route::controller(AdmissionController::class)->group(function () {
-     Route::post('/admit-new-patient', 'admitNewPatient');
-     Route::post('/register-new-patient', 'registerNewPatient');
-});
+
 
 
 Route::controller(HospitalInfoController::class)->group(function () {
@@ -54,9 +54,6 @@ Route::controller(HospitalInfoController::class)->group(function () {
 });
 
 
-
-
-
 Route::controller(DepartmentController::class)->group(function () {
 
     Route::get('/retrieve-departments', 'retrieveDepartments');
@@ -65,7 +62,6 @@ Route::controller(DepartmentController::class)->group(function () {
     Route::put('/update-department/{id}', 'updateDepartment')->where('id', '[0-9]+');
     Route::delete('/delete-department/{id}', 'deleteDepartment')->where('id', '[0-9]+');
 });
-
 
 
 Route::controller(AppointmentController::class)->group(function () {
