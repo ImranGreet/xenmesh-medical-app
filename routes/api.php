@@ -18,6 +18,12 @@ use App\Http\Controllers\HMS\ReceptionistController;
 
 
 
+Route::controller(PatientController::class)->group(function () {
+    Route::get('/get-patient-list', 'getPatientList');
+    Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+    
+});
+
 Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-doctor-list', 'viewDoctorList');
     Route::get('/patient-list', 'viewPatientList');
@@ -87,11 +93,7 @@ Route::controller(DoctorController::class)->group(function () {
 });
 
 
-Route::controller(PatientController::class)->group(function () {
-    Route::get('/get-patient-list', 'getPatientList');
-    // prescription related routes
-    Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
-});
+
 
 
 
