@@ -102,7 +102,7 @@ class ReceptionistController extends Controller
         $patient = $this->patientService->viewPatientInfo($id);
         return response()->json([
             'success' => true,
-            'data' => $patient,
+            'patientInfo' => $patient,
         ]);
     }
 
@@ -143,7 +143,7 @@ class ReceptionistController extends Controller
         $appointments = $this->patientService->viewPatientAppointmentsInfo($id);
         return response()->json([
             'success' => true,
-            'data' => $appointments,
+            'appointmentsWithDoctors' => $appointments,
         ]);
     }
 

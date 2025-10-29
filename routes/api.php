@@ -35,7 +35,7 @@ Route::controller(AccountantController::class)->group(function () {
 
 Route::controller(AdmissionController::class)->group(function () {
      Route::post('/admit-new-patient', 'admitNewPatient');
-      Route::post('/register-new-patient', 'registerNewPatient');
+     Route::post('/register-new-patient', 'registerNewPatient');
 });
 
 
