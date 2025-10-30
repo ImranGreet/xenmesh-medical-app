@@ -15,7 +15,7 @@ class PrescribedMedicinesSeeder extends Seeder
     public function run(): void
     {
         // Ensure prescriptions exist before seeding prescribed medicines
-        $prescriptions = Prescription::all(); 
+        $prescriptions = Prescription::all();
 
         if ($prescriptions->isEmpty()) {
             $this->command->warn('No prescriptions found. Seed prescriptions first.');

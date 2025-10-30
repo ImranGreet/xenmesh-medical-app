@@ -18,8 +18,7 @@ class DoctorSeeder extends Seeder
          DB::table('doctors')->insert([
             [
                 'doctor_id' => 1, 
-                'department' => 'Cardiology',
-                'department_name' => 'Cardiology',
+                'department_id' => 1,
                 'description' => 'Heart specialist focusing on surgery',
                 'specialization' => 'Heart Surgery',
                 'qualification' => 'MD, Cardiology',
@@ -34,8 +33,7 @@ class DoctorSeeder extends Seeder
             ],
             [
                 'doctor_id' => 2, 
-                'department' => 'Neurology',
-                'department_name' => 'Neurology',
+                'department_id' => 1,
                 'description' => 'Brain specialist',
                 'specialization' => 'Brain Surgery',
                 'qualification' => 'MD, Neurology',
@@ -50,8 +48,7 @@ class DoctorSeeder extends Seeder
             ],
             [
                 'doctor_id' => 3, 
-                'department' => 'Pediatrics',
-                'department_name' => 'Pediatrics',
+                'department_id' => 2,
                 'description' => 'Child care specialist',
                 'specialization' => 'Child Care',
                 'qualification' => 'MD, Pediatrics',

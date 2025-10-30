@@ -4,33 +4,60 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Doctor;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DoctorController extends Controller
 {
     public function getDoctorList(Request $request)
     {
-        $doctorlist = Doctor::all();
+        try {
+            $doctorlist = User::with('doctorProfile')->where('role','doctor')->paginate(20);
 
-        return response()->json([
-            "meesage" => "Success",
-            "doctorlist" => $doctorlist,
-        ]);
+            if ($doctorlist->total() === 0) {
+
+                return response()->json(
+                    [
+                        "succes" => false,
+                        "message" => "No Doctor Found!",
+                        "doctorList" => $doctorlist,
+                    ]
+                );
+            }
+
+            return response()->json([
+                "success" => true,
+                "meesage" => "Success",
+                "doctorlist" => $doctorlist,
+            ]);
+        } catch (Exception $e) {
+
+            Log::error('Error fetching doctor list: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while retrieving the doctor list.',
+                'error' => app()->environment('local') ? $e->getMessage() : null, 
+            ], 500);
+        }
     }
 
-    public function retriveDoctorListByDepartment(Request $request, $department_id)
-    {
-        $doctorlist = Doctor::with('department')
-            ->where('department_id', $department_id)
-            ->get();
 
-            if ($doctorlist->isEmpty()) {
-                return response()->json([
-                    "success" => false,
-                    "message" => "No doctors found in the specified department",
-                ], 404);
-            }
-            
+    public function retriveDoctorListByDepartment($department_id)
+    {
+        $doctorlist = Doctor::with('department','doctorDetails')
+            ->where('department_id', $department_id)
+            ->paginate(20);
+
+        if ($doctorlist->total() === 0) {
+            return response()->json([
+                "success" => false,
+                "message" => "No doctors found in the specified department",
+            ], 404);
+        }
+
         return response()->json([
             "success" => true,
             "message" => "Retrieve Doctor List By Department Success",
@@ -157,6 +184,4 @@ class DoctorController extends Controller
             ], 500);
         }
     }
-
-
 }

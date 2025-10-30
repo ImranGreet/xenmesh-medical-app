@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prescribed_medicines', function (Blueprint $table) {
-            $table->id();
+             $table->id();
             $table->foreignId('prescription_id')->constrained()->onDelete('cascade');
             $table->string('medicine_name');
             $table->string('form')->nullable(); 

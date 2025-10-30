@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
-            $table->string('department')->nullable(); 
+            $table->foreignId('department_id')->constrained('departments');
             $table->enum('gender', ['Male', 'Female', 'Other']);
             $table->string('address')->nullable();
-
-             $table->string('department_name');
             $table->string('description')->nullable();
             $table->string('specialization')->nullable();
             $table->string('qualification')->nullable();
@@ -45,3 +43,5 @@ return new class extends Migration
         Schema::dropIfExists('doctors');
     }
 };
+
+

@@ -85,6 +85,15 @@ Route::controller(AppointmentController::class)->group(function () {
 
 
 
+Route::controller(DoctorController::class)->group(function () {
+
+    Route::get('/retrieve-doctors', 'getDoctorList');
+    Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
+    Route::post('/add-new-doctor', 'addNewDoctor');
+
+    Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
+    Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
+});
 
 
 
@@ -93,8 +102,8 @@ Route::controller(AppointmentController::class)->group(function () {
 
 
 
-Route::controller(PharmacistController::class)->group(function(){
-    Route::get('','');
+Route::controller(PharmacistController::class)->group(function () {
+    Route::get('', '');
 });
 
 
@@ -135,15 +144,7 @@ Route::controller(DepartmentController::class)->group(function () {
 
 
 
-Route::controller(DoctorController::class)->group(function () {
 
-    Route::get('/retrieve-doctors', 'getDoctorList');
-    Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
-    Route::post('/add-new-doctor', 'addNewDoctor');
-
-    Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
-    Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
-});
 
 
 Route::controller(LabTestController::class)->group(function () {
@@ -165,22 +166,16 @@ Route::controller(PrescriptionController::class)->group(function () {
 });
 
 /*this route is defined only logic on controller nor defined*/
-Route::controller(DischargeSummaryController::class)->group(function (){
+Route::controller(DischargeSummaryController::class)->group(function () {});
 
-}); 
-
-Route::controller(DoctorScheduleController::class)->group(function(){
-
-});
+Route::controller(DoctorScheduleController::class)->group(function () {});
 
 /*
 1.routes are defined only in routes file not in controller for which routes are need to complete to luanch this services.
 2. May need more focus to complete this services or controller
-*/ 
+*/
 
-Route::controller(AttendanceController::class)->group(function(){
-
-});
+Route::controller(AttendanceController::class)->group(function () {});
 
 Route::controller(ShiftController::class)->group(function () {
     Route::get('/shifts', 'getAllShifts');
@@ -196,8 +191,6 @@ Route::controller(FloorController::class)->group(function () {
     Route::put('/floors/{id}', 'updateFloor')->where('id', '[0-9]+');
     Route::delete('/floors/{id}', 'deleteFloor')->where('id', '[0-9]+');
 });
-
-
 
 
 
