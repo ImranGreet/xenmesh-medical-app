@@ -2,20 +2,34 @@
 
 require __DIR__ . '/auth.php';
 
-use Illuminate\Support\Facades\Route;
 
+
+use App\Http\Controllers\HMS\DischargeSummaryController;
+use App\Http\Controllers\HMS\FloorController;
+use App\Http\Controllers\HMS\PaymentController;
+use App\Http\Controllers\HMS\PharmacistController;
+use App\Http\Controllers\HMS\SalaryController;
+use App\Http\Controllers\HMS\ShiftController;
 use App\Http\Controllers\HMS\AccountantController;
 use App\Http\Controllers\HMS\AdmissionController;
 use App\Http\Controllers\HMS\AppointmentController;
+use App\Http\Controllers\HMS\AttendanceController;
 use App\Http\Controllers\HMS\BillController;
 use App\Http\Controllers\HMS\DepartmentController;
 use App\Http\Controllers\HMS\DoctorController;
+use App\Http\Controllers\HMS\DoctorScheduleController;
+use App\Http\Controllers\HMS\EquipmentController;
+use App\Http\Controllers\HMS\ExpenseController;
 use App\Http\Controllers\HMS\HospitalInfoController;
 use App\Http\Controllers\HMS\LabTestController;
+use App\Http\Controllers\HMS\LeaveRequestController;
 use App\Http\Controllers\HMS\PatientController;
 use App\Http\Controllers\HMS\PrescriptionController;
 use App\Http\Controllers\HMS\ReceptionistController;
 
+
+
+use Illuminate\Support\Facades\Route;
 
 
 Route::controller(PatientController::class)->group(function () {
@@ -37,6 +51,10 @@ Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-patient-appointed-doctors/{id}', 'viewAppointedDoctors')->where('id', '[0-9]+');
     Route::get('/view-patient-prescriptions/{id}', 'viewPatientPrescriptions')->where('id', '[0-9]+');
 });
+
+
+
+
 
 
 
@@ -75,30 +93,9 @@ Route::controller(AppointmentController::class)->group(function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::controller(PharmacistController::class)->group(function(){
+    Route::get('','');
+});
 
 
 
@@ -165,4 +162,78 @@ Route::controller(PrescriptionController::class)->group(function () {
     Route::get('/prescriptions/{id}', 'getPrescriptionById')->where('id', '[0-9]+');
     Route::get('/prescriptions/patient/{patientId}', 'getPrescriptionsByPatientId')->where('patientId', '[0-9]+');
     Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
+});
+
+/*this route is defined only logic on controller nor defined*/
+Route::controller(DischargeSummaryController::class)->group(function (){
+
+}); 
+
+Route::controller(DoctorScheduleController::class)->group(function(){
+
+});
+
+/*
+1.routes are defined only in routes file not in controller for which routes are need to complete to luanch this services.
+2. May need more focus to complete this services or controller
+*/ 
+
+Route::controller(AttendanceController::class)->group(function(){
+
+});
+
+Route::controller(ShiftController::class)->group(function () {
+    Route::get('/shifts', 'getAllShifts');
+    Route::post('/shifts', 'createShift');
+    Route::put('/shifts/{id}', 'updateShift')->where('id', '[0-9]+');
+    Route::delete('/shifts/{id}', 'deleteShift')->where('id', '[0-9]+');
+});
+
+
+Route::controller(FloorController::class)->group(function () {
+    Route::get('/floors', 'getAllFloors');
+    Route::post('/floors', 'createFloor');
+    Route::put('/floors/{id}', 'updateFloor')->where('id', '[0-9]+');
+    Route::delete('/floors/{id}', 'deleteFloor')->where('id', '[0-9]+');
+});
+
+
+
+
+
+Route::controller(LeaveRequestController::class)->group(function () {
+    Route::get('/leave-requests', 'getAllLeaveRequests');
+    Route::post('/leave-requests', 'createLeaveRequest');
+    Route::put('/leave-requests/{id}', 'updateLeaveRequest')->where('id', '[0-9]+');
+    Route::delete('/leave-requests/{id}', 'deleteLeaveRequest')->where('id', '[0-9]+');
+});
+
+Route::controller(ExpenseController::class)->group(function () {
+    Route::get('/expenses', 'getAllExpenses');
+    Route::post('/expenses', 'createExpense');
+    Route::put('/expenses/{id}', 'updateExpense')->where('id', '[0-9]+');
+    Route::delete('/expenses/{id}', 'deleteExpense')->where('id', '[0-9]+');
+});
+
+
+Route::controller(EquipmentController::class)->group(function () {
+    Route::get('/equipments', 'getAllEquipments');
+    Route::post('/equipments', 'createEquipment');
+    Route::put('/equipments/{id}', 'updateEquipment')->where('id', '[0-9]+');
+    Route::delete('/equipments/{id}', 'deleteEquipment')->where('id', '[0-9]+');
+});
+
+Route::controller(PaymentController::class)->group(function () {
+    Route::get('/payments', 'getAllPayments');
+    Route::post('/payments', 'createPayment');
+    Route::put('/payments/{id}', 'updatePayment')->where('id', '[0-9]+');
+    Route::delete('/payments/{id}', 'deletePayment')->where('id', '[0-9]+');
+});
+
+
+Route::controller(SalaryController::class)->group(function () {
+    Route::get('/salaries', 'getAllSalaries');
+    Route::post('/salaries', 'createSalary');
+    Route::put('/salaries/{id}', 'updateSalary')->where('id', '[0-9]+');
+    Route::delete('/salaries/{id}', 'deleteSalary')->where('id', '[0-9]+');
 });
