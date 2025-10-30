@@ -47,8 +47,11 @@ class DoctorController extends Controller
 
     public function retriveDoctorListByDepartment($department_id)
     {
-        $doctorlist = Doctor::with('department','doctorDetails')
-            ->where('department_id', $department_id)
+        try{
+            $doctorlist = Doctor::with('department','doctorDetails')
+            ->where('department_id', $department_id)->whereHas('doctorDetails',function($query){
+                $query->where('role', 'doctor');
+            })
             ->paginate(20);
 
         if ($doctorlist->total() === 0) {
@@ -63,7 +66,15 @@ class DoctorController extends Controller
             "message" => "Retrieve Doctor List By Department Success",
             "doctorlist" => $doctorlist,
         ]);
+        }catch (Exception $e) {
+            Log::error("". $e->getMessage());
+            return response()->json([
+                "success"=> false,
+                "message"=> "Something went wrong while retrieving the doctor list",
+                ],500);
     }
+
+}
 
     public function addNewDoctor(Request $request)
     {

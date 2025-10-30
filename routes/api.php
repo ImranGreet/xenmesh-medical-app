@@ -85,15 +85,6 @@ Route::controller(AppointmentController::class)->group(function () {
 
 
 
-Route::controller(DoctorController::class)->group(function () {
-
-    Route::get('/retrieve-doctors', 'getDoctorList');
-    Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
-    Route::post('/add-new-doctor', 'addNewDoctor');
-
-    Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
-    Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
-});
 
 
 
@@ -230,3 +221,20 @@ Route::controller(SalaryController::class)->group(function () {
     Route::put('/salaries/{id}', 'updateSalary')->where('id', '[0-9]+');
     Route::delete('/salaries/{id}', 'deleteSalary')->where('id', '[0-9]+');
 });
+
+
+
+Route::prefix('doctor')->group(function () {
+
+    Route::controller(DoctorController::class)->group(function () {
+        Route::get('/retrieve-doctors', 'getDoctorList');
+        Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
+        Route::post('/add-new-doctor', 'addNewDoctor');
+        Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
+        Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
+    });
+
+    
+});
+
+
