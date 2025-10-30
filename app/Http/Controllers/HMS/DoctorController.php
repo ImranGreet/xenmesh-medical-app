@@ -18,6 +18,26 @@ class DoctorController extends Controller
         ]);
     }
 
+    public function retriveDoctorListByDepartment(Request $request, $department_id)
+    {
+        $doctorlist = Doctor::with('department')
+            ->where('department_id', $department_id)
+            ->get();
+
+            if ($doctorlist->isEmpty()) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "No doctors found in the specified department",
+                ], 404);
+            }
+            
+        return response()->json([
+            "success" => true,
+            "message" => "Retrieve Doctor List By Department Success",
+            "doctorlist" => $doctorlist,
+        ]);
+    }
+
     public function addNewDoctor(Request $request)
     {
         $validated = $request->validate([
@@ -137,4 +157,6 @@ class DoctorController extends Controller
             ], 500);
         }
     }
+
+
 }

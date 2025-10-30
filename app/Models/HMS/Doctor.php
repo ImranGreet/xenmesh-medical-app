@@ -35,7 +35,12 @@ class Doctor extends Model
 
 
     public function doctorDetails()
-    { 
+    {
         return $this->hasOne(User::class, 'id', 'doctor_id');
-    } 
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
 }

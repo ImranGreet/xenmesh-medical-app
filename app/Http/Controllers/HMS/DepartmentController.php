@@ -22,6 +22,25 @@ class DepartmentController extends Controller
         ], 200);
     }
 
+    public function retrieveDoctorListByDepartment($department_id)
+    {
+        $doctors = Department::with('doctors')->where('id', $department_id)->first()->doctors;
+
+        if ($doctors->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No doctors found for the specified department.',
+                'doctors' => [],
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Doctors retrieved successfully.',
+            'doctors' => $doctors,
+        ], 200);
+    }
+
     /**
      * Add a new department.
      */

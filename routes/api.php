@@ -40,6 +40,7 @@ Route::controller(ReceptionistController::class)->group(function () {
 
 
 
+
 Route::controller(AppointmentController::class)->group(function () {
 
     Route::post('/create-appointment', 'createPatientAppointment');
@@ -51,15 +52,15 @@ Route::controller(AppointmentController::class)->group(function () {
 
     Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
+
     Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
     Route::get('/appointment-created-by/{creatorId}', 'getAppointmentByCreator')->where('creatorId', '[0-9]+');
 
-    Route::get('/appointments/date/{date}', [AppointmentController::class, 'getAppointmentsByDate'])
-        ->where('date', '\d{4}-\d{2}-\d{2}');
+    Route::get('/appointments/date/{date}', 'getAppointmentsByDate')->where('date', '\d{4}-\d{2}-\d{2}');
 
-    Route::get('/appointments/date-range', [AppointmentController::class, 'getAppointmentsByDateRange']);
+    Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
     // filter criteria
-    Route::get('/appointments/filter', [AppointmentController::class, 'filterAppointments']);
+    Route::get('/appointments/filter', 'filterAppointments');
 });
 
 
@@ -129,7 +130,6 @@ Route::controller(DepartmentController::class)->group(function () {
 
     Route::get('/retrieve-departments', 'retrieveDepartments');
     Route::post('/add-new-department', 'addNewDepartment');
-
     Route::put('/update-department/{id}', 'updateDepartment')->where('id', '[0-9]+');
     Route::delete('/delete-department/{id}', 'deleteDepartment')->where('id', '[0-9]+');
 });
@@ -141,6 +141,7 @@ Route::controller(DepartmentController::class)->group(function () {
 Route::controller(DoctorController::class)->group(function () {
 
     Route::get('/retrieve-doctors', 'getDoctorList');
+    Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
     Route::post('/add-new-doctor', 'addNewDoctor');
 
     Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');

@@ -2,6 +2,7 @@
 
 namespace App\Models\HMS;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,4 +22,14 @@ class Department extends Model
     {
         return $this->belongsTo(HospitalInfo::class, 'hospital_id');
     }
-}
+
+    public function addedBy()
+    {
+        return $this->belongsTo(User::class, 'added_by_id');
+    }
+
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class, 'department_id');
+    }
+} 

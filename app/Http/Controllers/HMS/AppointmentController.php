@@ -203,7 +203,7 @@ class AppointmentController extends Controller
     public function filterAppointments(Request $request)
 {
     // Start query
-    $query = Appointment::query()->with(['patient', 'doctor', 'addedBy']);
+    $query = Appointment::query()->with(['patient', 'doctor.doctorDetails', 'addedBy']);
 
     // Apply filters only if they exist in query params
     if ($request->has('doctor_id')) {
