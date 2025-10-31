@@ -207,6 +207,7 @@ Route::prefix('doctors')->group(function () {
         Route::post('/add-new-doctor', 'addNewDoctor');
         Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
         Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
+
     });
 
     Route::controller(AppointmentController::class)->group(function () {
@@ -222,6 +223,7 @@ Route::prefix('doctors')->group(function () {
         Route::get('/prescriptions/{id}', 'getPrescriptionById')->where('id', '[0-9]+');
         Route::get('/prescriptions/patient/{patientId}', 'getPrescriptionsByPatientId')->where('patientId', '[0-9]+');
         Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
+
     });
 
     Route::controller(PatientController::class)->group(function () {
@@ -231,4 +233,7 @@ Route::prefix('doctors')->group(function () {
     Route::controller(DepartmentController::class)->group(function () {
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
     });
+
 });
+
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
+use App\Models\HMS\Department;
 use App\Models\HMS\Doctor;
 use App\Models\User;
 use Exception;
@@ -14,7 +15,7 @@ class DoctorController extends Controller
     public function getDoctorList(Request $request)
     {
         try {
-            $doctorlist = User::with('doctorProfile')->where('role','doctor')->paginate(20);
+            $doctorlist = User::with('doctorProfile')->where('role', 'doctor')->paginate(20);
 
             if ($doctorlist->total() === 0) {
 
@@ -39,7 +40,7 @@ class DoctorController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Something went wrong while retrieving the doctor list.',
-                'error' => app()->environment('local') ? $e->getMessage() : null, 
+                'error' => app()->environment('local') ? $e->getMessage() : null,
             ], 500);
         }
     }
@@ -47,34 +48,34 @@ class DoctorController extends Controller
 
     public function retriveDoctorListByDepartment($department_id)
     {
-        try{
-            $doctorlist = Doctor::with('department','doctorDetails')
-            ->where('department_id', $department_id)->whereHas('doctorDetails',function($query){
-                $query->where('role', 'doctor');
-            })
-            ->paginate(20);
+        
+        try {
+            $doctorlist = Doctor::with(['department', 'doctorDetails'])
+                ->where('department_id', $department_id)->whereHas('doctorDetails', function ($query) {
+                    $query->where('role', 'doctor');
+                })
+                ->paginate(20);
 
-        if ($doctorlist->total() === 0) {
+            if ($doctorlist->total() === 0) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "No doctors found in the specified department",
+                ], 404);
+            }
+
+            return response()->json([
+                "success" => true,
+                "message" => "Retrieve Doctor List By Department Success",
+                "doctorlist" => $doctorlist,
+            ]);
+        } catch (Exception $e) {
+            Log::error("" . $e->getMessage());
             return response()->json([
                 "success" => false,
-                "message" => "No doctors found in the specified department",
-            ], 404);
+                "message" => "Something went wrong while retrieving the doctor list",
+            ], 500);
         }
-
-        return response()->json([
-            "success" => true,
-            "message" => "Retrieve Doctor List By Department Success",
-            "doctorlist" => $doctorlist,
-        ]);
-        }catch (Exception $e) {
-            Log::error("". $e->getMessage());
-            return response()->json([
-                "success"=> false,
-                "message"=> "Something went wrong while retrieving the doctor list",
-                ],500);
     }
-
-}
 
     public function addNewDoctor(Request $request)
     {
@@ -113,7 +114,7 @@ class DoctorController extends Controller
                 'message' => 'Doctor added successfully.',
                 'data' => $doctor
             ], 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             return response()->json([
                 'status' => false,
@@ -130,6 +131,7 @@ class DoctorController extends Controller
     public function updateDoctor(Request $request, $id)
     {
         $doctor = Doctor::find($id);
+
         if (!$doctor) {
             return response()->json([
                 'status' => false,
@@ -158,7 +160,7 @@ class DoctorController extends Controller
                 'message' => 'Doctor updated successfully.',
                 'data' => $doctor
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to update doctor.',
@@ -174,6 +176,7 @@ class DoctorController extends Controller
     public function deleteDoctor($id)
     {
         $doctor = Doctor::find($id);
+
         if (!$doctor) {
             return response()->json([
                 'status' => false,
@@ -187,7 +190,7 @@ class DoctorController extends Controller
                 'status' => true,
                 'message' => 'Doctor deleted successfully.'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to delete doctor.',

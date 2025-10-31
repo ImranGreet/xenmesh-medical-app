@@ -24,7 +24,7 @@ class DepartmentController extends Controller
 
     public function retrieveDoctorListByDepartment($department_id)
     {
-        $doctors = Department::with('doctors')->where('id', $department_id)->first()->doctors;
+        $doctors = Department::with(['doctors.doctorDetails'])->where('id', $department_id)->get();
 
         if ($doctors->isEmpty()) {
             return response()->json([
