@@ -55,10 +55,6 @@ Route::controller(ReceptionistController::class)->group(function () {
 
 
 
-
-
-
-
 Route::controller(AppointmentController::class)->group(function () {
 
     Route::post('/create-appointment', 'createPatientAppointment');
@@ -85,27 +81,9 @@ Route::controller(AppointmentController::class)->group(function () {
 
 
 
-
-
-
-
-
-
-
-
 Route::controller(PharmacistController::class)->group(function () {
     Route::get('', '');
 });
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -126,15 +104,11 @@ Route::controller(HospitalInfoController::class)->group(function () {
 Route::controller(DepartmentController::class)->group(function () {
 
     Route::get('/retrieve-departments', 'retrieveDepartments');
+    Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
     Route::post('/add-new-department', 'addNewDepartment');
     Route::put('/update-department/{id}', 'updateDepartment')->where('id', '[0-9]+');
     Route::delete('/delete-department/{id}', 'deleteDepartment')->where('id', '[0-9]+');
 });
-
-
-
-
-
 
 
 
@@ -224,9 +198,10 @@ Route::controller(SalaryController::class)->group(function () {
 
 
 
-Route::prefix('doctor')->group(function () {
+Route::prefix('doctors')->group(function () {
 
     Route::controller(DoctorController::class)->group(function () {
+
         Route::get('/retrieve-doctors', 'getDoctorList');
         Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
         Route::post('/add-new-doctor', 'addNewDoctor');
@@ -234,7 +209,26 @@ Route::prefix('doctor')->group(function () {
         Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
     });
 
-    
+    Route::controller(AppointmentController::class)->group(function () {
+
+        Route::get('retrieve-appointments/doctor/{doctorId}', 'getAllAppointmentsByDoctorId')->where('doctorId', '[0-9]+');
+        Route::get('/appointments/date/{date}', 'getAppointmentsByDate')->where('date', '\d{4}-\d{2}-\d{2}');
+        Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
+        Route::get('/appointments/filter', 'filterAppointments');
+    });
+
+    Route::controller(PrescriptionController::class)->group(function () {
+
+        Route::get('/prescriptions/{id}', 'getPrescriptionById')->where('id', '[0-9]+');
+        Route::get('/prescriptions/patient/{patientId}', 'getPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+        Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
+    });
+
+    Route::controller(PatientController::class)->group(function () {
+        Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+    });
+
+    Route::controller(DepartmentController::class)->group(function () {
+        Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
+    });
 });
-
-
