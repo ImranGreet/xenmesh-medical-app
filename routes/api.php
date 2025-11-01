@@ -205,6 +205,7 @@ Route::prefix('doctors')->group(function () {
         Route::get('/retrieve-doctors', 'getDoctorList');
         Route::get('/retrieve-doctors/department/{department_id}', 'retriveDoctorListByDepartment')->where('department_id', '[0-9]+');
         Route::post('/add-new-doctor', 'addNewDoctor');
+
         Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
         Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
 
@@ -214,26 +215,36 @@ Route::prefix('doctors')->group(function () {
 
         Route::get('retrieve-appointments/doctor/{doctorId}', 'getAllAppointmentsByDoctorId')->where('doctorId', '[0-9]+');
         Route::get('/appointments/date/{date}', 'getAppointmentsByDate')->where('date', '\d{4}-\d{2}-\d{2}');
+
         Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
         Route::get('/appointments/filter', 'filterAppointments');
+
     });
 
     Route::controller(PrescriptionController::class)->group(function () {
 
         Route::get('/prescriptions/{id}', 'getPrescriptionById')->where('id', '[0-9]+');
         Route::get('/prescriptions/patient/{patientId}', 'getPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+        
         Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
+        Route::get('/prescriptions/filter','filterPrescriptions');
 
     });
 
     Route::controller(PatientController::class)->group(function () {
+
         Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+
     });
 
     Route::controller(DepartmentController::class)->group(function () {
+
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
+
     });
 
 });
+
+
 
 

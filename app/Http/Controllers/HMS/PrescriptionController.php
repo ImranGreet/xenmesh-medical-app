@@ -40,4 +40,74 @@ class PrescriptionController extends Controller
 
         return response()->json($prescriptions);
     }
+
+
+     public function filterPrescriptions(Request $request)
+    {
+        $query = Prescription::with(['patient', 'doctor', 'prescribedMedicines']);
+
+        
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        }
+
+        
+        if ($request->filled('doctor_id')) {
+            $query->where('doctor_id', $request->doctor_id);
+        }
+
+        
+        if ($request->filled('patient_id')) {
+            $query->where('patient_id', $request->patient_id);
+        }
+
+        
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+    
+        if ($request->filled('urgency')) {
+            $query->where('urgency', $request->urgency);
+        }
+
+        
+        $prescriptions = $query->orderBy('created_at', 'desc')->get();
+
+        if($prescriptions->isEmpty()){
+            return response()->json([
+                "succes"=>false,
+                "message"=>"No prescription is found !",
+                "prescriptions"=>null
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'count' => $prescriptions->count(),
+            'prescriptions' => $prescriptions,
+        ]);
+    }
+
+
+    public function generatePrescription(Request $request)
+    {
+
+       $validated = $request->validate([
+        'patient_id' => 'required|exists:patients,id',
+        'doctor_id' => 'required|exists:doctors,id',
+        'diagnosis' => 'nullable|string',
+        'notes' => 'nullable|string',
+        'prescription_date' => 'nullable|date',
+       ]);
+       
+
+    }
+
+
 }
