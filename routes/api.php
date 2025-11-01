@@ -32,10 +32,24 @@ use App\Http\Controllers\HMS\ReceptionistController;
 use Illuminate\Support\Facades\Route;
 
 
+
+
+ Route::controller(DoctorController::class)->group(function () {
+
+        Route::get('/retrieve-doctors', 'getDoctorList');
+
+    });
+
+
+
+
+
 Route::controller(PatientController::class)->group(function () {
     Route::get('/get-patient-list', 'getPatientList');
     Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
 });
+
+
 
 
 Route::controller(AdmissionController::class)->group(function () {
@@ -73,6 +87,8 @@ Route::controller(AppointmentController::class)->group(function () {
     Route::get('/appointments/date/{date}', 'getAppointmentsByDate')->where('date', '\d{4}-\d{2}-\d{2}');
 
     Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
+
+    Route::get('/retrieve-statuses','retreiveAppointmentStatus');
     // filter criteria
     Route::get('/appointments/filter', 'filterAppointments');
 });

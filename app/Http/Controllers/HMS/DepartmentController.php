@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Department;
+use Exception;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -58,6 +59,7 @@ class DepartmentController extends Controller
 
         try {
             // ✅ Step 2: Create a new department
+            
             $department = Department::create([
                 'department' => $validated['department'],
                 'description' => $validated['description'] ?? null,
@@ -66,12 +68,13 @@ class DepartmentController extends Controller
             ]);
 
             // ✅ Step 3: Return success response
+
             return response()->json([
                 'status' => true,
                 'message' => 'Department added successfully.',
                 'department' => $department,
             ], 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // ✅ Step 4: Handle unexpected errors
             return response()->json([
                 'status' => false,
@@ -101,7 +104,7 @@ class DepartmentController extends Controller
                 'message' => 'Department updated successfully.',
                 'department' => $department,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to update department.',
@@ -123,7 +126,7 @@ class DepartmentController extends Controller
                 'status' => true,
                 'message' => 'Department deleted successfully.',
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to delete department.',
