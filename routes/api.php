@@ -70,7 +70,7 @@ Route::controller(ReceptionistController::class)->group(function () {
 
 
 
-Route::controller(AppointmentController::class)->group(function () {
+Route::controller(AppointmentController::class)->group(function (): void {
 
     Route::post('/create-appointment', 'createPatientAppointment');
     Route::get('/retrieve-appointments', 'getAllAppointments');

@@ -33,4 +33,5 @@ class PatientService
         $patient = Patient::with('prescriptions.prescribedMedicines')->findOrFail($id);
         return $patient->prescriptions;
     }
+    
 }

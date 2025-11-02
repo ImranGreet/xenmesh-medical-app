@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('department_id')->constrained('departments');
-            $table->enum('gender', ['Male', 'Female', 'Other']);
+            $table->enum('gender', ['male', 'female']);
             $table->string('address')->nullable();
             $table->string('description')->nullable();
             $table->string('specialization')->nullable();

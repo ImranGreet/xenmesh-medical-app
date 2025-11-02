@@ -17,9 +17,10 @@ class Doctor extends Model
         'gender',
         'address',
         'hospital_id',
-        'added_by',
+        'added_by_id',
         'is_active',
         'department_id',
+        'doctor_id'
     ];
 
 

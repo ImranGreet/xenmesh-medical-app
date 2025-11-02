@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\HMS\HospitalInfo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -74,7 +75,7 @@ class HospitalInfoController extends Controller
                 'data' => $hospital
             ], 201); // 201 Created
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) { 
             // 4. Error API Response
             return response()->json([
                 'success' => false,

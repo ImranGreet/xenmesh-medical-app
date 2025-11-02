@@ -13,60 +13,115 @@ use Illuminate\Support\Facades\Log;
 class DoctorController extends Controller
 {
     public function getDoctorList(Request $request)
-    {
-        try {
-            $doctorlist = User::with('doctorProfile')->where('role', 'doctor')->paginate(20);
+{
+    try {
+        $query = User::with(['doctorProfile' => function ($q) {
+            $q->select(
+                'id',
+                'doctor_id',
+                'department_id',
+                'gender',
+                'address',
+                'description',
+                'specialization',
+                'qualification',
+                'experience_years',
+                'hospital_id',
+                'is_active'
+            );
+        }])->where('role', 'doctor')->select('id', 'name', 'email', 'username');
 
-            if ($doctorlist->total() === 0) {
 
-                return response()->json(
-                    [
-                        "succes" => false,
-                        "message" => "No Doctor Found!",
-                        "doctorList" => $doctorlist,
-                    ]
-                );
-            }
+        $doctorList = $query->paginate($request->get('per_page', 10));
+        
+        
+        $data = $doctorList->getCollection()->map(function ($doctor) {
 
-            return response()->json([
-                "success" => true,
-                "meesage" => "Success",
-                "doctorlist" => $doctorlist,
-            ]);
-        } catch (Exception $e) {
+            return [
+                'id' => $doctor->id,
+                'name' => $doctor->name,
+                'email' => $doctor->email,
+                'username' => $doctor->username,
+                'profile' => $doctor->doctorProfile ? [
+                    'gender' => $doctor->doctorProfile->gender,
+                    'address' => $doctor->doctorProfile->address,
+                    'description' => $doctor->doctorProfile->description,
+                    'specialization' => $doctor->doctorProfile->specialization,
+                    'qualification' => $doctor->doctorProfile->qualification,
+                    'experience_years' => $doctor->doctorProfile->experience_years,
+                    'hospital_id' => $doctor->doctorProfile->hospital_id,
+                    'is_active' => $doctor->doctorProfile->is_active,
+                    'department' => $doctor->doctorProfile->department?$doctor->doctorProfile->department->department_name:null,
+                ] : null,
+            ];
 
-            Log::error('Error fetching doctor list: ' . $e->getMessage());
+        });
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Something went wrong while retrieving the doctor list.',
-                'error' => app()->environment('local') ? $e->getMessage() : null,
-            ], 500);
-        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Doctors retrieved successfully.',
+            'doctorList' => [
+                'current_page' => $doctorList->currentPage(),
+                'per_page' => $doctorList->perPage(),
+                'total' => $doctorList->total(),
+                'last_page' => $doctorList->lastPage(),
+                'data' => $data,
+            ],
+        ]);
+    } catch (Exception $e) {
+        Log::error('Error fetching doctor list: ' . $e->getMessage());
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong while retrieving the doctor list.',
+            'error' => app()->environment('local') ? $e->getMessage() : null,
+        ], 500);
     }
+}
 
 
-    public function retriveDoctorListByDepartment($department_id)
+
+    public function retriveDoctorListByDepartment( Request $request, $department_id)
     {
         
         try {
-            $doctorlist = Doctor::with(['department', 'doctorDetails'])
+            $query = Doctor::with(['department', 'doctorDetails'])
                 ->where('department_id', $department_id)->whereHas('doctorDetails', function ($query) {
                     $query->where('role', 'doctor');
-                })
-                ->paginate(20);
+                });
 
-            if ($doctorlist->total() === 0) {
+                
+
+              $doctorlist  = $query->paginate($request->get('per_page', 10));
+
+              if ($doctorlist->total() === 0) {
                 return response()->json([
                     "success" => false,
                     "message" => "No doctors found in the specified department",
                 ], 404);
             }
 
+
+              $data = $doctorlist->getCollection()->map(function ($doctor){
+                  return [
+                    "id"=> $doctor->id,
+                    "name"=> $doctor->doctorDetails?$doctor->doctorDetails->name:null,
+                    "email" => $doctor->doctorDetails?$doctor->doctorDetails->email:null,
+                    "department"=> $doctor->department?$doctor->department->department_name:null,
+                  ];
+              });
+
+            
+
             return response()->json([
                 "success" => true,
                 "message" => "Retrieve Doctor List By Department Success",
-                "doctorlist" => $doctorlist,
+                "current_page"=>$doctorlist->currentPage(),
+                'per_page' => $doctorlist->perPage(),
+                "total"=> $doctorlist->total(),
+                "last_page"=>$doctorlist->lastPage(),
+                "doctorlist" => $data,
+
             ]);
         } catch (Exception $e) {
             Log::error("" . $e->getMessage());
@@ -79,33 +134,35 @@ class DoctorController extends Controller
 
     public function addNewDoctor(Request $request)
     {
-        $validated = $request->validate([
-            'doctor_name' => 'required|string|max:100',
-            'email' => 'required|email|unique:doctors,email',
-            'phone_number' => 'required|string|max:15|unique:doctors,phone_number',
-            'specialization' => 'required|string|max:100',
+        
+        try {
+
+            $validated = $request->validate([
+            'doctor_id' =>'required|exists:users,id',
+            'department_id' =>'required|exists:departments,id',
+            'specialization' => 'nullable|string|max:100',
             'qualification' => 'nullable|string|max:255',
             'experience_years' => 'nullable|integer|min:0|max:50',
-            'gender' => 'required|in:Male,Female,Other',
+            'gender' => 'required|string',
             'address' => 'nullable|string|max:255',
+
             'hospital_id' => 'required|exists:hospital_infos,id',
-            'added_by' => 'required|exists:users,id',
+            'added_by_id' => 'required|exists:users,id',
             'is_active' => 'nullable|boolean',
         ]);
 
-        try {
 
             $doctor = Doctor::create([
-                'doctor_name' => $validated['doctor_name'],
-                'email' => $validated['email'],
-                'phone_number' => $validated['phone_number'],
-                'specialization' => $validated['specialization'],
+                'doctor_id' =>(int) $validated['doctor_id'],
+                'department_id' =>(int) $validated['department_id'],
+                'specialization' => $validated['specialization'] ?? null,
                 'qualification' => $validated['qualification'] ?? null,
                 'experience_years' => $validated['experience_years'] ?? null,
                 'gender' => $validated['gender'],
                 'address' => $validated['address'] ?? null,
-                'hospital_id' => $validated['hospital_id'],
-                'added_by' => $validated['added_by'],
+
+                'hospital_id' => (int) $validated['hospital_id'],
+                'added_by_id' => (int) $validated['added_by_id'],
                 'is_active' => $validated['is_active'] ?? true,
             ]);
 
