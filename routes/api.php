@@ -34,19 +34,20 @@ use Illuminate\Support\Facades\Route;
 
 
 
- Route::controller(DoctorController::class)->group(function () {
+Route::controller(DoctorController::class)->group(function () {
 
-        Route::get('/retrieve-doctors', 'getDoctorList');
-
-    });
+    Route::get('/retrieve-doctors', 'getDoctorList');
+});
 
 
 
 
 
 Route::controller(PatientController::class)->group(function () {
+
     Route::get('/get-patient-list', 'getPatientList');
     Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
+
 });
 
 
@@ -73,6 +74,7 @@ Route::controller(AppointmentController::class)->group(function () {
 
     Route::post('/create-appointment', 'createPatientAppointment');
     Route::get('/retrieve-appointments', 'getAllAppointments');
+
     Route::get('retrieve-appointments/status/{status}', 'getAllAppointmentsByStatus')->where('status', '[A-Za-z]+');
     Route::get('retrieve-appointments/doctor/{doctorId}', 'getAllAppointmentsByDoctorId')->where('doctorId', '[0-9]+');
 
@@ -88,16 +90,19 @@ Route::controller(AppointmentController::class)->group(function () {
 
     Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
 
-    Route::get('/retrieve-statuses','retreiveAppointmentStatus');
+    Route::get('/retrieve-statuses', 'retreiveAppointmentStatus');
     // filter criteria
     Route::get('/appointments/filter', 'filterAppointments');
+    // today
+    Route::get('/appointments/today', 'getAllAppointmentsInToday');
+    Route::get('/appointments/month','getAllAppointmentsInMonth');
 });
 
 
 
 
 
-Route::controller(PharmacistController::class)->group(function () {
+Route::controller(PharmacistController::class)->group(function (): void {
     Route::get('', '');
 });
 
@@ -224,7 +229,6 @@ Route::prefix('doctors')->group(function () {
 
         Route::put('/update-doctor/{id}', 'updateDoctor')->where('id', '[0-9]+');
         Route::delete('/delete-doctor/{id}', 'deleteDoctor')->where('id', '[0-9]+');
-
     });
 
     Route::controller(AppointmentController::class)->group(function () {
@@ -234,33 +238,24 @@ Route::prefix('doctors')->group(function () {
 
         Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
         Route::get('/appointments/filter', 'filterAppointments');
-
     });
 
     Route::controller(PrescriptionController::class)->group(function () {
 
         Route::get('/prescriptions/{id}', 'getPrescriptionById')->where('id', '[0-9]+');
         Route::get('/prescriptions/patient/{patientId}', 'getPrescriptionsByPatientId')->where('patientId', '[0-9]+');
-        
-        Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
-        Route::get('/prescriptions/filter','filterPrescriptions');
 
+        Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
+        Route::get('/prescriptions/filter', 'filterPrescriptions');
     });
 
     Route::controller(PatientController::class)->group(function () {
 
         Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
-
     });
 
     Route::controller(DepartmentController::class)->group(function () {
 
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
-
     });
-
 });
-
-
-
-

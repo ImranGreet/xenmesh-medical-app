@@ -4,6 +4,8 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Appointment;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -24,6 +26,7 @@ class AppointmentController extends Controller
             'notes' => 'nullable|string',
             'added_by' => 'nullable|exists:users,id'
         ]);
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
@@ -47,11 +50,56 @@ class AppointmentController extends Controller
         return response()->json($appointments);
     }
 
+    public  function getAllAppointmentsInToday()
+    {
+        try {
+            $today = Carbon::today()->toDateString();
+
+            $appointments = Appointment::with(['patient', 'doctor', 'addedBy'])->whereDate('appointment_date', $today)->get();
+
+            return response()->json([
+                "success" => true,
+                "todayPatientCount" => $appointments->count(),
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function getAllAppointmentsInMonth()
+    {
+        try {
+            $startDate = Carbon::now()->startOfMonth()->toDateString();
+            $endDate = Carbon::now()->endOfMonth()->toDateString();
+
+            $appointments = Appointment::with(['patient', 'doctor', 'addedBy'])->whereBetween('appointment_date', [$startDate, $endDate])->get();
+            return response()->json([
+                'success'=> true,
+                'patientCount'=> $appointments->count(),
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 500);
+        }
+    }
 
     public function retreiveAppointmentStatus()
     {
-        $statuses = Appointment::select('status')->distinct()->pluck('status');
-        return response()->json($statuses);
+        try {
+            $statuses = Appointment::select('status')->distinct()->pluck('status')->map(fn($status): string => ucfirst(string: $status));
+
+            return response()->json([
+                "success" => true,
+                "message" => "Status retrieved successfully!",
+                "statuses" => $statuses
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage()
+            ], 500);
+        }
     }
 
 
@@ -92,7 +140,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::with(['patient', 'doctor', 'addedBy'])->find($id);
 
         if (!$appointment) {
-            return response()->json(['message' => 'Appointment not found'], 404);
+            return response()->json(['message' => 'Appointment not found !'], 404);
         }
 
         return response()->json($appointment);
@@ -103,77 +151,98 @@ class AppointmentController extends Controller
      */
     public function updateAppointment(Request $request, $id)
     {
-        $appointment = Appointment::find($id);
-        if (!$appointment) {
-            return response()->json(['message' => 'Appointment not found'], 404);
+        try {
+            $appointment = Appointment::find($id);
+
+            if (!$appointment) {
+                return response()->json(['message' => 'Appointment not found'], 404);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'appointment_date' => 'nullable|date',
+                'appointment_time' => 'nullable',
+                'status' => 'nullable|string',
+                'room_number' => 'nullable|string',
+                'reason' => 'nullable|string',
+                'notes' => 'nullable|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $appointment->update($validator->validated());
+
+            return response()->json([
+                'message' => 'Appointment updated successfully',
+                'appointment' => $appointment
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-
-        $validator = Validator::make($request->all(), [
-            'appointment_date' => 'nullable|date',
-            'appointment_time' => 'nullable',
-            'status' => 'nullable|string',
-            'room_number' => 'nullable|string',
-            'reason' => 'nullable|string',
-            'notes' => 'nullable|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $appointment->update($validator->validated());
-
-        return response()->json([
-            'message' => 'Appointment updated successfully',
-            'appointment' => $appointment
-        ]);
     }
 
 
     public function deleteAppointment($id)
     {
-        $appointment = Appointment::find($id);
-        if (!$appointment) {
-            return response()->json(['message' => 'Appointment not found'], 404);
+        try {
+            $appointment = Appointment::find($id);
+            if (!$appointment) {
+                return response()->json(['message' => 'Appointment not found'], 404);
+            }
+
+            $appointment->delete();
+
+            return response()->json(['message' => 'Appointment deleted successfully']);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-
-        $appointment->delete();
-
-        return response()->json(['message' => 'Appointment deleted successfully']);
     }
 
     public function getDoctorAppointments($doctorId)
     {
-        $appointments = Appointment::with(['doctor', 'patient', 'addedBy'])
-            ->where('appointed_doctor_id', $doctorId)
-            ->get();
+        try {
+            $appointments = Appointment::with(['doctor', 'patient', 'addedBy'])
+                ->where('appointed_doctor_id', $doctorId)
+                ->get();
 
-        return response()->json($appointments);
+            return response()->json($appointments);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
 
     public function getAppointmentsByDate($date)
     {
-        $appointments = Appointment::where('appointment_date', $date)
-            ->with(['doctor', 'patient', 'addedBy'])
-            ->get();
+        try {
+            $appointments = Appointment::where('appointment_date', $date)
+                ->with(['doctor', 'patient', 'addedBy'])
+                ->get();
 
-        return response()->json($appointments);
+            return response()->json($appointments);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
 
     public function getAppointmentsByDateRange(Request $request)
     {
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date'   => 'required|date|after_or_equal:start_date'
-        ]);
+        try {
+            $request->validate([
+                'start_date' => 'required|date',
+                'end_date'   => 'required|date|after_or_equal:start_date'
+            ]);
 
-        $appointments = Appointment::whereBetween('appointment_date', [$request->start_date, $request->end_date])
-            ->with(['doctor', 'patient', 'addedBy'])
-            ->get();
+            $appointments = Appointment::whereBetween('appointment_date', [$request->start_date, $request->end_date])
+                ->with(['doctor', 'patient', 'addedBy'])
+                ->get();
 
-        return response()->json($appointments);
+            return response()->json($appointments);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     public function getAppointmentByCreator($creatorId)
@@ -209,39 +278,42 @@ class AppointmentController extends Controller
     // filter multiple criteria
     public function filterAppointments(Request $request)
     {
-        // Start query
-        $query = Appointment::query()->with(['patient', 'doctor.doctorDetails', 'addedBy']);
+        try {
 
-        // Apply filters only if they exist in query params
-        if ($request->has('doctor_id')) {
-            $query->where('appointed_doctor_id', $request->doctor_id);
+            $query = Appointment::query()->with(['patient', 'doctor.doctorDetails', 'addedBy']);
+
+
+            if ($request->has('doctor_id')) {
+                $query->where('appointed_doctor_id', $request->doctor_id);
+            }
+
+            if ($request->has('status')) {
+                $statuses = explode(',', $request->status);
+                $query->whereIn('status', $statuses);
+            }
+
+            if ($request->has('patient_id')) {
+                $query->where('patient_id', $request->patient_id);
+            }
+
+            if ($request->has('room_number')) {
+                $query->where('room_number', $request->room_number);
+            }
+
+            if ($request->has('start_date') && $request->has('end_date')) {
+                $query->whereBetween('appointment_date', [$request->start_date, $request->end_date]);
+            } elseif ($request->has('date')) {
+                $query->where('appointment_date', $request->date);
+            }
+
+            // Optional: order by date/time
+            $appointments = $query->orderBy('appointment_date', 'asc')
+                ->orderBy('appointment_time', 'asc')
+                ->get();
+
+            return response()->json($appointments);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-
-        if ($request->has('status')) {
-            // Allow multiple statuses as comma-separated: ?status=Pending,Confirmed
-            $statuses = explode(',', $request->status);
-            $query->whereIn('status', $statuses);
-        }
-
-        if ($request->has('patient_id')) {
-            $query->where('patient_id', $request->patient_id);
-        }
-
-        if ($request->has('room_number')) {
-            $query->where('room_number', $request->room_number);
-        }
-
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $query->whereBetween('appointment_date', [$request->start_date, $request->end_date]);
-        } elseif ($request->has('date')) {
-            $query->where('appointment_date', $request->date);
-        }
-
-        // Optional: order by date/time
-        $appointments = $query->orderBy('appointment_date', 'asc')
-            ->orderBy('appointment_time', 'asc')
-            ->get();
-
-        return response()->json($appointments);
     }
 }
