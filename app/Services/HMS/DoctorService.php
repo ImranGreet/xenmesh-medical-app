@@ -3,12 +3,77 @@
 namespace App\Services\HMS;
 
 use App\Models\HMS\Doctor;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DoctorService
 {
-    public function getAllDoctors()
+    public function getAllDoctors(Request $request)
     {
-        return Doctor::all();
+        
+        try {
+            $query = User::with(['doctorProfile' => function ($q) {
+                $q->select(
+                    'id',
+                    'doctor_id',
+                    'department_id',
+                    'gender',
+                    'address',
+                    'description',
+                    'specialization',
+                    'qualification',
+                    'experience_years',
+                    'hospital_id',
+                    'is_active'
+                );
+            }])->where('role', 'doctor')->select('id', 'name', 'email', 'username');
+
+
+            $doctorList = $query->paginate($request->get('per_page', 10));
+
+            $data = $doctorList->getCollection()->map(function ($doctor) {
+
+                return [
+                    'id' => $doctor->id,
+                    'name' => $doctor->name,
+                    'email' => $doctor->email,
+                    'username' => $doctor->username,
+                    'profile' => $doctor->doctorProfile ? [
+                        'gender' => $doctor->doctorProfile->gender,
+                        'address' => $doctor->doctorProfile->address,
+                        'description' => $doctor->doctorProfile->description,
+                        'specialization' => $doctor->doctorProfile->specialization,
+                        'qualification' => $doctor->doctorProfile->qualification,
+                        'experience_years' => $doctor->doctorProfile->experience_years,
+                        'hospital_id' => $doctor->doctorProfile->hospital_id,
+                        'is_active' => $doctor->doctorProfile->is_active,
+                        'department' => $doctor->doctorProfile->department ? $doctor->doctorProfile->department->department_name : null,
+                    ] : null,
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Doctors retrieved successfully.',
+                'doctorList' => [
+                    'current_page' => $doctorList->currentPage(),
+                    'per_page' => $doctorList->perPage(),
+                    'total' => $doctorList->total(),
+                    'last_page' => $doctorList->lastPage(),
+                    'data' => $data,
+                ],
+            ]);
+        } catch (Exception $e) { 
+            Log::error('Error fetching doctor list: ' . $e->getMessage()); 
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while retrieving the doctor list.',
+                'error' => app()->environment('local') ? $e->getMessage() : null,
+            ], 500);
+        }
     }
 
     public function viewDoctorInfo($id)

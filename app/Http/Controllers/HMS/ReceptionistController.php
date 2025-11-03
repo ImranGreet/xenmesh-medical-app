@@ -11,7 +11,6 @@ use App\Services\HMS\PatientService;
 use Illuminate\Http\Request;
 
 
-
 class ReceptionistController extends Controller
 {
 
@@ -110,9 +109,9 @@ class ReceptionistController extends Controller
      * View all available doctors
      */
 
-    public function viewDoctorList()
+    public function viewDoctorList(Request $request)
     {
-        $doctors = $this->doctorService->getAllDoctors();
+        $doctors = $this->doctorService->getAllDoctors($request);
 
         if (!$doctors) {
             return response()->json([
