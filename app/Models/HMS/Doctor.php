@@ -12,6 +12,7 @@ class Doctor extends Model
         'email',
         'phone_number',
         'specialization',
+        'description',
         'qualification',
         'experience_years',
         'gender',
