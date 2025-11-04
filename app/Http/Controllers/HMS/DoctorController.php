@@ -20,60 +20,16 @@ class DoctorController extends Controller
     }
     public function getDoctorList(Request $request)
     {
-        return $this->doctorService->getAllDoctors($request);
+        $result = $this->doctorService->getAllDoctors($request);
+        return response()->json($result);
     }
 
 
 
     public function retriveDoctorListByDepartment(Request $request, $department_id)
     {
-
-        try {
-            $query = Doctor::with(['department', 'doctorDetails'])
-                ->where('department_id', $department_id)->whereHas('doctorDetails', function ($query) {
-                    $query->where('role', 'doctor');
-                });
-
-
-
-            $doctorlist  = $query->paginate($request->get('per_page', 10));
-
-            if ($doctorlist->total() === 0) {
-                return response()->json([
-                    "success" => false,
-                    "message" => "No doctors found in the specified department",
-                ], 404);
-            }
-
-
-            $data = $doctorlist->getCollection()->map(function ($doctor) {
-                return [
-                    "id" => $doctor->id,
-                    "name" => $doctor->doctorDetails ? $doctor->doctorDetails->name : null,
-                    "email" => $doctor->doctorDetails ? $doctor->doctorDetails->email : null,
-                    "department" => $doctor->department ? $doctor->department->department_name : null,
-                ];
-            });
-
-
-
-            return response()->json([
-                "success" => true,
-                "message" => "Retrieve Doctor List By Department Success",
-                "current_page" => $doctorlist->currentPage(),
-                'per_page' => $doctorlist->perPage(),
-                "total" => $doctorlist->total(),
-                "last_page" => $doctorlist->lastPage(),
-                "doctorlist" => $data,
-
-            ]);
-        } catch (Exception $e) {
-            Log::error("" . $e->getMessage());
-            return response()->json([
-                "success" => false,
-                "message" => "Something went wrong while retrieving the doctor list",
-            ], 500);
-        }
+        $result = $this->doctorService->retrieveDoctorListByDepartment($request, $department_id);
+        return response()->json($result);
     }
 
     public function addNewDoctor(StoreDoctorInfo $request)
@@ -107,25 +63,25 @@ class DoctorController extends Controller
     public function updateDoctor(Request $request, $id)
     {
         $doctor = Doctor::find($id);
-
         if (!$doctor) {
             return response()->json([
                 'status' => false,
-                'message' => 'Doctor not found.'
+                'message' => 'Doctor not found !'
             ], 404);
         }
 
         $validated = $request->validate([
-            'doctor_name' => 'nullable|string|max:100',
-            'email' => "nullable|email|unique:doctors,email,$id",
-            'phone_number' => "nullable|string|max:15|unique:doctors,phone_number,$id",
             'specialization' => 'nullable|string|max:100',
+            'description'    => 'nullable|string|max:250',
             'qualification' => 'nullable|string|max:255',
             'experience_years' => 'nullable|integer|min:0|max:50',
-            'gender' => 'nullable|in:Male,Female,Other',
+            'gender' => 'nullable|in:male,female',
             'address' => 'nullable|string|max:255',
             'hospital_id' => 'nullable|exists:hospital_infos,id',
-            'is_active' => 'nullable|boolean',
+            'is_active' => 'nullable|integer',
+            'department_id' => 'required|integer',
+            'doctor_id' => 'required|integer',
+            'added_by_id' => 'required|integer',
         ]);
 
         try {
@@ -134,7 +90,7 @@ class DoctorController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Doctor updated successfully.',
-                'data' => $doctor
+                'data' => $doctor->fresh(),
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -156,7 +112,7 @@ class DoctorController extends Controller
         if (!$doctor) {
             return response()->json([
                 'status' => false,
-                'message' => 'Doctor not found.'
+                'message' => 'Doctor not found !'
             ], 404);
         }
 

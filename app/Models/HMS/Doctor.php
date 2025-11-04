@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-        'doctor_name',
-        'email',
-        'phone_number',
         'specialization',
         'description',
         'qualification',
@@ -23,9 +20,6 @@ class Doctor extends Model
         'department_id',
         'doctor_id'
     ];
-
-
-
 
     public function patients()
     {

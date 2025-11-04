@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Models\HMS\Doctor;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DoctorRepository
 {
@@ -37,8 +39,7 @@ class DoctorRepository
                 ] : null,
             ];
         });
-
-        // 🔹 Return both pagination and mapped data
+        
         return [
             'pagination' => [
                 'current_page' => $doctorList->currentPage(),
@@ -50,8 +51,58 @@ class DoctorRepository
         ];
     }
 
+    public function retrieveDoctorById(Request $request, $department_id)
+    {
+        try {
+            $query = Doctor::with(['department', 'doctorDetails'])
+                ->where('department_id', $department_id)
+                ->whereHas('doctorDetails', function ($query) {
+                    $query->where('role', 'doctor');
+                });
 
-    public function createDoctor($data){ 
+
+
+            $doctorlist  = $query->paginate($request->get('per_page', 10));
+
+            if ($doctorlist->total() === 0) {
+                return [
+                    "success" => false,
+                    "message" => "No doctors found in the specified department",
+                ];
+            }
+
+
+            $data = $doctorlist->getCollection()->map(function ($doctor) {
+                return [
+                    "id" => $doctor->id,
+                    "name" => $doctor->doctorDetails ? $doctor->doctorDetails->name : null,
+                    "email" => $doctor->doctorDetails ? $doctor->doctorDetails->email : null,
+                    "department" => $doctor->department ? $doctor->department->department_name : null,
+                ];
+            });
+
+            return [
+                "success" => true,
+                "message" => "Retrieve Doctor List By Department !",
+                "current_page" => $doctorlist->currentPage(),
+                'per_page' => $doctorlist->perPage(),
+                "total" => $doctorlist->total(),
+                "last_page" => $doctorlist->lastPage(),
+                "doctorlist" => $data,
+
+            ];
+        } catch (Exception $e) {
+            Log::error("" . $e->getMessage());
+            return response()->json([
+                "success" => false,
+                "message" => "Something went wrong while retrieving the doctor list",
+            ], 500);
+        }
+    }
+
+
+    public function createDoctor($data)
+    {
         return Doctor::create([
 
             'doctor_id' => (int) $data['doctor_id'],

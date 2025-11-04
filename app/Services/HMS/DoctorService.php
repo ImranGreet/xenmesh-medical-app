@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Services\HMS;
-
-use App\Models\HMS\Doctor;
 use App\Repositories\DoctorRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,32 +19,34 @@ class DoctorService
         try {
             $result = $this->doctorRepository->retrieveDoctors($request);
 
-            return response()->json([
+            return [
                 'success' => true,
                 'message' => 'Doctors retrieved successfully.',
-                'doctorList' => $result['pagination'] + ['data' => $result['data']],
-            ]);
-
+                'pagination' => $result['pagination'],
+                'data' => $result['data'],
+            ];
         } catch (Exception $e) {
             Log::error('Error fetching doctor list: ' . $e->getMessage());
 
-            return response()->json([
+            return [
                 'success' => false,
                 'message' => 'Something went wrong while retrieving the doctor list.',
                 'error' => app()->environment('local') ? $e->getMessage() : null,
-            ], 500);
+            ];
         }
     }
 
-    public function viewDoctorInfo($id)
+    public function retrieveDoctorListByDepartment(Request $request,$id)
     {
-        return Doctor::find($id);
+        $doctorProfile = $this->doctorRepository->retrieveDoctorById($request,$id);
+        return $doctorProfile;
     }
 
     public function createDoctor(array $data)
     {
         try {
             return $this->doctorRepository->createDoctor($data);
+            
         } catch (Exception $e) {
             Log::error('' . $e->getMessage());
             return response()->json([
