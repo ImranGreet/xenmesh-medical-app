@@ -3,6 +3,7 @@
 namespace App\Services\HMS;
 
 use App\Repositories\AppoinmentRepository;
+use Illuminate\Http\Request;
 
 class AppoinmentService
 {
@@ -14,20 +15,40 @@ class AppoinmentService
         $this->appoinmentRepository = $appoinmentRepository;
     }
 
-    public function retrieveAllAppoinment(){
-      return $this->appoinmentRepository->retrieveAppoinment();
+    public function retrieveAllAppoinment(Request $request)
+    {
+        return $this->appoinmentRepository->retrieveAppoinment($request);
     }
 
-    public function retrieveAppoinmentsByDoctorId($doctorId){
+    public function retrieveAppoinmentsByDoctorId($doctorId)
+    {
 
-       $results = $this->appoinmentRepository->retrieveAppoinmentsByDoctor($doctorId);
+        $results = $this->appoinmentRepository->retrieveAppoinmentsByDoctor($doctorId);
 
-       if($results->count() > 0){
+        if ($results->count() > 0) {
 
-        return $results;
+            return $results;
+        } else {
+            return "The doctor has no appoinments yet !";
+        }
+    }
 
-       }else{
-           return "The doctor has no appoinments yet !";
-       }
+    public function filterAppoinment(Request $request)
+    {
+        $appoinments = $this->appoinmentRepository->filterAppoinments($request);
+        
+        if ($appoinments->count() > 0) {
+
+            return response()->json([
+                'success' => true,
+                'data' => $appoinments,
+
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No Appoinments Found!',
+            ]);
+        }
     }
 }

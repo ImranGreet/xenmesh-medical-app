@@ -83,20 +83,13 @@ Route::controller(AppointmentController::class)->group(function (): void {
     Route::put('/update-appointment/{id}', 'updateAppointment')->where('id', '[0-9]+');
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
 
-    Route::get('/doctor-appointments/{doctorId}', 'getDoctorAppointments')->where('doctorId', '[0-9]+');
     Route::get('/appointment-created-by/{creatorId}', 'getAppointmentByCreator')->where('creatorId', '[0-9]+');
-
-    Route::get('/appointments/date/{date}', 'getAppointmentsByDate')->where('date', '\d{4}-\d{2}-\d{2}');
-
-    Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
 
     Route::get('/retrieve-statuses', 'retreiveAppointmentStatus');
     // filter criteria
     Route::get('/appointments/filter', 'filterAppointments');
     // today
-    Route::get('/appointments/today', 'getAllAppointmentsInToday');
-    Route::get('/appointments/month','getAllAppointmentsInMonth');
-});
+    Route::get('/appointments/today', 'getAllAppointmentsInToday');});
 
 
 
@@ -234,9 +227,6 @@ Route::prefix('doctors')->group(function () {
     Route::controller(AppointmentController::class)->group(function () {
 
         Route::get('retrieve-appointments/doctor/{doctorId}', 'getAllAppointmentsByDoctorId')->where('doctorId', '[0-9]+');
-        Route::get('/appointments/date/{date}', 'getAppointmentsByDate')->where('date', '\d{4}-\d{2}-\d{2}');
-
-        Route::get('/appointments/date-range', 'getAppointmentsByDateRange');
         Route::get('/appointments/filter', 'filterAppointments');
     });
 

@@ -8,7 +8,7 @@ use App\Models\HMS\Doctor;
 use App\Services\HMS\DoctorService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+
 
 class DoctorController extends Controller
 {
