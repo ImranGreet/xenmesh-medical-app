@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Appointment;
+use App\Services\HMS\AppoinmentService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -13,6 +14,10 @@ use Illuminate\Support\Str;
 
 class AppointmentController extends Controller
 {
+    protected $appointmentService;
+    public function __construct(AppoinmentService $appoinmentService){
+            $this->appointmentService = $appoinmentService;
+    }
     public function createPatientAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -45,9 +50,15 @@ class AppointmentController extends Controller
      */
     public function getAllAppointments()
     {
-        $appointments = Appointment::with(['patient', 'doctor', 'addedBy'])->get();
+        // $appointments = Appointment::with(['patient', 'doctor', 'addedBy'])->get();
+        $appointments = $this->appointmentService->retrieveAllAppoinment();
 
-        return response()->json($appointments);
+        return response()->json([
+            'success'=>true,
+            'total'=>$appointments->count(),
+             'data' =>$appointments,
+             
+        ]);
     }
 
     public  function getAllAppointmentsInToday()
@@ -125,7 +136,7 @@ class AppointmentController extends Controller
 
     public function getAllAppointmentsByDoctorId($doctorId)
     {
-        $appointments = Appointment::with('doctor')->where('appointed_doctor_id', $doctorId)->get();
+        $appointments = $this->appointmentService->retrieveAppoinmentsByDoctorId($doctorId);
 
         return response()->json($appointments);
     }
@@ -140,6 +151,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::with(['patient', 'doctor', 'addedBy'])->find($id);
 
         if (!$appointment) {
+
             return response()->json(['message' => 'Appointment not found !'], 404);
         }
 
@@ -201,6 +213,7 @@ class AppointmentController extends Controller
 
     public function getDoctorAppointments($doctorId)
     {
+        dd("sex");
         try {
             $appointments = Appointment::with(['doctor', 'patient', 'addedBy'])
                 ->where('appointed_doctor_id', $doctorId)

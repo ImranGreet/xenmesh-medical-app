@@ -15,6 +15,19 @@ class AppoinmentService
     }
 
     public function retrieveAllAppoinment(){
-       $this->appoinmentRepository->retrieveAppoinment();
+      return $this->appoinmentRepository->retrieveAppoinment();
+    }
+
+    public function retrieveAppoinmentsByDoctorId($doctorId){
+
+       $results = $this->appoinmentRepository->retrieveAppoinmentsByDoctor($doctorId);
+
+       if($results->count() > 0){
+
+        return $results;
+
+       }else{
+           return "The doctor has no appoinments yet !";
+       }
     }
 }

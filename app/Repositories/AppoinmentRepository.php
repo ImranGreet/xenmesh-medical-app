@@ -10,4 +10,10 @@ class AppoinmentRepository {
          return $appoinment;
     }
 
+    public function retrieveAppoinmentsByDoctor($doctor_id){
+
+        $appoinments = Appointment::with(['doctor','patient','addedBy'])->where("appointed_doctor_id", $doctor_id)->get();
+        return $appoinments;
+    }
+
 }
