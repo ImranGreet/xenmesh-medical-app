@@ -15,8 +15,9 @@ use Illuminate\Support\Str;
 class AppointmentController extends Controller
 {
     protected $appointmentService;
-    public function __construct(AppoinmentService $appoinmentService){
-            $this->appointmentService = $appoinmentService;
+    public function __construct(AppoinmentService $appoinmentService)
+    {
+        $this->appointmentService = $appoinmentService;
     }
     public function createPatientAppointment(Request $request)
     {
@@ -53,11 +54,11 @@ class AppointmentController extends Controller
         $appointments = $this->appointmentService->retrieveAllAppoinment($request);
 
         return response()->json([
-            'success'=>true,
-            'total'=>$appointments->count(),
-            'per_page'=>$appointments->perPage(),
-            'data' =>$appointments,
-             
+            'success' => true,
+            'total' => $appointments->count(),
+            'per_page' => $appointments->perPage(),
+            'data' => $appointments,
+
         ]);
     }
 
@@ -136,7 +137,6 @@ class AppointmentController extends Controller
                 'message' => 'Appointment updated successfully',
                 'appointment' => $appointment
             ]);
-
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -163,10 +163,18 @@ class AppointmentController extends Controller
     // filter multiple criteria
     public function filterAppointments(Request $request)
     {
-        try{
-
-        }
-       catch (Exception $e) {   
+        try {
+            $appointment = $this->appointmentService->filterAppoinment($request);
+            if (!$appointment) {
+                return response()->json(['message' => 'false'], 404);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Appoinment retrieved Successfully !',
+                    'data' => $appointment,
+                ], 200);
+            }
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }

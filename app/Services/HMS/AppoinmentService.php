@@ -39,11 +39,7 @@ class AppoinmentService
         
         if ($appoinments->count() > 0) {
 
-            return response()->json([
-                'success' => true,
-                'data' => $appoinments,
-
-            ]);
+            return $appoinments;
         } else {
             return response()->json([
                 'success' => false,
