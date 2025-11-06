@@ -97,27 +97,6 @@ class AppointmentController extends Controller
         }
     }
 
-
-    public function getAllAppointmentsByStatus($status)
-    {
-        $appointments = Appointment::with(['patient', 'doctor', 'addedBy'])
-            ->where('status', $status)
-            ->get();
-
-        if ($appointments->isEmpty()) {
-            return response()->json(['message' => 'No appointments found with the specified status'], 404);
-        }
-
-
-        return response()->json([
-            'success' => true,
-            'status' => $status,
-            'message' => 'Appoinment By Status is retrieved',
-            'appointments' => $appointments
-        ]);
-    }
-
-
     public function getAllAppointmentsByDoctorId($doctorId)
     {
         $appointments = $this->appointmentService->retrieveAppoinmentsByDoctorId($doctorId);
@@ -125,22 +104,6 @@ class AppointmentController extends Controller
         return response()->json($appointments);
     }
 
-
-
-    /**
-     * Get a single appointment by ID
-     */
-    public function getAppointmentById($id)
-    {
-        $appointment = Appointment::with(['patient', 'doctor', 'addedBy'])->find($id);
-
-        if (!$appointment) {
-
-            return response()->json(['message' => 'Appointment not found !'], 404);
-        }
-
-        return response()->json($appointment);
-    }
 
     /**
      * Update an appointment
@@ -173,6 +136,7 @@ class AppointmentController extends Controller
                 'message' => 'Appointment updated successfully',
                 'appointment' => $appointment
             ]);
+
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -193,37 +157,6 @@ class AppointmentController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
-    }
-
-    
-
-    public function getAppointmentByCreator($creatorId)
-    {
-        $appointments = DB::table('appointments')
-            ->join('doctors', 'appointments.appointed_doctor_id', '=', 'doctors.id')
-            ->where('appointments.added_by_id', $creatorId)
-            ->select(
-                'appointments.id',
-                'appointments.appointment_date',
-                'appointments.appointment_time',
-                'appointments.status',
-                'appointments.notes',
-                'appointments.reason',
-                'appointments.room_number',
-                'appointments.patient_id',
-                'appointments.appointed_doctor_id',
-                'appointments.added_by_id',
-                'appointments.created_at',
-                'appointments.updated_at',
-                'doctors.doctor_name',
-                'doctors.email as doctor_email',
-                'doctors.phone_number as doctor_phone',
-                'doctors.specialization',
-                'doctors.department'
-            )
-            ->get();
-
-        return response()->json($appointments);
     }
 
 

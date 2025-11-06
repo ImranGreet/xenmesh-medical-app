@@ -47,6 +47,10 @@ class AppoinmentRepository {
                 $query->where('appointment_date', $request->date);
             }
 
+            if($request->has('creatorId')){
+                $query->where('added_by_id',$request->creatorId);
+            }
+
             // Optional: order by date/time
             $appointments = $query->orderBy('appointment_date', 'asc')
                 ->orderBy('appointment_time', 'asc')
