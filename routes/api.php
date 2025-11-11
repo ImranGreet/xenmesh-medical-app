@@ -84,7 +84,8 @@ Route::controller(AppointmentController::class)->group(function (): void {
     // filter criteria
     Route::get('/appointments/filter', 'filterAppointments');
     // today
-    Route::get('/appointments/today', 'getAllAppointmentsInToday');});
+    Route::get('/appointments/today', 'getAllAppointmentsInToday');
+});
 
 Route::controller(PharmacistController::class)->group(function (): void {
     Route::get('', '');
