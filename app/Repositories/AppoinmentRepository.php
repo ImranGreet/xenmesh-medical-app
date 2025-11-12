@@ -75,18 +75,14 @@ class AppoinmentRepository
                     ->orWhere('reason', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%")
                     ->orWhereHas('patient', function ($q2) use ($search) {
-                        $q2->where('patient_name', 'like', "%{$search}%");
+                        $q2->where('patient_name', 'like', "%{$search}%")
+                        ->orWhere('patient_id', 'like', "%{$search}%");
                     })
                     ->orWhereHas('doctor.doctorDetails', function ($q3) use ($search) {
                         $q3->where('name', 'like', "%{$search}%");
                     });
             });
         }
-
-
-
-
-
 
 
         // Execute query with sorting

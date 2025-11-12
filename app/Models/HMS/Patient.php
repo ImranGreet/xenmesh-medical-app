@@ -26,7 +26,8 @@ class Patient extends Model
         'chronic_diseases',
         'hospital_id',
         'appointed_doctor_id',
-        'added_by_id'
+        'added_by_id',
+        'patient_id'
     ];
 
 
