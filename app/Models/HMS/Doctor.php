@@ -18,7 +18,8 @@ class Doctor extends Model
         'added_by_id',
         'is_active',
         'department_id',
-        'doctor_id'
+        'doctor_id',
+        'appointment_fees'
     ];
 
     public function patients()

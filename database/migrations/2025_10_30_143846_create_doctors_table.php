@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('specialization')->nullable();
             $table->string('qualification')->nullable();
             $table->integer('experience_years')->nullable();
+            $table->decimal('appointment_fees')->nullable();
 
             $table->foreignId('hospital_id')
                 ->constrained('hospital_infos')
