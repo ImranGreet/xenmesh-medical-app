@@ -7,9 +7,9 @@ use App\Models\HMS\Patient;
 class PatientService
 {
 
-    public function getAllPatients()
+    public function getAllPatients($perPage)
     {
-        return Patient::all();
+        return Patient::paginate($perPage);
     }
 
     public function viewPatientInfo($id)

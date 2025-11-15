@@ -20,10 +20,19 @@ class PatientController extends Controller
 
     public function getPatientList()
     {
-        $patients = $this->patientService->getAllPatients();
+        $perPage = request()->query('per_page', 10);
+        $patients = $this->patientService->getAllPatients($perPage);
         return response()->json([
             "message" => "Patient list retrieved",
-            "patientsList" => $patients,
+            "patientList" => $patients->items(), 
+            "pagination" => [
+                "current_page" => $patients->currentPage(),
+                "per_page" => $patients->perPage(),
+                "total" => $patients->total(),
+                "last_page" => $patients->lastPage(),
+                "from" => $patients->firstItem(),
+                "to" => $patients->lastItem(),
+            ],
         ]);
     }
 
@@ -47,16 +56,16 @@ class PatientController extends Controller
     public function registerNewPatient(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'patient_name'=>'string|required',
-            'email'=>'string|email',
-            'phone_number'=>'string|required',
-            'sex' =>'string|required',
-            'is_admitted'=>'boolean',
-            'blood_group'=>'string',
-            'address'=>'string',
-            'allergies'=>'string',
-            'chronic_diseases'=>'string',
-            'generated_patient_id'=>'string',
+            'patient_name' => 'string|required',
+            'email' => 'string|email',
+            'phone_number' => 'string|required',
+            'sex' => 'string|required',
+            'is_admitted' => 'boolean',
+            'blood_group' => 'string',
+            'address' => 'string',
+            'allergies' => 'string',
+            'chronic_diseases' => 'string',
+            'generated_patient_id' => 'string',
         ]);
 
         if ($validator->fails()) {
