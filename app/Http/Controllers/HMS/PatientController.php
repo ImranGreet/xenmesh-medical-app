@@ -41,4 +41,8 @@ class PatientController extends Controller
             "prescriptionsList"=>$patient->prescriptions,
         ]);
     }
+
+    public function registerNewPatient(Request $request){
+        
+    }
 }

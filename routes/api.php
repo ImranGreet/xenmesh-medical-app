@@ -39,8 +39,8 @@ Route::controller(DoctorController::class)->group(function () {
 
 
 
-Route::controller(StatusController::class)->group(function(){
-     Route::get('/retrieve-statuses','retrieveStatus');
+Route::controller(StatusController::class)->group(function () {
+    Route::get('/retrieve-statuses', 'retrieveStatus');
 });
 
 
@@ -50,7 +50,7 @@ Route::controller(PatientController::class)->group(function () {
 
     Route::get('/get-patient-list', 'getPatientList');
     Route::get('/patient-prescriptions/{patientId}', 'getPatientPrescriptionsByPatientId')->where('patientId', '[0-9]+');
-
+    Route::post('/register-patient', 'registerNewPatient');
 });
 
 
@@ -234,7 +234,7 @@ Route::prefix('doctors')->group(function () {
         Route::get('/prescriptions/doctor/{doctorId}', 'getPrescriptionsByDoctorId')->where('doctorId', '[0-9]+');
         Route::get('/prescriptions/filter', 'filterPrescriptions');
     });
-    
+
 
     Route::controller(PatientController::class)->group(function () {
 
