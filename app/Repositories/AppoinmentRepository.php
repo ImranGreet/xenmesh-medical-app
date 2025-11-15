@@ -11,7 +11,7 @@ class AppoinmentRepository
 
     public function retrieveAppoinment(Request $request)
     {
-        $appoinment = Appointment::paginate($request->get('per_page', 20));
+        $appoinment = Appointment::with('patient', 'doctor.doctorDetails')->paginate($request->get('per_page', 20));
         return $appoinment;
     }
 
@@ -66,6 +66,7 @@ class AppoinmentRepository
             ]);
         }
 
+
         if ($request->filled('search')) {
             $search = $request->search;
 
@@ -76,7 +77,7 @@ class AppoinmentRepository
                     ->orWhere('status', 'like', "%{$search}%")
                     ->orWhereHas('patient', function ($q2) use ($search) {
                         $q2->where('patient_name', 'like', "%{$search}%")
-                        ->orWhere('patient_id', 'like', "%{$search}%");
+                            ->orWhere('patient_id', 'like', "%{$search}%");
                     })
                     ->orWhereHas('doctor.doctorDetails', function ($q3) use ($search) {
                         $q3->where('name', 'like', "%{$search}%");
@@ -84,12 +85,13 @@ class AppoinmentRepository
             });
         }
 
+        $perPage = $request->get('per_page', 10);
 
-        // Execute query with sorting
         $appointments = $query
             ->orderBy('appointment_date', 'asc')
             ->orderBy('appointment_time', 'asc')
-            ->get();
+            ->paginate($perPage);
+
 
 
         return $appointments;

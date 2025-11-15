@@ -26,9 +26,7 @@ use App\Http\Controllers\HMS\LeaveRequestController;
 use App\Http\Controllers\HMS\PatientController;
 use App\Http\Controllers\HMS\PrescriptionController;
 use App\Http\Controllers\HMS\ReceptionistController;
-
-
-
+use App\Http\Controllers\HMS\StatusController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,6 +37,11 @@ Route::controller(DoctorController::class)->group(function () {
     Route::get('/retrieve-doctors', 'getDoctorList');
 });
 
+
+
+Route::controller(StatusController::class)->group(function(){
+     Route::get('/retrieve-statuses','retrieveStatus');
+});
 
 
 
