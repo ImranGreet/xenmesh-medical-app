@@ -20,14 +20,13 @@ class Patient extends Model
         'phone_number',
         'email',
         'address',
-        'emergency_contact_name',
         'emergency_contact_phone',
         'allergies',
         'chronic_diseases',
         'hospital_id',
         'appointed_doctor_id',
         'added_by_id',
-        'patient_id'
+        'generated_patient_id'
     ];
 
 
@@ -53,6 +52,4 @@ class Patient extends Model
     {
         return $this->hasMany(Prescription::class);
     }
-
-    
 }

@@ -9,7 +9,7 @@ class PatientService
 
     public function getAllPatients()
     {
-        return Patient::with('appointments.doctor.doctorDetails')->distinct()->get();
+        return Patient::all();
     }
 
     public function viewPatientInfo($id)

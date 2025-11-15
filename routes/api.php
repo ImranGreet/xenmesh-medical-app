@@ -220,9 +220,7 @@ Route::prefix('doctors')->group(function () {
     });
 
     Route::controller(AppointmentController::class)->group(function () {
-
         Route::get('retrieve-appointments/doctor/{doctorId}', 'getAllAppointmentsByDoctorId')->where('doctorId', '[0-9]+');
-        Route::get('/appointments/filter', 'filterAppointments');
     });
 
 
