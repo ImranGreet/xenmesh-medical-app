@@ -14,7 +14,7 @@ class PatientSeeder extends Seeder
      */
     public function run(): void
     {
-           // Make sure hospital and user records exist before running this seeder
+        // Make sure hospital and user records exist before running this seeder
         $hospital = DB::table('hospital_infos')->first();
         $user = DB::table('users')->first();
 
@@ -35,6 +35,7 @@ class PatientSeeder extends Seeder
                 'email' => 'john.doe@example.com',
                 'address' => 'Dhaka, Bangladesh',
                 'emergency_contact_phone' => '01710000002',
+                'keep_records' => false,
                 'allergies' => 'Peanuts',
                 'chronic_diseases' => 'Asthma',
                 'hospital_id' => $hospital->id,
@@ -55,6 +56,7 @@ class PatientSeeder extends Seeder
                 'email' => 'maria.rahman@example.com',
                 'address' => 'Chittagong, Bangladesh',
                 'emergency_contact_phone' => '01710000004',
+                'keep_records' => false,
                 'allergies' => 'None',
                 'chronic_diseases' => 'Hypertension',
                 'hospital_id' => $hospital->id,
@@ -75,6 +77,7 @@ class PatientSeeder extends Seeder
                 'email' => 'abdul.karim@example.com',
                 'address' => 'Sylhet, Bangladesh',
                 'emergency_contact_phone' => '01710000006',
+                'keep_records' => false,
                 'allergies' => 'Penicillin',
                 'chronic_diseases' => 'Diabetes',
                 'hospital_id' => $hospital->id,
@@ -95,6 +98,7 @@ class PatientSeeder extends Seeder
                 'email' => 'nusrat.jahan@example.com',
                 'address' => 'Rajshahi, Bangladesh',
                 'emergency_contact_phone' => '01710000008',
+                'keep_records' => false,
                 'allergies' => 'Dust',
                 'chronic_diseases' => 'Migraine',
                 'hospital_id' => $hospital->id,
@@ -115,6 +119,7 @@ class PatientSeeder extends Seeder
                 'email' => 'tanvir.ahmed@example.com',
                 'address' => 'Khulna, Bangladesh',
                 'emergency_contact_phone' => '01710000010',
+                'keep_records' => true,
                 'allergies' => 'Seafood',
                 'chronic_diseases' => 'Heart Disease',
                 'hospital_id' => $hospital->id,
@@ -135,6 +140,7 @@ class PatientSeeder extends Seeder
                 'email' => 'sadia.alam@example.com',
                 'address' => 'Barishal, Bangladesh',
                 'emergency_contact_phone' => '01710000012',
+                'keep_records' => false,
                 'allergies' => 'None',
                 'chronic_diseases' => 'None',
                 'hospital_id' => $hospital->id,
@@ -155,6 +161,7 @@ class PatientSeeder extends Seeder
                 'email' => 'rafiul.hasan@example.com',
                 'address' => 'Rangpur, Bangladesh',
                 'emergency_contact_phone' => '01710000014',
+                'keep_records' => false,
                 'allergies' => 'Dust',
                 'chronic_diseases' => 'Asthma',
                 'hospital_id' => $hospital->id,
@@ -175,6 +182,7 @@ class PatientSeeder extends Seeder
                 'email' => 'shamima.akter@example.com',
                 'address' => 'Comilla, Bangladesh',
                 'emergency_contact_phone' => '01710000016',
+                'keep_records' => true,
                 'allergies' => 'Pollen',
                 'chronic_diseases' => 'Arthritis',
                 'hospital_id' => $hospital->id,
@@ -195,6 +203,7 @@ class PatientSeeder extends Seeder
                 'email' => 'mahmudul.islam@example.com',
                 'address' => 'Gazipur, Bangladesh',
                 'emergency_contact_phone' => '01710000018',
+                'keep_records' => false,
                 'allergies' => 'Shellfish',
                 'chronic_diseases' => 'High Cholesterol',
                 'hospital_id' => $hospital->id,
@@ -215,6 +224,7 @@ class PatientSeeder extends Seeder
                 'email' => 'lamia.chowdhury@example.com',
                 'address' => 'Mymensingh, Bangladesh',
                 'emergency_contact_phone' => '01710000020',
+                'keep_records' => false,
                 'allergies' => 'Milk',
                 'chronic_diseases' => 'Thyroid Disorder',
                 'hospital_id' => $hospital->id,

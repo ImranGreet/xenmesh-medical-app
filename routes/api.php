@@ -84,9 +84,9 @@ Route::controller(AppointmentController::class)->group(function (): void {
     Route::delete('/delete-appointment/{id}', 'deleteAppointment')->where('id', '[0-9]+');
 
     Route::get('/retrieve-statuses', 'retreiveAppointmentStatus');
-    // filter criteria
+
     Route::get('/appointments/filter', 'filterAppointments');
-    // today
+    
     Route::get('/appointments/today', 'getAllAppointmentsInToday');
 });
 

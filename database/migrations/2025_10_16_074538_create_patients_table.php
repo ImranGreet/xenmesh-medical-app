@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email', 100)->nullable();
             $table->string('address', 255)->nullable();
             $table->string('emergency_contact_phone', 15)->nullable();
+            $table->boolean('keep_records')->default(false)->nullable();
 
             $table->text('allergies')->nullable();
             $table->text('chronic_diseases')->nullable();

@@ -18,7 +18,7 @@ class AppointmentSeeder extends Seeder
             [
                 'patient_id' => 1,
                 'appointed_doctor_id' => 2,
-                'added_by_id' => 3,
+                'added_by_id' => 1,
                 'appointment_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'appointment_time' => '09:00:00',
                 'status' => 'scheduled',
@@ -32,7 +32,7 @@ class AppointmentSeeder extends Seeder
             [
                 'patient_id' => 2,
                 'appointed_doctor_id' => 1,
-                'added_by_id' => 3,
+                'added_by_id' => 1,
                 'appointment_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
                 'appointment_time' => '10:30:00',
                 'status' => 'scheduled',
@@ -88,7 +88,7 @@ class AppointmentSeeder extends Seeder
             [
                 'patient_id' => 6,
                 'appointed_doctor_id' => 2,
-                'added_by_id' => 3,
+                'added_by_id' => 2,
                 'appointment_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'appointment_time' => '11:15:00',
                 'status' => 'scheduled',
@@ -102,7 +102,7 @@ class AppointmentSeeder extends Seeder
             [
                 'patient_id' => 7,
                 'appointed_doctor_id' => 5,
-                'added_by_id' => 3,
+                'added_by_id' => 2,
                 'appointment_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
                 'appointment_time' => '13:45:00',
                 'status' => 'completed',
