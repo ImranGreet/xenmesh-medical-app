@@ -22,18 +22,33 @@ class PatientController extends Controller
     {
         $perPage = request()->query('per_page', 10);
         $patients = $this->patientService->getAllPatients($perPage);
+
         return response()->json([
+            "success" => true,
             "message" => "Patient list retrieved",
-            "patientList" => $patients->items(), 
-            "pagination" => [
+            "meta" => [
                 "current_page" => $patients->currentPage(),
                 "per_page" => $patients->perPage(),
                 "total" => $patients->total(),
                 "last_page" => $patients->lastPage(),
                 "from" => $patients->firstItem(),
                 "to" => $patients->lastItem(),
+                'has_more_pages' => $patients->hasMorePages(),
             ],
+            'links' => [
+                'next' => $patients->nextPageUrl(),
+                'prev' => $patients->previousPageUrl(),
+            ],
+            'patientList' => $patients->items(),
         ]);
+    }
+
+
+    public function filterPatientList(Request $request)
+    {
+      $perpage = request()->query('per_page',10);
+      $patientList = $this->patientService->filterPatients($request);
+      return $patientList;
     }
 
 

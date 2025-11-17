@@ -2,6 +2,7 @@
 
 namespace App\Models\HMS;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,5 +52,9 @@ class Patient extends Model
     public function prescriptions()
     {
         return $this->hasMany(Prescription::class);
+    }
+
+    public function createdBy(){
+        return $this->belongsTo(User::class,'added_by_id');
     }
 }
