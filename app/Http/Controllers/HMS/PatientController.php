@@ -5,6 +5,7 @@ namespace App\Http\Controllers\HMS;
 use App\Http\Controllers\Controller;
 use App\Models\HMS\Patient;
 use App\Services\HMS\PatientService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,13 +47,38 @@ class PatientController extends Controller
 
     public function filterPatientList(Request $request)
     {
-      $perpage = request()->query('per_page',10);
-      $patientList = $this->patientService->filterPatients($request);
-      return $patientList;
-    }
+        try {
+            $patientList = $this->patientService->filterPatients($request);
+
+            return response()->json([
+                "success" => true,
+                "message" => "Patient List Retrieved Successfully!",
+                "meta" => [ // Fixed typo: "meata" to "meta"
+                    "current_page" => $patientList->currentPage(),
+                    "per_page" => $patientList->perPage(),
+                    "total" => $patientList->total(),
+                    "last_page" => $patientList->lastPage(),
+                    "from" => $patientList->firstItem(),
+                    "to" => $patientList->lastItem(),
+                    'has_more_pages' => $patientList->hasMorePages(),
+                ],
+                "links" => [
+                    "next" => $patientList->nextPageUrl(),
+                    "prev" => $patientList->previousPageUrl(),
+                ],
+                "patientList" => $patientList->items(),
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                "success" => false,
+                "message" => "Failed to retrieve patient list",
+                "error" => $e->getMessage()
+            ], 500); 
+        }
+    } 
 
 
-    // prescription related methods can be added here
+    
     public function getPatientPrescriptionsByPatientId($patientId)
     {
         $patient = Patient::with('prescriptions.prescribedMedicines')->find($patientId);

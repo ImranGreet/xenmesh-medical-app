@@ -5,9 +5,18 @@ namespace App\Services\HMS;
 use App\Models\HMS\Patient;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Repositories\PatientRepository;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class PatientService
 {
+    protected $patientsRepository;
+
+    public function __construct(PatientRepository $patientRepository)
+    {
+        $this->patientsRepository = $patientRepository;
+    }
 
     public function getAllPatients($perPage)
     {
@@ -39,44 +48,17 @@ class PatientService
 
     public function filterPatients(Request $request)
     {
-        $perPage = $request->query('per_page', 10);
 
-        $query = Patient::query()
-            ->with(['appointments', 'doctors', 'prescriptions', 'bills', 'createdBy']);
+        try {
+            $patientQuery = $this->patientsRepository->filterPatients($request);
 
-        if ($request->filled('patient_id')) {
-            $query->where('generated_patient_id', $request->patient_id);
+            $perPage = $request->query('per_page', 10);
+            $patientList = $patientQuery->paginate($perPage);
+
+            return $patientList;
+        } catch (Exception $e) {
+            Log::error('Error filtering patients: ' . $e->getMessage());
+            throw $e;
         }
-
-        if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
-        }
-
-        if ($request->filled('patient_name')) {
-            $query->where('patient_name', 'LIKE', "%{$request->patient_name}%");
-        }
-
-        if ($request->filled('creator_id')) {
-            $query->where('added_by_id', $request->creator_id);
-        }
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('days')) {
-            $days = (int) $request->days;
-            $query->whereBetween('created_at', [
-                now()->startOfDay(),
-                now()->addDays($days)->endOfDay(),
-            ]);
-        }
-
-        if ($request->filled('is_admitted')) {
-            $query->where('is_admitted', $request->is_admitted);
-        }
-
-        // Final execution
-        return $query->paginate($perPage);
     }
 }
