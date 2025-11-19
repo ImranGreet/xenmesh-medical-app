@@ -12,8 +12,7 @@ class PatientRepository
     public function filterPatients(Request $request)
     {
 
-        $query = Patient::query()
-            ->with(['appointments', 'bills', 'createdBy']);
+        $query = Patient::query()->with(['appointments', 'bills', 'createdBy']);
 
         if ($request->filled('patient_id')) {
             $query->where('generated_patient_id', $request->patient_id);
@@ -41,14 +40,26 @@ class PatientRepository
 
         if ($request->filled('days')) {
             $days = (int) $request->days;
+
             $query->whereBetween('created_at', [
-                now()->startOfDay(),
-                now()->addDays($days)->endOfDay(),
+                now()->subDays($days)->startOfDay(),
+                now()->endOfDay(),
             ]);
         }
 
+
         if ($request->filled('is_admitted')) {
             $query->where('is_admitted', $request->is_admitted);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('generated_patient_id', 'like', "%{$search}%")
+                    ->orWhere('patient_name', 'like', "%{$search}%")
+                    ->orWhere('phone_number', 'like', "%{$search}%");
+            });
         }
 
         return $query;

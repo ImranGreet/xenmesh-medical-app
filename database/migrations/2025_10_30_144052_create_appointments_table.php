@@ -21,20 +21,9 @@ return new class extends Migration
             $table->string('reason')->nullable();
             $table->string('room_number')->nullable();
             $table->integer('duration')->default(30);
-
-
-            $table->foreignId('patient_id')
-                ->constrained('patients')
-                ->onDelete('cascade');
-
-            $table->foreignId('appointed_doctor_id')
-                ->constrained('doctors')
-                ->onDelete('cascade');
-
-            $table->foreignId('added_by_id')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->foreignId('appointed_doctor_id')->constrained('doctors')->onDelete('cascade');
+            $table->foreignId('added_by_id')->nullable()->constrained('users')->nullOnDelete();
 
             $table->timestamps();
         });

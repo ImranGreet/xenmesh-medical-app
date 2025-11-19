@@ -53,7 +53,7 @@ class PatientController extends Controller
             return response()->json([
                 "success" => true,
                 "message" => "Patient List Retrieved Successfully!",
-                "meta" => [ // Fixed typo: "meata" to "meta"
+                "meta" => [ 
                     "current_page" => $patientList->currentPage(),
                     "per_page" => $patientList->perPage(),
                     "total" => $patientList->total(),
