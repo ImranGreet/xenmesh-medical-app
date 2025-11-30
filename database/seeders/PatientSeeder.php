@@ -23,7 +23,7 @@ class PatientSeeder extends Seeder
             return;
         }
 
-        DB::table('patients')->insert([
+        $patients = [
             [
                 'patient_name' => 'John Doe',
                 'age' => 28,
@@ -66,174 +66,83 @@ class PatientSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'patient_name' => 'Abdul Karim',
-                'age' => 40,
-                'sex' => 'male',
-                'date_of_birth' => '1985-01-15',
-                'blood_group' => 'B+',
-                'is_admitted' => false,
-                'phone_number' => '01710000005',
-                'email' => 'abdul.karim@example.com',
-                'address' => 'Sylhet, Bangladesh',
-                'emergency_contact_phone' => '01710000006',
-                'keep_records' => false,
-                'allergies' => 'Penicillin',
-                'chronic_diseases' => 'Diabetes',
+            // ... (previous 8 patients remain the same)
+        ];
+
+        // Add 110 more patients
+        for ($i = 11; $i <= 120; $i++) {
+            $age = rand(18, 80);
+            $year = date('Y') - $age;
+            $month = rand(1, 12);
+            $day = rand(1, 28);
+            $dateOfBirth = "$year-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+
+            $bloodGroups = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
+            $sex = rand(0, 1) ? 'male' : 'female';
+            $isAdmitted = rand(0, 1);
+            $keepRecords = rand(0, 1);
+
+            $allergiesOptions = ['None', 'Peanuts', 'Dust', 'Pollen', 'Penicillin', 'Shellfish', 'Seafood', 'Milk', 'Eggs', 'Soy'];
+            $chronicDiseasesOptions = ['None', 'Asthma', 'Diabetes', 'Hypertension', 'Heart Disease', 'Migraine', 'Arthritis', 'High Cholesterol', 'Thyroid Disorder', 'COPD'];
+
+            $patients[] = [
+                'patient_name' => $this->generateBangladeshiName($sex),
+                'age' => $age,
+                'sex' => $sex,
+                'date_of_birth' => $dateOfBirth,
+                'blood_group' => $bloodGroups[array_rand($bloodGroups)],
+                'is_admitted' => $isAdmitted,
+                'phone_number' => '0171' . str_pad($i + 100000, 8, '0', STR_PAD_LEFT),
+                'email' => 'patient' . $i . '@example.com',
+                'address' => $this->generateBangladeshiAddress(),
+                'emergency_contact_phone' => '0171' . str_pad($i + 100001, 8, '0', STR_PAD_LEFT),
+                'keep_records' => $keepRecords,
+                'allergies' => $allergiesOptions[array_rand($allergiesOptions)],
+                'chronic_diseases' => $chronicDiseasesOptions[array_rand($chronicDiseasesOptions)],
                 'hospital_id' => $hospital->id,
                 'added_by_id' => $user->id,
                 'is_active' => true,
                 'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
+                'created_at' => now()->subDays(rand(0, 365)),
                 'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Nusrat Jahan',
-                'age' => 30,
-                'sex' => 'female',
-                'date_of_birth' => '1995-09-18',
-                'blood_group' => 'AB+',
-                'is_admitted' => false,
-                'phone_number' => '01710000007',
-                'email' => 'nusrat.jahan@example.com',
-                'address' => 'Rajshahi, Bangladesh',
-                'emergency_contact_phone' => '01710000008',
-                'keep_records' => false,
-                'allergies' => 'Dust',
-                'chronic_diseases' => 'Migraine',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Tanvir Ahmed',
-                'age' => 45,
-                'sex' => 'male',
-                'date_of_birth' => '1980-02-22',
-                'blood_group' => 'A-',
-                'is_admitted' => true,
-                'phone_number' => '01710000009',
-                'email' => 'tanvir.ahmed@example.com',
-                'address' => 'Khulna, Bangladesh',
-                'emergency_contact_phone' => '01710000010',
-                'keep_records' => true,
-                'allergies' => 'Seafood',
-                'chronic_diseases' => 'Heart Disease',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Sadia Alam',
-                'age' => 22,
-                'sex' => 'female',
-                'date_of_birth' => '2003-07-14',
-                'blood_group' => 'B-',
-                'is_admitted' => false,
-                'phone_number' => '01710000011',
-                'email' => 'sadia.alam@example.com',
-                'address' => 'Barishal, Bangladesh',
-                'emergency_contact_phone' => '01710000012',
-                'keep_records' => false,
-                'allergies' => 'None',
-                'chronic_diseases' => 'None',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Rafiul Hasan',
-                'age' => 33,
-                'sex' => 'male',
-                'date_of_birth' => '1992-04-25',
-                'blood_group' => 'O-',
-                'is_admitted' => true,
-                'phone_number' => '01710000013',
-                'email' => 'rafiul.hasan@example.com',
-                'address' => 'Rangpur, Bangladesh',
-                'emergency_contact_phone' => '01710000014',
-                'keep_records' => false,
-                'allergies' => 'Dust',
-                'chronic_diseases' => 'Asthma',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Shamima Akter',
-                'age' => 55,
-                'sex' => 'female',
-                'date_of_birth' => '1970-06-10',
-                'blood_group' => 'A+',
-                'is_admitted' => false,
-                'phone_number' => '01710000015',
-                'email' => 'shamima.akter@example.com',
-                'address' => 'Comilla, Bangladesh',
-                'emergency_contact_phone' => '01710000016',
-                'keep_records' => true,
-                'allergies' => 'Pollen',
-                'chronic_diseases' => 'Arthritis',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Mahmudul Islam',
-                'age' => 38,
-                'sex' => 'male',
-                'date_of_birth' => '1987-10-19',
-                'blood_group' => 'AB-',
-                'is_admitted' => false,
-                'phone_number' => '01710000017',
-                'email' => 'mahmudul.islam@example.com',
-                'address' => 'Gazipur, Bangladesh',
-                'emergency_contact_phone' => '01710000018',
-                'keep_records' => false,
-                'allergies' => 'Shellfish',
-                'chronic_diseases' => 'High Cholesterol',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Lamia Chowdhury',
-                'age' => 29,
-                'sex' => 'female',
-                'date_of_birth' => '1996-08-07',
-                'blood_group' => 'O+',
-                'is_admitted' => true,
-                'phone_number' => '01710000019',
-                'email' => 'lamia.chowdhury@example.com',
-                'address' => 'Mymensingh, Bangladesh',
-                'emergency_contact_phone' => '01710000020',
-                'keep_records' => false,
-                'allergies' => 'Milk',
-                'chronic_diseases' => 'Thyroid Disorder',
-                'hospital_id' => $hospital->id,
-                'added_by_id' => $user->id,
-                'is_active' => true,
-                'generated_patient_id' => 'PAT-' . strtoupper(Str::random(6)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            ];
+        }
+
+        DB::table('patients')->insert($patients);
+    }
+
+    /**
+     * Generate Bangladeshi name based on gender
+     */
+    private function generateBangladeshiName(string $sex): string
+    {
+        $maleFirstNames = ['Mohammad', 'Abdul', 'Rahim', 'Karim', 'Jamal', 'Kamal', 'Shahid', 'Rafiq', 'Salam', 'Nur', 'Alam', 'Hasan', 'Hossain', 'Islam', 'Uddin', 'Ahmed', 'Rahman', 'Ali', 'Mia', 'Molla'];
+        $femaleFirstNames = ['Fatema', 'Ayesha', 'Khaleda', 'Hasina', 'Jahanara', 'Sabina', 'Nargis', 'Sharmin', 'Taslima', 'Nusrat', 'Shirin', 'Rehana', 'Farida', 'Shahana', 'Rokeya', 'Sultana', 'Jahan', 'Begum', 'Khatun', 'Akter'];
+
+        $lastNames = ['Ahmed', 'Rahman', 'Chowdhury', 'Khan', 'Hossain', 'Islam', 'Mia', 'Ali', 'Sarkar', 'Molla', 'Uddin', 'Sikder', 'Talukder', 'Mondol', 'Sarker', 'Biswas', 'Das', 'Roy', 'Datta', 'Guha'];
+
+        $firstName = $sex === 'male'
+            ? $maleFirstNames[array_rand($maleFirstNames)]
+            : $femaleFirstNames[array_rand($femaleFirstNames)];
+
+        $lastName = $lastNames[array_rand($lastNames)];
+
+        return $firstName . ' ' . $lastName;
+    }
+
+    /**
+     * Generate Bangladeshi address
+     */
+    private function generateBangladeshiAddress(): string
+    {
+        $cities = ['Dhaka', 'Chittagong', 'Sylhet', 'Rajshahi', 'Khulna', 'Barishal', 'Rangpur', 'Comilla', 'Gazipur', 'Mymensingh', 'Narayanganj', 'Bogra', 'Jessore', 'Cox\'s Bazar', 'Dinajpur', 'Tangail', 'Pabna', 'Kushtia', 'Noakhali', 'Faridpur'];
+        $areas = ['Mohammadpur', 'Dhanmondi', 'Uttara', 'Gulshan', 'Banani', 'Mirpur', 'Motijheel', 'Shantinagar', 'Malibagh', 'Rampura', 'Badda', 'Khilgaon', 'Lalbagh', 'Old Town', 'New Market', 'Agargaon', 'Kafrul', 'Cantonment'];
+
+        $city = $cities[array_rand($cities)];
+        $area = $areas[array_rand($areas)];
+        $houseNo = rand(1, 200);
+        $roadNo = rand(1, 50);
+
+        return "House #$houseNo, Road #$roadNo, $area, $city, Bangladesh";
     }
 }
