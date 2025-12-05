@@ -8,6 +8,7 @@ use App\Services\HMS\PatientService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PatientController extends Controller
 {
@@ -53,7 +54,7 @@ class PatientController extends Controller
             return response()->json([
                 "success" => true,
                 "message" => "Patient List Retrieved Successfully!",
-                "meta" => [ 
+                "meta" => [
                     "current_page" => $patientList->currentPage(),
                     "per_page" => $patientList->perPage(),
                     "total" => $patientList->total(),
@@ -73,12 +74,12 @@ class PatientController extends Controller
                 "success" => false,
                 "message" => "Failed to retrieve patient list",
                 "error" => $e->getMessage()
-            ], 500); 
+            ], 500);
         }
-    } 
+    }
 
 
-    
+
     public function getPatientPrescriptionsByPatientId($patientId)
     {
         $patient = Patient::with('prescriptions.prescribedMedicines')->find($patientId);
@@ -96,23 +97,41 @@ class PatientController extends Controller
 
     public function registerNewPatient(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'patient_name' => 'string|required',
-            'email' => 'string|email',
-            'phone_number' => 'string|required',
-            'sex' => 'string|required',
+            'patient_name' => 'required|string',
+            'email' => 'nullable|string|email',
+            'phone_number' => 'required|string',
+            'sex' => 'required|string|in:male,female',
+            'age' => 'required|integer',
+            'blood_group' => 'nullable|string',
+            'address' => 'nullable|string',
+            'emergency_contact_phone' => 'nullable|string',
             'is_admitted' => 'boolean',
-            'blood_group' => 'string',
-            'address' => 'string',
-            'allergies' => 'string',
-            'chronic_diseases' => 'string',
-            'generated_patient_id' => 'string',
+            'keep_records' => 'boolean',
+            'allergies' => 'nullable|string',
+            'chronic_diseases' => 'nullable|string',
+            'hospital_id' => 'required|integer|exists:hospital_infos,id',
+            'added_by_id' => 'required|integer|exists:users,id',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ],
+                422
+            );
         }
-        $patient = Patient::create($validator->validated());
+
+        $data = $validator->validated();
+        do {
+            $generatedId = 'PAT-' . strtoupper(Str::random(6));
+        } while (Patient::where('generated_patient_id', $generatedId)->exists());
+
+        $data['generated_patient_id'] = $generatedId;
+        $patient = Patient::create($data);
 
         return response()->json([
             'message' => 'Appointment created successfully',

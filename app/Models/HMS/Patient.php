@@ -25,7 +25,6 @@ class Patient extends Model
         'allergies',
         'chronic_diseases',
         'hospital_id',
-        'appointed_doctor_id',
         'added_by_id',
         'generated_patient_id'
     ];
@@ -54,7 +53,8 @@ class Patient extends Model
         return $this->hasMany(Prescription::class);
     }
 
-    public function createdBy(){
-        return $this->belongsTo(User::class,'added_by_id');
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'added_by_id');
     }
 }
