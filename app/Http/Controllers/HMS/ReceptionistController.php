@@ -89,7 +89,7 @@ class ReceptionistController extends Controller
 
     public function viewPatientList()
     {
-        $patients = $this->patientService->getAllPatients();
+        $patients = $this->patientService->getAllPatients(10);
         return response()->json([
             'success' => true,
             'patientsList' => $patients,

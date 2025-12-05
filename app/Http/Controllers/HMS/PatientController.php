@@ -95,6 +95,31 @@ class PatientController extends Controller
         ]);
     }
 
+    public function getPatientDetailsById($patientId)
+    {
+        $patient = Patient::with('hospitalInfo', 'addedBy')->find($patientId);
+
+        if (!$patient) {
+            return response()->json([
+                "message" => "Patient not found"
+            ], 404);
+        }
+        return response()->json([
+            "message" => "Patient details retrieved",
+            "patientDetails" => $patient,
+        ]);
+    }
+
+    public function retrievePatientInfo($patientId)
+    {
+        $patient = Patient::findOrFail($patientId);
+        return response()->json([
+            "message" => "Patient info retrieved",
+            "patientInfo" => $patient,
+        ]);
+    }
+
+
     public function registerNewPatient(Request $request)
     {
 
