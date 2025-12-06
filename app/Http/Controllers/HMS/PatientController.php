@@ -163,4 +163,131 @@ class PatientController extends Controller
             'appointment' => $patient
         ], 201);
     }
+
+    public function updatePatientInfo(Request $request, $patientId)
+    {
+        $patient = Patient::find($patientId);
+
+        if (!$patient) {
+            return response()->json([
+                "message" => "Patient not found"
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'patient_name' => 'sometimes|required|string',
+            'email' => 'sometimes|nullable|string|email',
+            'phone_number' => 'sometimes|required|string',
+            'sex' => 'sometimes|required|string|in:male,female',
+            'age' => 'sometimes|required|integer',
+            'blood_group' => 'sometimes|nullable|string',
+            'address' => 'sometimes|nullable|string',
+            'emergency_contact_phone' => 'sometimes|nullable|string',
+            'is_admitted' => 'sometimes|boolean',
+            'keep_records' => 'sometimes|boolean',
+            'allergies' => 'sometimes|nullable|string',
+            'chronic_diseases' => 'sometimes|nullable|string',
+            'hospital_id' => 'sometimes|required|integer|exists:hospital_infos,id',
+            'added_by_id' => 'sometimes|required|integer|exists:users,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ],
+                422
+            );
+        }
+        $data = $validator->validated();
+        $patient->update($data);
+
+        return response()->json([
+            "message" => "Patient info updated",
+            "patientInfo" => $patient,
+        ]);
+    }
+
+    public function deletePatient($patientId)
+    {
+        $patient = Patient::find($patientId);
+
+        if (!$patient) {
+            return response()->json([
+                "message" => "Patient not found"
+            ], 404);
+        }
+
+        $patient->delete();
+
+        return response()->json([
+            "message" => "Patient deleted successfully"
+        ]);
+    }
+
+    public function updatePatientAdmissionStatus(Request $request, $patientId)
+    {
+        $patient = Patient::find($patientId);
+
+        if (!$patient) {
+            return response()->json([
+                "message" => "Patient not found"
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'is_admitted' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ],
+                422
+            );
+        }
+
+        $patient->is_admitted = $request->input('is_admitted');
+        $patient->save();
+
+        return response()->json([
+            "message" => "Patient status updated",
+            "patientInfo" => $patient,
+        ]);
+    }
+
+    public function updatePatientRecordsPreference(Request $request, $patientId)
+    {
+        $patient = Patient::find($patientId);
+
+        if (!$patient) {
+            return response()->json([
+                "message" => "Patient not found"
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'keep_records' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ],
+                422
+            );
+        }
+
+        $patient->keep_records = $request->input('keep_records');
+        $patient->save();
+
+        return response()->json([
+            "message" => "Patient records preference updated",
+            "patientInfo" => $patient,
+        ]);
+    }
 }
