@@ -281,7 +281,6 @@ class PatientController extends Controller
                 422
             );
         }
-
         $patient->keep_records = $request->input('keep_records');
         $patient->save();
 

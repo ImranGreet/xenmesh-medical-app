@@ -53,8 +53,10 @@ Route::controller(PatientController::class)->group(function () {
     Route::post('/register-patient', 'registerNewPatient');
     Route::put('/update-patient-info/{patientId}', 'updatePatientInfo')->where('patientId', '[0-9]+');
     Route::delete('/delete-patient-info/{patientId}', 'deletePatient')->where('patientId', '[0-9]+');
+    Route::put('/update-patient-admission-status/{patientId}', 'updatePatientAdmissionStatus')->where('patientId', '[0-9]+');
+    Route::put('/update-patient-records-preference/{patientId}', 'updatePatientRecordsPreference')->where('patientId', '[0-9]+');
     Route::get('/filter-patient-list','filterPatientList');
-    
+
 });
 
 
