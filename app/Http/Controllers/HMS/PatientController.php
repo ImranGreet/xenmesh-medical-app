@@ -183,8 +183,8 @@ class PatientController extends Controller
             'blood_group' => 'sometimes|nullable|string',
             'address' => 'sometimes|nullable|string',
             'emergency_contact_phone' => 'sometimes|nullable|string',
-            'is_admitted' => 'sometimes|boolean',
-            'keep_records' => 'sometimes|boolean',
+            'is_admitted' => 'boolean',
+            'keep_records' => 'boolean',
             'allergies' => 'sometimes|nullable|string',
             'chronic_diseases' => 'sometimes|nullable|string',
             'hospital_id' => 'sometimes|required|integer|exists:hospital_infos,id',
@@ -200,6 +200,7 @@ class PatientController extends Controller
             );
         }
         $data = $validator->validated();
+        // dd($data,'updated data',$request->all());
         $patient->update($data);
 
         return response()->json([

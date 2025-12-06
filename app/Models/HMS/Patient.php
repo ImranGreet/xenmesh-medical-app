@@ -18,6 +18,7 @@ class Patient extends Model
         'date_of_birth',
         'blood_group',
         'is_admitted',
+        'keep_records',
         'phone_number',
         'email',
         'address',
