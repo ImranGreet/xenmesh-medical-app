@@ -290,4 +290,20 @@ class PatientController extends Controller
             "patientInfo" => $patient,
         ]);
     }
+
+    public function getActivePatientsCount()
+    {
+        $activePatientsCount = Patient::where('is_active', true)->count();
+        $deactivePatientsCount = Patient::where('is_active', false)->count();
+        $newPatientInMonth = Patient::whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->count();
+        $todaysNewPatients = Patient::whereDate('created_at', now()->toDateString())->count();
+
+        return response()->json([
+            "message" => "Active patients count retrieved",
+            "activePatientsCount" => $activePatientsCount,
+            "deactivePatientsCount" => $deactivePatientsCount,
+            "newPatientInMonth" => $newPatientInMonth,
+            "todaysNewPatients" => $todaysNewPatients,
+        ]);
+    }
 }
