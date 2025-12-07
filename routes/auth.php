@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RolePermissionController;
+use App\Http\Controllers\QR\QRcodeController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
@@ -24,4 +25,11 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
 
     Route::post('/edit-permisson/{id}', 'addNewPermission')->where('id', '[0-9]+');
     Route::delete('/remove-permisson/{id}', 'removePermission')->where('id', '[0-9]+');
+});
+
+
+/*non auth*/
+
+Route::controller(QRcodeController::class)->group(function () {
+    Route::get('/qr-code-generate', 'generateQRCode');
 });

@@ -27,6 +27,7 @@ use App\Http\Controllers\HMS\PatientController;
 use App\Http\Controllers\HMS\PrescriptionController;
 use App\Http\Controllers\HMS\ReceptionistController;
 use App\Http\Controllers\HMS\StatusController;
+use App\Http\Controllers\QR\QRcodeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,6 +37,8 @@ Route::controller(DoctorController::class)->group(function () {
 
     Route::get('/retrieve-doctors', 'getDoctorList');
 });
+
+Route::post('/qrcode/generate', [QRcodeController::class, 'generateQRCodeApi']);
 
 
 
@@ -251,3 +254,5 @@ Route::prefix('doctors')->group(function () {
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
     });
 });
+
+

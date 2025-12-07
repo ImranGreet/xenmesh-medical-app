@@ -13,7 +13,7 @@ class HospitalInfoController extends Controller
 {
     public function getHospitalInfo(Request $request)
     {
-        $hospital = HospitalInfo::all();
+        $hospital = HospitalInfo::first();
 
         if (!$hospital) {
             return response()->json([
@@ -24,7 +24,7 @@ class HospitalInfoController extends Controller
         return response()->json([
             "status" => "success",
             "message" => "Information found properly!",
-            "data"=> $hospital
+            "hospital_info"=> $hospital
         ]);
     }
 
