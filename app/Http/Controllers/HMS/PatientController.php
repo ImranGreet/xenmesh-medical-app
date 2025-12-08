@@ -291,12 +291,13 @@ class PatientController extends Controller
         ]);
     }
 
-    public function getActivePatientsCount()
+    public function getPatientsCount()
     {
         $activePatientsCount = Patient::where('is_active', true)->count();
         $deactivePatientsCount = Patient::where('is_active', false)->count();
         $newPatientInMonth = Patient::whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->count();
         $todaysNewPatients = Patient::whereDate('created_at', now()->toDateString())->count();
+        $recordsHoldersCount = Patient::where('keep_records', true)->count();
 
         return response()->json([
             "message" => "Active patients count retrieved",
@@ -304,6 +305,7 @@ class PatientController extends Controller
             "deactivePatientsCount" => $deactivePatientsCount,
             "newPatientInMonth" => $newPatientInMonth,
             "todaysNewPatients" => $todaysNewPatients,
+            "recordsHoldersCount" => $recordsHoldersCount,
         ]);
     }
 }

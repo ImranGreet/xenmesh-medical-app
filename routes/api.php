@@ -59,11 +59,9 @@ Route::controller(PatientController::class)->group(function () {
     Route::put('/update-patient-admission-status/{patientId}', 'updatePatientAdmissionStatus')->where('patientId', '[0-9]+');
     Route::put('/update-patient-records-preference/{patientId}', 'updatePatientRecordsPreference')->where('patientId', '[0-9]+');
     Route::get('/filter-patient-list','filterPatientList');
-    Route::get('/get-active-patients-count', 'getActivePatientsCount');
+    Route::get('/get-patients-count', 'getPatientsCount');
 
 });
-
-
 
 
 Route::controller(AdmissionController::class)->group(function () {

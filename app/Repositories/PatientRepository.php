@@ -12,7 +12,7 @@ class PatientRepository
     public function filterPatients(Request $request)
     {
 
-        $query = Patient::query()->with(['appointments', 'bills', 'createdBy']);
+        $query = Patient::query()->with(['appointments', 'bills', 'createdBy'])->orderBy('created_at', 'desc');
 
         if ($request->filled('patient_id')) {
             $query->where('generated_patient_id', $request->patient_id);
