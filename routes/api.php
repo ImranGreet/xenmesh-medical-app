@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/public.php';
 
 
 
@@ -27,7 +28,6 @@ use App\Http\Controllers\HMS\PatientController;
 use App\Http\Controllers\HMS\PrescriptionController;
 use App\Http\Controllers\HMS\ReceptionistController;
 use App\Http\Controllers\HMS\StatusController;
-use App\Http\Controllers\QR\QRcodeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,7 +38,6 @@ Route::controller(DoctorController::class)->group(function () {
     Route::get('/retrieve-doctors', 'getDoctorList');
 });
 
-Route::post('/qrcode/generate', [QRcodeController::class, 'generateQRCodeApi']);
 
 
 
@@ -58,9 +57,8 @@ Route::controller(PatientController::class)->group(function () {
     Route::delete('/delete-patient-info/{patientId}', 'deletePatient')->where('patientId', '[0-9]+');
     Route::put('/update-patient-admission-status/{patientId}', 'updatePatientAdmissionStatus')->where('patientId', '[0-9]+');
     Route::put('/update-patient-records-preference/{patientId}', 'updatePatientRecordsPreference')->where('patientId', '[0-9]+');
-    Route::get('/filter-patient-list','filterPatientList');
+    Route::get('/filter-patient-list', 'filterPatientList');
     Route::get('/get-patients-count', 'getPatientsCount');
-
 });
 
 
@@ -94,7 +92,7 @@ Route::controller(AppointmentController::class)->group(function (): void {
     Route::get('/retrieve-statuses', 'retreiveAppointmentStatus');
 
     Route::get('/appointments/filter', 'filterAppointments');
-    
+
     Route::get('/appointments/today', 'getAllAppointmentsInToday');
 });
 
@@ -252,5 +250,3 @@ Route::prefix('doctors')->group(function () {
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
     });
 });
-
-
