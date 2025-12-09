@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Public;
+namespace App\Services\GlobalAccess;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -11,4 +11,5 @@ class QRcodeGenerator
         $base64Svg = base64_encode($svg);
         return $base64Svg;
     }
+    
 }
