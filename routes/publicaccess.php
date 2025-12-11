@@ -10,4 +10,5 @@ Route::controller(QRcodeController::class)->group(function () {
 
 Route::controller(PatientSelfController::class)->group(function () {
     Route::get('/view-patient-profile/{patientId}', 'viewPatientProfileByPatientId')->name('patient-public-profile');
+    Route::post('/create-public-appoinment', 'patientAppoinment');
 });

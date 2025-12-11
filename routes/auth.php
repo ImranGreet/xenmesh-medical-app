@@ -28,8 +28,3 @@ Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->
 });
 
 
-/*non auth*/
-
-Route::controller(QRcodeController::class)->group(function () {
-    Route::get('/qr-code-generate', 'generateQRCode');
-});
