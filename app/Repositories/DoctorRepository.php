@@ -39,7 +39,7 @@ class DoctorRepository
                 ] : null,
             ];
         });
-        
+
         return [
             'pagination' => [
                 'current_page' => $doctorList->currentPage(),
@@ -113,7 +113,7 @@ class DoctorRepository
             'experience_years' => $data['experience_years'] ?? null,
             'gender' => $data['gender'],
             'address' => $data['address'] ?? null,
-
+            'appointment_fees' => $data['appointment_fees'] ?? null,
             'hospital_id' => (int) $data['hospital_id'],
             'added_by_id' => (int) $data['added_by_id'],
             'is_active' => $data['is_active'] ?? true,

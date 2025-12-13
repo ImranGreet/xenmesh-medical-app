@@ -1,9 +1,7 @@
 <?php
 
 require __DIR__ . '/auth.php';
-require __DIR__ . '/publicaccess.php';
-
-
+require __DIR__ . '/globalaccess.php';
 
 use App\Http\Controllers\HMS\DischargeSummaryController;
 use App\Http\Controllers\HMS\FloorController;

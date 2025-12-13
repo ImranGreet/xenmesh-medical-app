@@ -31,11 +31,10 @@ class StoreDoctorInfo extends FormRequest
             'experience_years' => 'nullable|integer|min:0|max:50',
             'gender' => 'required|string',
             'address' => 'nullable|string|max:255',
-
+            'appointment_fees' => 'nullable|integer',
             'hospital_id' => 'required|exists:hospital_infos,id',
             'added_by_id' => 'required|exists:users,id',
             'is_active' => 'nullable|boolean',
         ];
     }
-
 }
