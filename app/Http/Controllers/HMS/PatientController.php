@@ -293,19 +293,29 @@ class PatientController extends Controller
 
     public function getPatientsCount()
     {
-        $activePatientsCount = Patient::where('is_active', true)->count();
-        $deactivePatientsCount = Patient::where('is_active', false)->count();
-        $newPatientInMonth = Patient::whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->count();
-        $todaysNewPatients = Patient::whereDate('created_at', now()->toDateString())->count();
-        $recordsHoldersCount = Patient::where('keep_records', true)->count();
+        try {
+            $activePatientsCount = Patient::where('is_active', true)->count();
+            $deactivePatientsCount = Patient::where('is_active', false)->count();
+            $newPatientInMonth = Patient::whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->count();
+            $todaysNewPatients = Patient::whereDate('created_at', now()->toDateString())->count();
+            $recordsHoldersCount = Patient::where('keep_records', true)->count();
 
-        return response()->json([
-            "message" => "Active patients count retrieved",
-            "activePatientsCount" => $activePatientsCount,
-            "deactivePatientsCount" => $deactivePatientsCount,
-            "newPatientInMonth" => $newPatientInMonth,
-            "todaysNewPatients" => $todaysNewPatients,
-            "recordsHoldersCount" => $recordsHoldersCount,
-        ]);
+            return response()->json([
+                "success"=>true,
+                "message" => "Active patients count retrieved",
+                "activePatientsCount" => $activePatientsCount,
+                "deactivePatientsCount" => $deactivePatientsCount,
+                "newPatientInMonth" => $newPatientInMonth,
+                "todaysNewPatients" => $todaysNewPatients,
+                "recordsHoldersCount" => $recordsHoldersCount,
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve patient count',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

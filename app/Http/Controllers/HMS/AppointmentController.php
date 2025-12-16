@@ -178,4 +178,31 @@ class AppointmentController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
+
+    public function getAppointmentsCount()
+    {
+        try {
+            $allAppointments = Appointment::all()->count();
+            $scheduledAppointments = Appointment::where('status', 'scheduled')->count();
+            $pendingAppointments = Appointment::where('status', 'pending')->count();
+            $completedAppointments = Appointment::where('status', 'completed')->count();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Appointments count retrieved successfully',
+                'appointmentscount' => [
+                    'total' => $allAppointments,
+                    'scheduled' => $scheduledAppointments,
+                    'pending' => $pendingAppointments,
+                    'completed' => $completedAppointments,
+                ]
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve appointments count',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
