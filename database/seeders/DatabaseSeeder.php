@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CabinSeeder::class);
         $this->call(FloorSeeder::class);
         $this->call(ReferralSeeder::class);
+        $this->call(ScheduleSeeder::class);
     }
 }

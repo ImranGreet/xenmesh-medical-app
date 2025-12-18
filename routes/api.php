@@ -248,3 +248,16 @@ Route::prefix('doctors')->group(function () {
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
     });
 });
+
+
+
+/*doctor schedules*/
+
+Route::controller(DoctorScheduleController::class)->prefix('doctor-schedules')->group(function () {
+    Route::get('/', 'retrieveSchedules');
+    Route::get('/doctor/{doctorId}', 'retrieveDoctorScheduleByID');
+    Route::post('/doctor/{doctorId}', 'createSchedulesByID');
+    Route::put('/doctor/{doctorId}', 'updateSchedulesByID');
+    Route::patch('/slot/{scheduleId}/status', 'updateScheduleSlotStatus');
+    Route::get('/doctor/{doctorId}/day/{day}', 'getDoctorSlotsForAppointment');
+});

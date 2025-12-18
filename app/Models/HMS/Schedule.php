@@ -13,10 +13,12 @@ class Schedule extends Model
         'doctor_id',
         'day',
         'from_time',
-        'to_time'
+        'to_time',
+        'is_active'
     ];
-    public function doctorSchedules()
+
+    public function doctor()
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
 }
