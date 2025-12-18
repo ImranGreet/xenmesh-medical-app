@@ -12,8 +12,11 @@ class Schedule extends Model
     protected $fillable = [
         'doctor_id',
         'day',
+        'from_time',
+        'to_time'
     ];
-    public function doctorSchedule(){
-        return $this->belongsTo(Doctor::class); 
+    public function doctorSchedules()
+    {
+        return $this->belongsTo(Doctor::class);
     }
 }
