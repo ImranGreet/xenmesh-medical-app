@@ -13,20 +13,8 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('doctor_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->enum('day', [
-                'saturday',
-                'sunday',
-                'monday',
-                'tuesday',
-                'wednesday',
-                'thursday',
-                'friday',
-            ]);
-
+            $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
+            $table->enum('day', ['saturday','sunday','monday','tuesday','wednesday','thursday','friday',]);
             $table->time('from_time');
             $table->time('to_time');
             $table->boolean('status')->default(true);
