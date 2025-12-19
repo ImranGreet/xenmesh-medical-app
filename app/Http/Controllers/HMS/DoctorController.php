@@ -130,4 +130,29 @@ class DoctorController extends Controller
             ], 500);
         }
     }
+
+    public function retrieveDoctorByID($doctorID)
+    {
+        $doctor = Doctor::with('department')->find($doctorID);
+
+        if (!$doctor) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Doctor not found !'
+            ], 404);
+        }
+        try {
+            return response()->json([
+                'status' => true,
+                'message' => 'Doctor found successfully.',
+                'doctorProfile' => $doctor,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to delete doctor.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

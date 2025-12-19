@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(DoctorController::class)->group(function () {
 
     Route::get('/retrieve-doctors', 'getDoctorList');
+    Route::get('/retrieve-docotr-profile/{doctorID}', 'retrieveDoctorByID')->where('doctorID', '[0-9]+');
 });
 
 
