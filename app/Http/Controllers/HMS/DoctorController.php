@@ -133,7 +133,7 @@ class DoctorController extends Controller
 
     public function retrieveDoctorByID($doctorID)
     {
-        $doctor = Doctor::with('department')->find($doctorID);
+        $doctor = Doctor::with(['department','doctorDetails'])->find($doctorID);
 
         if (!$doctor) {
             return response()->json([
