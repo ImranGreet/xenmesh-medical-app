@@ -29,23 +29,15 @@ use App\Http\Controllers\HMS\StatusController;
 use Illuminate\Support\Facades\Route;
 
 
-
-
 Route::controller(DoctorController::class)->group(function () {
 
     Route::get('/retrieve-doctors', 'getDoctorList');
     Route::get('/retrieve-docotr-profile/{doctorID}', 'retrieveDoctorByID')->where('doctorID', '[0-9]+');
 });
 
-
-
-
 Route::controller(StatusController::class)->group(function () {
     Route::get('/retrieve-statuses', 'retrieveStatus');
 });
-
-
-
 
 Route::controller(PatientController::class)->group(function () {
 
@@ -75,9 +67,6 @@ Route::controller(ReceptionistController::class)->group(function () {
     Route::get('/view-patient-prescriptions/{id}', 'viewPatientPrescriptions')->where('id', '[0-9]+');
 });
 
-
-
-
 Route::controller(AppointmentController::class)->group(function (): void {
 
     Route::post('/create-appointment', 'createPatientAppointment');
@@ -99,13 +88,9 @@ Route::controller(PharmacistController::class)->group(function (): void {
     Route::get('', '');
 });
 
-
-
-
 Route::controller(AccountantController::class)->group(function () {
     Route::get('/view-patient-bills/{id}', 'viewPatientBills')->where('id', '[0-9]+');
 });
-
 
 Route::controller(HospitalInfoController::class)->group(function () {
     Route::get('/get-hospital-info', 'getHospitalInfo');
@@ -113,7 +98,6 @@ Route::controller(HospitalInfoController::class)->group(function () {
     Route::put('/edit-hospital-info/{id}', 'editHospitalInfo')->where('id', '[0-9]+');
     Route::put('/update-hospital-info', 'updateHospitalInfo')->where('id', '[0-9]+');
 });
-
 
 Route::controller(DepartmentController::class)->group(function () {
 
@@ -124,18 +108,14 @@ Route::controller(DepartmentController::class)->group(function () {
     Route::delete('/delete-department/{id}', 'deleteDepartment')->where('id', '[0-9]+');
 });
 
-
-
 Route::controller(LabTestController::class)->group(function () {
     Route::get('/lab-tests', 'getLabTests');
 });
-
 
 Route::controller(BillController::class)->group(function () {
     Route::get('/bills', 'showAllBills');
     Route::get('/bills/patient/{patientId}', 'showBillByPatientId')->where('patientId', '[0-9]+');
 });
-
 
 Route::controller(PrescriptionController::class)->group(function () {
     Route::get('/prescriptions', 'getAllPrescriptions');
@@ -163,15 +143,12 @@ Route::controller(ShiftController::class)->group(function () {
     Route::delete('/shifts/{id}', 'deleteShift')->where('id', '[0-9]+');
 });
 
-
 Route::controller(FloorController::class)->group(function () {
     Route::get('/floors', 'getAllFloors');
     Route::post('/floors', 'createFloor');
     Route::put('/floors/{id}', 'updateFloor')->where('id', '[0-9]+');
     Route::delete('/floors/{id}', 'deleteFloor')->where('id', '[0-9]+');
 });
-
-
 
 Route::controller(LeaveRequestController::class)->group(function () {
     Route::get('/leave-requests', 'getAllLeaveRequests');
@@ -187,7 +164,6 @@ Route::controller(ExpenseController::class)->group(function () {
     Route::delete('/expenses/{id}', 'deleteExpense')->where('id', '[0-9]+');
 });
 
-
 Route::controller(EquipmentController::class)->group(function () {
     Route::get('/equipments', 'getAllEquipments');
     Route::post('/equipments', 'createEquipment');
@@ -202,15 +178,12 @@ Route::controller(PaymentController::class)->group(function () {
     Route::delete('/payments/{id}', 'deletePayment')->where('id', '[0-9]+');
 });
 
-
 Route::controller(SalaryController::class)->group(function () {
     Route::get('/salaries', 'getAllSalaries');
     Route::post('/salaries', 'createSalary');
     Route::put('/salaries/{id}', 'updateSalary')->where('id', '[0-9]+');
     Route::delete('/salaries/{id}', 'deleteSalary')->where('id', '[0-9]+');
 });
-
-
 
 Route::prefix('doctors')->group(function () {
 
@@ -249,8 +222,6 @@ Route::prefix('doctors')->group(function () {
         Route::get('/retreive-doctors-by-department/{departmentId}', 'retrieveDoctorListByDepartment');
     });
 });
-
-
 
 /*doctor schedules*/
 
