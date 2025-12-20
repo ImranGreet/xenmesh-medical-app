@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HMS\StoreDoctorInfo;
+use App\Http\Resources\HMS\DoctorProfileResource;
 use App\Models\HMS\Doctor;
 use App\Services\HMS\DoctorService;
 use Exception;
@@ -145,7 +146,7 @@ class DoctorController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Doctor found successfully.',
-                'doctorProfile' => $doctor,
+                'doctorProfile' => new DoctorProfileResource($doctor),
             ]);
         } catch (Exception $e) {
             return response()->json([

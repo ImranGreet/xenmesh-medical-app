@@ -5,6 +5,7 @@ namespace App\Models\HMS;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Doctor extends Model
 {
     protected $fillable = [
@@ -43,6 +44,6 @@ class Doctor extends Model
     }
 
     public function schedules(){
-        return $this->hasMany(Schedule::class);
+        return $this->hasMany(Schedule::class); 
     }
 }

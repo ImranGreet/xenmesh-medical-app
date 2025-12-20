@@ -226,7 +226,7 @@ Route::prefix('doctors')->group(function () {
 /*doctor schedules*/
 
 Route::controller(DoctorScheduleController::class)->prefix('doctor-schedules')->group(function () {
-    Route::get('/', 'retrieveSchedules');
+    Route::get('/retrieve-doctors-schedules', 'retrieveSchedules');
     Route::get('/doctor/{doctorId}', 'retrieveDoctorScheduleByID');
     Route::post('/doctor/{doctorId}', 'createSchedulesByID');
     Route::put('/doctor/{doctorId}', 'updateSchedulesByID');
