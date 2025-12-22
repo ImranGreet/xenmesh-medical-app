@@ -14,7 +14,7 @@ class Schedule extends Model
         'day',
         'from_time',
         'to_time',
-        'is_active'
+        'status',
     ];
 
     public function doctor()

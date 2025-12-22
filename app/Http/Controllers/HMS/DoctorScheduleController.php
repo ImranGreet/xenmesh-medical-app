@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HMS;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\HMS\DoctorScheduleResource;
+use App\Models\HMS\Doctor;
 use App\Models\HMS\Schedule;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,20 +15,23 @@ class DoctorScheduleController extends Controller
     public function retrieveSchedules()
     {
         try {
-            $schedules = Schedule::with('doctor.doctorDetails')->get();
+            $doctors = Doctor::with([ 
+                'doctorDetails:id,name',
+                'schedules' => function ($q) {
+                    $q->where('status', true);
+                }
+            ])->whereHas('schedules')->get();
 
             return response()->json([
                 'success' => true,
-                'message' => $schedules->isEmpty() ? 'No schedules found' : 'Schedules retrieved successfully',
-                'schedules' => DoctorScheduleResource::collection($schedules),
+                'data' => DoctorScheduleResource::collection($doctors),
             ], 200);
         } catch (Exception $e) {
-            Log::error('Failed to retrieve schedules: ' . $e->getMessage());
+            Log::error($e->getMessage());
 
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve schedules',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
