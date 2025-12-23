@@ -12,9 +12,9 @@ Route::controller(AuthController::class)->group(function () {
     
 });
 
-Route::controller(RolePermissionController::class)->middleware('auth:sanctum')->group(function () {
+Route::controller(RolePermissionController::class)->group(function () {
 
-    Route::get('/get-all-roles', 'getAllRoles');
+    Route::get('/get-all-roles-and-permissions', 'getAllRoles');
     Route::post('/create-a-role', 'addNewRole');
 
     route::post('/edit-permission/{id}', 'editPermission')->where('id', '[0-9]+');

@@ -198,22 +198,46 @@ class RolePermissionController extends Controller
         }
     }
 
-    public function getAllRoles()
-    {
-        try {
-            $roles = Role::with('permissions')->get();
+    
 
-            return response()->json([
-                'success' => true,
-                'data' => ['roles' => $roles]
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch roles'
-            ], 500);
-        }
+public function getAllRoles()
+{
+    try {
+        $allPermissions = Permission::select('id', 'name')->get();
+
+        $roles = Role::with('permissions')->get()->map(function ($role) use ($allPermissions) {
+
+            $rolePermissionIds = $role->permissions->pluck('id');
+
+            $permissions = $allPermissions->map(function ($permission) use ($rolePermissionIds) {
+                return [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                    'assigned' => $rolePermissionIds->contains($permission->id),
+                ];
+            });
+
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+                'permissions' => $permissions,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'roles' => $roles
+            ]
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch roles'
+        ], 500);
     }
+}
+
 
     public function getAllPermissions()
     {
