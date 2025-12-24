@@ -12,9 +12,14 @@ class DoctorRepository
 {
     public function retrieveDoctors(Request $request)
     {
-        $query = User::with(['doctorProfile.department' => function ($q) {
-            $q->select('id', 'department_name');
-        }])
+        $query = User::with([
+            'doctorProfile.department' => function ($q) {
+                $q->select('id', 'department_name');
+            },
+            'doctorProfile.schedules' => function ($q) {
+                $q->orderBy('day')->orderBy('from_time');
+            }
+        ])
             ->where('role', 'doctor')
             ->select('id', 'name', 'email', 'username');
 
@@ -36,6 +41,17 @@ class DoctorRepository
                     'hospital_id' => $doctor->doctorProfile->hospital_id,
                     'is_active' => $doctor->doctorProfile->is_active,
                     'department' => $doctor->doctorProfile->department->department_name ?? null,
+                    'appointment_fees' => $doctor->doctorProfile->appointment_fees,
+                    'schedules' => $doctor->doctorProfile->schedules ? $doctor->doctorProfile->schedules->map(function ($schedule) {
+                        return [
+                            'id' => $schedule->id,
+                            'day' => $schedule->day,
+                            'from_time' => $schedule->from_time,
+                            'to_time' => $schedule->to_time,
+                            'status' => $schedule->status,
+                            'doctor_id' => $schedule->doctor_id,
+                        ];
+                    }) : [],
                 ] : null,
             ];
         });

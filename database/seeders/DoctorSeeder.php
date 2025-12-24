@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class DoctorSeeder extends Seeder
 {
@@ -13,8 +11,8 @@ class DoctorSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    { 
-         DB::table('doctors')->insert([
+    {
+        DB::table('doctors')->insert([
             [
                 'doctor_id' => 3,
                 'department_id' => 1,
@@ -27,6 +25,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 1,
                 'added_by_id' => 1,
                 'is_active' => true,
+                'appointment_fees' => 500.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -42,6 +41,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 1,
                 'added_by_id' => 2,
                 'is_active' => true,
+                'appointment_fees' => 600.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -57,6 +57,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 2,
                 'added_by_id' => 1,
                 'is_active' => true,
+                'appointment_fees' => 800.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -72,6 +73,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 2,
                 'added_by_id' => 2,
                 'is_active' => true,
+                'appointment_fees' => 700.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -87,6 +89,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 1,
                 'added_by_id' => 1,
                 'is_active' => true,
+                'appointment_fees' => 600.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -102,6 +105,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 1,
                 'added_by_id' => 2,
                 'is_active' => true,
+                'appointment_fees' => 800.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -117,6 +121,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 2,
                 'added_by_id' => 1,
                 'is_active' => true,
+                'appointment_fees' => 700.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -132,6 +137,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 2,
                 'added_by_id' => 2,
                 'is_active' => true,
+                'appointment_fees' => 500.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -147,6 +153,7 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 1,
                 'added_by_id' => 1,
                 'is_active' => true,
+                'appointment_fees' => 800.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -162,10 +169,10 @@ class DoctorSeeder extends Seeder
                 'hospital_id' => 1,
                 'added_by_id' => 2,
                 'is_active' => true,
+                'appointment_fees' => 700.00,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
     }
-    
 }
