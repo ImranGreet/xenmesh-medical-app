@@ -255,4 +255,21 @@ public function getAllRoles()
             ], 500);
         }
     }
+
+    public function retrieveRolesOnly()
+    {
+        try {
+            $roles = Role::all(['id', 'name']);
+
+            return response()->json([
+                'success' => true,
+                'data' => ['roles' => $roles]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch roles'
+            ], 500);
+        }
+    }   
 }

@@ -15,18 +15,18 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6',
-            'role' =>      'required|string',
+            'password' => 'required|string|confirmed|min:6',
+            'role' => 'required|string',
         ]);
 
-          
+
         // Create staff
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role'=> $request->role,
-            'username'=> $request->name.$request->role,
+            'role' => $request->role,
+            'username' => $request->name . $request->role,
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
