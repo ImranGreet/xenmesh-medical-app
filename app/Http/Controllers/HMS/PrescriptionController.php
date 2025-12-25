@@ -12,9 +12,16 @@ class PrescriptionController extends Controller
 {
     public function getAllPrescriptions()
     {
-        $prescriptions = Prescription::with(['patient', 'doctor', 'prescribedMedicines'])->get();
+        try {
+            $prescriptions = Prescription::with(['patient', 'doctor', 'prescribedMedicines'])->get();
 
-        return response()->json($prescriptions);
+            return response()->json($prescriptions);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
     public function getPrescriptionById($id)
     {
@@ -96,7 +103,6 @@ class PrescriptionController extends Controller
                 'count' => $prescriptions->count(),
                 'prescriptions' => $prescriptions,
             ]);
-            
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
