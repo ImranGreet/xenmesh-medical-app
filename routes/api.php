@@ -30,7 +30,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::controller(DoctorController::class)->group(function () {
-
     Route::get('/retrieve-doctors', 'getDoctorList');
     Route::get('/retrieve-docotr-profile/{doctorID}', 'retrieveDoctorByID')->where('doctorID', '[0-9]+');
 });
@@ -82,6 +81,7 @@ Route::controller(AppointmentController::class)->group(function (): void {
     Route::get('/appointments/filter', 'filterAppointments');
 
     Route::get('/appointments/today', 'getAllAppointmentsInToday');
+    Route::get('/appointments-count', 'getAppointmentsCount');
 });
 
 Route::controller(PharmacistController::class)->group(function (): void {

@@ -77,7 +77,21 @@ class AppointmentController extends Controller
             return response()->json(['errors' => $e->getMessage()], 500);
         }
     }
+    public function getAppointmentsCountNewMonth()
+    {
+        try {
+            $currentMonth = Carbon::now()->month;
 
+            $newAppointmentsCount = Appointment::whereMonth('created_at', $currentMonth)->count();
+
+            return response()->json([
+                "success" => true,
+                "newAppointmentsCount" => $newAppointmentsCount
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 500);
+        }
+    }
 
     public function retreiveAppointmentStatus()
     {
@@ -186,6 +200,7 @@ class AppointmentController extends Controller
             $scheduledAppointments = Appointment::where('status', 'scheduled')->count();
             $pendingAppointments = Appointment::where('status', 'pending')->count();
             $completedAppointments = Appointment::where('status', 'completed')->count();
+            $cancelledAppointments = Appointment::where('status', 'cancelled')->count();
 
             return response()->json([
                 'success' => true,
@@ -195,6 +210,7 @@ class AppointmentController extends Controller
                     'scheduled' => $scheduledAppointments,
                     'pending' => $pendingAppointments,
                     'completed' => $completedAppointments,
+                    'cancelled' => $cancelledAppointments,
                 ]
             ], 200);
         } catch (Exception $e) {
