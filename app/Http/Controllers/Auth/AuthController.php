@@ -81,7 +81,6 @@ class AuthController extends Controller
                 'message' => 'No authenticated user found.',
             ], 401);
         }
-
         $user->tokens()->delete();
 
         return response()->json([
