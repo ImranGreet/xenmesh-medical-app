@@ -15,7 +15,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(RolePermissionController::class)->group(function () {
 
-    Route::get('/get-all-roles-and-permissions', 'getAllRoles');
+    Route::get('/get-all-roles-and-permissions', 'getAllRoles')->middleware('auth:sanctum');
     Route::post('/create-a-role', 'addNewRole');
 
     route::post('/edit-permission/{id}', 'editPermission')->where('id', '[0-9]+');
