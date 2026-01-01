@@ -36,10 +36,14 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        $user->tokens()->delete();
+
+        $token = $request->user()->createToken('hospital-system-access-token')->plainTextToken;
 
         return response()->json([
             'message' => 'Staff added and logged in successfully',
             'user' => $user,
+            'token' => $token
         ], 201);
     }
 
@@ -56,7 +60,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
+        $user = $request->user();
         $user->tokens()->delete();
 
         $token = $request->user()->createToken('hospital-system-access-token')->plainTextToken;
@@ -68,10 +72,9 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function logOutHospitalMember()
+    public function logOutHospitalMember(Request $request)
     {
-        $user = Auth::user();
-
+        $user = $request->user();
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -80,8 +83,6 @@ class AuthController extends Controller
         }
 
         $user->tokens()->delete();
-
-        Auth::logout();
 
         return response()->json([
             'success' => true,

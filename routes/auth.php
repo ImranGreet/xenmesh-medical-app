@@ -9,6 +9,7 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::post('/register-hospital-member', 'registerHospitalMember');
     Route::post('/login-hospital-member', 'loginHospitalMember');
+    Route::post('/logout-hospital-member', 'logoutHospitalMember')->middleware('auth:sanctum');
     
 });
 
